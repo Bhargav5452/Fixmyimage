@@ -3,24 +3,55 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import UploadDropzone from '../components/UploadDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const title = "Free Image Compressor Online – Compress JPG, PNG & WebP | FixMyImage";
+const description = "Compress JPG, PNG, and WebP images online for free. Reduce file sizes in bulk directly in your browser with private, high-speed local processing.";
+const canonicalUrl = "https://fixmyimage.app/compress-image";
+
+const faqs = getFaqsForRoute('/compress-image');
+
+const relatedLinks = [
+  { label: "Compress to 50KB", href: "/compress-image-to-50kb" },
+  { label: "Compress to 100KB", href: "/compress-image-to-100kb" },
+  { label: "Compress to 200KB", href: "/compress-image-to-200kb" },
+  { label: "Compress to 500KB", href: "/compress-image-to-500kb" },
+  { label: "Compress to 1MB", href: "/compress-image-to-1mb" },
+  { label: "Resize Images", href: "/resize-image" },
+  { label: "Convert Images", href: "/convert-image" },
+  { label: "Bulk Image Resizer", href: "/bulk-image-resizer" }
+];
 ---
 
 <BaseLayout
-  title={t('metadata.compress_title')}
-  description={t('metadata.compress_desc')}
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
 >
   <Header />
 
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-
       <UploadDropzone />
     </div>
   </main>
+
+  <SeoContent
+    heading="Fast, Private Online Image Compressor"
+    paragraphs={[
+      "FixMyImage offers a simple, powerful image compressor built to reduce file sizes for JPG, PNG, and WebP images without sacrificing sharp visual quality. Whether optimizing graphics for faster web pages, preparing attachments for email, or reducing storage footprints, you can achieve substantial reductions in seconds.",
+      "Because our compression engine runs directly in your web browser, your files are never transmitted to external servers. This client-side approach ensures immediate processing, total data privacy, and the freedom to compress multiple images in bulk without data caps."
+    ]}
+    faqs={faqs}
+    relatedHeading="Popular Compression Sizes & Tools"
+    relatedLinks={relatedLinks}
+  />
 
   <Footer />
 </BaseLayout>

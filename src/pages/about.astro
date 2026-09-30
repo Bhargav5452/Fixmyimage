@@ -6,75 +6,183 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const title = "About FixMyImage – Free, Private Browser-Based Image Tools";
+const description = "Learn about FixMyImage, our mission to provide lightning-fast, 100% private, client-side image editing tools without server uploads or registrations.";
+const canonicalUrl = "https://fixmyimage.app/about";
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About FixMyImage",
+  "description": description,
+  "url": canonicalUrl,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app",
+    "logo": "https://fixmyimage.app/logo1.png",
+    "description": "Free, privacy-focused client-side image processing tools for compression, resizing, conversion, and watermarking."
+  }
+};
 ---
 
 <BaseLayout
-  title="About FixMyImage | Free Browser-Based Image Tools"
-  description="FixMyImage is a free collection of online image tools that work entirely in your browser. No uploads. No account. No cost."
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
 >
   <Header />
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 py-12 md:py-20 text-ink">
-    <h1 class="text-4xl font-extrabold text-ink mb-4">About FixMyImage</h1>
 
-    <div class="space-y-8 text-[15px] leading-relaxed text-body mt-8">
+  <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
 
-      <section>
-        <p class="text-lg text-body mb-4">
-          FixMyImage is a small collection of free, browser-based image tools built to handle the most common image problems quickly.
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-ink font-medium">About</span>
+    </nav>
+
+    <header class="mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-4">
+        About FixMyImage
+      </h1>
+      <p class="text-lg sm:text-xl text-body leading-relaxed max-w-3xl">
+        FixMyImage is a suite of fast, lightweight, and completely private image utilities built to solve common visual file hurdles directly inside your web browser.
+      </p>
+    </header>
+
+    <div class="space-y-12 text-[15px] sm:text-[16px] leading-relaxed text-body">
+      
+      <!-- Mission Section -->
+      <section class="bg-canvas-elevated border border-hairline rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Our Mission</h2>
+        <p class="mb-4">
+          Almost everyone has experienced the frustration: you attempt to upload an image for a job application, passport form, website update, or email attachment, only to be rejected with: <em class="text-ink font-medium">"File size exceeds 100KB,"</em> <em class="text-ink font-medium">"Invalid dimensions,"</em> or <em class="text-ink font-medium">"Unsupported file format."</em>
         </p>
         <p>
-          The idea is simple: when a website rejects your image because it's too large, the wrong format,
-          or needs a watermark — you shouldn't have to install software or sign up for a service to fix it.
-          You should just be able to fix it and move on.
+          Historically, resolving this required installing bulky photo software or uploading sensitive documents to dubious third-party websites that store your files on unknown servers. FixMyImage was created to eliminate that trade-off by offering professional-grade image processing with instant local execution and zero privacy compromises.
         </p>
       </section>
 
+      <!-- Architecture Section -->
       <section>
-        <h2 class="text-2xl font-bold text-ink mb-3">How it works</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">How Client-Side Processing Works</h2>
+        <p class="mb-4">
+          Unlike traditional online image converters and compressors, FixMyImage operates <strong class="text-ink">100% inside your web browser</strong>. When you select an image, our application utilizes modern web standards:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">HTML5 Canvas API</h3>
+            <p class="text-[14px] text-body">
+              Enables pixel-accurate hardware-accelerated drawing, bicubic downsampling, aspect ratio management, and watermark composition directly on your GPU/CPU.
+            </p>
+          </div>
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">Web Workers</h3>
+            <p class="text-[14px] text-body">
+              Distributes image encoding across parallel threads so heavy multi-file batch operations never freeze your browser window or lag your screen.
+            </p>
+          </div>
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">WebAssembly (WASM)</h3>
+            <p class="text-[14px] text-body">
+              Powers advanced encoding algorithms locally to deliver near-native processing speeds without sending raw bytes over the internet.
+            </p>
+          </div>
+        </div>
         <p>
-          Every tool on this site processes images entirely inside your browser using the Canvas API.
-          <strong class="text-ink">Your files never leave your device.</strong> There are no servers receiving or storing your images.
-          When you close the tab, everything is gone.
+          Because no network transfer occurs, processing completes in milliseconds, respects your cellular bandwidth, and guarantees that sensitive items—like identification documents, financial papers, and personal photos—never leave your device.
         </p>
       </section>
 
+      <!-- Tool Suite Section -->
       <section>
-        <h2 class="text-2xl font-bold text-ink mb-3">Current tools</h2>
-        <ul class="space-y-3 mt-2">
-          <li>
-            <a href="/compress-image" class="text-link font-semibold hover:underline">Compress Images</a>
-            <span class="text-body"> — reduce file size to a target KB or MB</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Our Core Image Tools</h2>
+        <p class="mb-6">
+          Every tool is specifically engineered for precision, speed, and clean batch downloads:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="/compress-image" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Image Compressor
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Hit precise target file sizes (from 10KB to 1MB) for JPG, PNG, and WebP images with automated quality and dimension balancing.
+            </p>
+          </a>
+          <a href="/resize-image" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Image Resizer
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Resize images by exact pixel dimensions, standard centimeters at 300 PPI photo resolution, or proportional percentage scaling.
+            </p>
+          </a>
+          <a href="/convert-image" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Image Converter
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Convert seamlessly between modern formats (WebP, AVIF) and legacy formats (JPG, PNG) with full transparency preservation.
+            </p>
+          </a>
+          <a href="/watermark-image" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Watermark Tool
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Brand and protect single or batch photos with text or custom PNG logos featuring interactive 9-point grid positioning and opacity control.
+            </p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Guarantees & Values -->
+      <section class="bg-canvas-elevated border border-hairline rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Our Guarantees</h2>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">100% Free Forever:</strong> No premium subscriptions, no hidden feature paywalls, and no trial limits.
+            </div>
           </li>
-          <li>
-            <a href="/resize-image" class="text-link font-semibold hover:underline">Resize Images</a>
-            <span class="text-body"> — change width, height or scale by percentage</span>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Zero Data Collection:</strong> No user accounts, no email requirements, and no invasive tracking cookies.
+            </div>
           </li>
-          <li>
-            <a href="/convert-image" class="text-link font-semibold hover:underline">Convert Images</a>
-            <span class="text-body"> — convert between JPG, PNG and WebP</span>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Unmarked Outputs:</strong> We never add watermarks, metadata banners, or brand stamps to your downloads unless you use our watermark editor.
+            </div>
           </li>
-          <li>
-            <a href="/watermark-image" class="text-link font-semibold hover:underline">Watermark Images</a>
-            <span class="text-body"> — add text or a logo with full position and opacity control</span>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Batch Ready:</strong> Process up to 50 files simultaneously with one-click bundled ZIP downloads.
+            </div>
           </li>
         </ul>
-        <p class="mt-4">All four tools support processing multiple images at once, with results packaged as a ZIP download.</p>
       </section>
 
-      <section>
-        <h2 class="text-2xl font-bold text-ink mb-3">Free, no account required</h2>
-        <p>
-          FixMyImage is free to use. There are no premium plans, no usage limits, and no watermarks added to your files.
-          We don't require an account, an email address, or payment information of any kind.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold text-ink mb-3">Contact</h2>
-        <p>
-          Found a bug or have a suggestion?
-          <a href="/contact" class="text-link hover:underline">Get in touch</a>.
-        </p>
+      <!-- Contact Teaser -->
+      <section class="border-t border-hairline pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-ink">Have a question or feature suggestion?</h2>
+          <p class="text-sm text-body">We are constantly improving our tools based on user feedback.</p>
+        </div>
+        <a href="/contact" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-ink text-canvas font-medium text-sm hover:bg-ink/90 transition-colors shrink-0">
+          Contact the Team &rarr;
+        </a>
       </section>
 
     </div>

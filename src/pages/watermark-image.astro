@@ -3,22 +3,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WatermarkDropzone from '../components/WatermarkDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const title = "Watermark Images Online – Add Text & Logo Watermarks Free | FixMyImage";
+const description = "Add custom text and logo watermarks to images online for free. Protect photos, brand graphics, and batch watermark images directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/watermark-image";
+
+const faqs = getFaqsForRoute('/watermark-image');
+
+const relatedLinks = [
+  { label: "Compress Images", href: "/compress-image" },
+  { label: "Resize Images", href: "/resize-image" },
+  { label: "Bulk Image Resizer", href: "/bulk-image-resizer" },
+  { label: "Convert Images", href: "/convert-image" },
+  { label: "Compress to 50KB", href: "/compress-image-to-50kb" }
+];
 ---
 
 <BaseLayout
-  title={t('metadata.watermark_title')}
-  description={t('metadata.watermark_desc')}
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
 >
   <Header />
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-
       <WatermarkDropzone />
     </div>
   </main>
+
+  <SeoContent
+    heading="Protect and Brand Your Visual Content Online"
+    paragraphs={[
+      "Shield your photography, digital illustrations, and commercial creatives from unauthorized duplication with FixMyImage's watermark tool. Effortlessly stamp brand logos, copyright notices, or custom text signatures across your pictures with complete aesthetic control.",
+      "Fine-tune opacity, positioning, and scale to strike the right balance between brand visibility and visual elegance. All operations execute locally in your web browser for rapid batch performance and uncompromising data privacy."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Image Tools"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

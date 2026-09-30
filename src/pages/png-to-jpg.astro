@@ -3,14 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "PNG to JPG Converter – Convert PNG to JPG Online | FixMyImage";
-const desc = "Convert PNG images to JPG format online for free.";
+const title = "PNG to JPG Converter – Convert PNG to JPG Online Free | FixMyImage";
+const desc = "Convert PNG images to JPG format online for free. Reduce file sizes dramatically with fast, private browser-based image conversion.";
+const canonicalUrl = "https://fixmyimage.app/png-to-jpg";
+
+const faqs = getFaqsForRoute('/png-to-jpg');
+
+const relatedLinks = [
+  { label: "JPG to PNG", href: "/jpg-to-png" },
+  { label: "WebP to JPG", href: "/webp-to-jpg" },
+  { label: "AVIF to JPG", href: "/avif-to-jpg" },
+  { label: "Compress to 100KB", href: "/compress-image-to-100kb" },
+  { label: "Image Resizer", href: "/resize-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
       <ConvertDropzone 
         h1="Convert PNG to JPG"
@@ -20,5 +33,17 @@ const desc = "Convert PNG images to JPG format online for free.";
       />
     </div>
   </main>
+
+  <SeoContent
+    heading="Convert PNG to Lightweight JPG Format"
+    paragraphs={[
+      "Convert heavy PNG files into compact JPG images in seconds with FixMyImage. Large PNG images from digital cameras, mobile screenshots, and design exports consume excessive storage and slow down page loading times. Converting to JPG cuts file sizes significantly without visible degradation.",
+      "The tool handles transparent pixels by seamlessly blending them onto a crisp white background. Everything executes on-device, offering instant downloads without uploading sensitive images to external servers."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Image Converters"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

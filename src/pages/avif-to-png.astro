@@ -3,14 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "AVIF to PNG Converter – Convert AVIF to PNG Online | FixMyImage";
-const desc = "Convert AVIF images to PNG format online for free.";
+const title = "AVIF to PNG Converter – Convert AVIF to PNG Online Free | FixMyImage";
+const desc = "Convert AVIF images to PNG format online for free. Maintain lossless quality and alpha transparency directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/avif-to-png";
+
+const faqs = getFaqsForRoute('/avif-to-png');
+
+const relatedLinks = [
+  { label: "AVIF to JPG", href: "/avif-to-jpg" },
+  { label: "WebP to PNG", href: "/webp-to-png" },
+  { label: "JPG to PNG", href: "/jpg-to-png" },
+  { label: "PNG to JPG", href: "/png-to-jpg" },
+  { label: "Image Resizer", href: "/resize-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
       <ConvertDropzone 
         h1="Convert AVIF to PNG"
@@ -20,5 +33,17 @@ const desc = "Convert AVIF images to PNG format online for free.";
       />
     </div>
   </main>
+
+  <SeoContent
+    heading="Lossless AVIF to PNG Conversion"
+    paragraphs={[
+      "Convert next-generation AVIF images into universally compatible, lossless PNG files with FixMyImage. When working with graphic design software or importing assets into presentation tools that do not recognize `.avif` files, converting to PNG is the ideal solution.",
+      "The tool operates entirely client-side, preserving full transparency and fine color gradients without sending your pictures across the internet. Enjoy fast, secure batch conversions for all your visual assets."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Image Converters"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

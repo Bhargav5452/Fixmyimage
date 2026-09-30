@@ -3,29 +3,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 const title = "Resize Image in Pixels Online – Free Image Resizer | FixMyImage";
-const desc = "Resize images to exact pixel dimensions online.";
+const desc = "Resize images to exact pixel dimensions online for free. Set custom width and height with aspect ratio locking directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/resize-image-in-pixels";
+
+const faqs = getFaqsForRoute('/resize-image-in-pixels');
+
+const relatedLinks = [
+  { label: "Resize in Centimeters", href: "/resize-image-in-cm" },
+  { label: "Bulk Image Resizer", href: "/bulk-image-resizer" },
+  { label: "General Image Resizer", href: "/resize-image" },
+  { label: "Compress to 100KB", href: "/compress-image-to-100kb" },
+  { label: "Convert Images", href: "/convert-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc} canonical="https://fixmyimage.app/resize-image-in-pixels">
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
   
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-      
-      <div class="mb-12">
-        <ResizeDropzone 
-          h1="Resize Image in Pixels" 
-          subtitle="Resize images to exact pixel dimensions online." 
-          initialMode="custom" 
-        />
-      </div>
-
-
-
+      <ResizeDropzone 
+        h1="Resize Image in Pixels" 
+        subtitle="Resize images to exact pixel dimensions online." 
+        initialMode="custom" 
+      />
     </div>
   </main>
   
+  <SeoContent
+    heading="Pixel-Perfect Online Image Resizing"
+    paragraphs={[
+      "Digital displays, content management systems, and social media platforms require precise pixel measurements for optimal presentation. FixMyImage allows you to set custom pixel widths and heights with complete accuracy, ensuring your banners, icons, and hero graphics display crisply across all screens.",
+      "With built-in aspect ratio preservation, you can resize images without awkward stretching. Our client-side rendering engine operates entirely within your browser for instant results and complete file privacy."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Resizing Tools"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

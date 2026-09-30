@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import UploadDropzone from '../components/UploadDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 export async function getStaticPaths() {
   const targets = [
@@ -24,26 +26,162 @@ export async function getStaticPaths() {
 
 const { target } = Astro.props;
 const displaySize = target.unit === 'MB' ? `${target.value}MB` : `${target.value}KB`;
-const title = `Compress Image to ${displaySize} Online – Free Image Compressor | FixMyImage`;
-const desc = `Compress JPG, PNG and WebP images to ${displaySize} online.`;
-const h1 = `Compress Image to ${displaySize}`;
-const subtitle = `Compress JPG, PNG and WebP images to ${displaySize} online.`;
+const canonicalUrl = `https://fixmyimage.app/compress-image-to-${target.size}`;
+const faqs = getFaqsForRoute(`/compress-image-to-${target.size}`);
+
+const ALL_SIZES = [
+  { size: '10kb', label: 'Compress to 10KB', href: '/compress-image-to-10kb' },
+  { size: '20kb', label: 'Compress to 20KB', href: '/compress-image-to-20kb' },
+  { size: '30kb', label: 'Compress to 30KB', href: '/compress-image-to-30kb' },
+  { size: '40kb', label: 'Compress to 40KB', href: '/compress-image-to-40kb' },
+  { size: '50kb', label: 'Compress to 50KB', href: '/compress-image-to-50kb' },
+  { size: '100kb', label: 'Compress to 100KB', href: '/compress-image-to-100kb' },
+  { size: '200kb', label: 'Compress to 200KB', href: '/compress-image-to-200kb' },
+  { size: '500kb', label: 'Compress to 500KB', href: '/compress-image-to-500kb' },
+  { size: '1mb', label: 'Compress to 1MB', href: '/compress-image-to-1mb' },
+];
+
+const relatedLinks = ALL_SIZES.filter(s => s.size !== target.size);
+
+interface SizeContent {
+  title: string;
+  desc: string;
+  h1: string;
+  subtitle: string;
+  heading: string;
+  paragraphs: string[];
+}
+
+const SIZE_DATA: Record<string, SizeContent> = {
+  '10kb': {
+    title: 'Compress Image to 10KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to under 10KB online for free. Ideal for strict government forms, signature uploads, and document portals.',
+    h1: 'Compress Image to 10KB',
+    subtitle: 'Compress JPG, PNG and WebP images to under 10KB online.',
+    heading: 'How to Compress Images to Under 10KB',
+    paragraphs: [
+      'Many online government portals, recruitment boards, and examination registration websites enforce strict file limits of 10KB or less for digital signatures and thumb impressions. Achieving a file size this compact requires an effective combination of quality optimization and dimension adjustments.',
+      'FixMyImage runs modern browser-based compression directly on your device. When aiming for 10KB, reducing the image resolution slightly (such as 200×200 pixels for a signature) alongside balanced lossy compression allows you to meet the threshold cleanly without unreadable artifacts.'
+    ]
+  },
+  '20kb': {
+    title: 'Compress Image to 20KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 20KB online for free. Perfect for exam admit cards, job application portals, and identity documents.',
+    h1: 'Compress Image to 20KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 20KB online.',
+    heading: 'Online Image Compression to 20KB',
+    paragraphs: [
+      'A 20KB limit is one of the most common specifications for passport photos, exam admit cards, and job recruitment forms across government and educational institutions. Meeting this limit requires minimizing file metadata while retaining clear facial features and sharp contrasts.',
+      'With FixMyImage, your images are compressed instantly in your browser without uploading to external servers. The compressor calibrates compression strength to bring standard portrait and identity photos under 20KB while preserving necessary visual clarity.'
+    ]
+  },
+  '30kb': {
+    title: 'Compress Image to 30KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 30KB online for free. Ideal for national exam forms, student registrations, and portal uploads.',
+    h1: 'Compress Image to 30KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 30KB online.',
+    heading: 'Compressing Images to 30KB for Online Applications',
+    paragraphs: [
+      'Application forms often designate 30KB as the ceiling for candidate photographs and academic certificate scans. This target gives slightly more leeway than 20KB, making it easier to preserve authentic skin tones, clear text, and sharp lines.',
+      'FixMyImage allows you to batch compress multiple images to 30KB in seconds. Whether preparing application documents or optimizing mobile web assets, the tool runs entirely on-device for speed and privacy.'
+    ]
+  },
+  '40kb': {
+    title: 'Compress Image to 40KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 40KB online for free. Fast, browser-based compression with no signup required.',
+    h1: 'Compress Image to 40KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 40KB online.',
+    heading: 'Quick Image Compression to 40KB',
+    paragraphs: [
+      'Several competitive exam portals and banking application systems specify an image size bracket between 20KB and 40KB. Hitting this target ensures your document is accepted without failing automated portal validation checks.',
+      'Our in-browser compressor adjusts compression parameters to hit the 40KB target cleanly. By removing redundant EXIF metadata and optimizing color sampling, images retain sharp fidelity suitable for official review.'
+    ]
+  },
+  '50kb': {
+    title: 'Compress Image to 50KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 50KB online for free. Reduce image file size directly in your browser with no account required.',
+    h1: 'Compress Image to 50KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 50KB online.',
+    heading: 'Compress Images to 50KB Online',
+    paragraphs: [
+      'The 50KB target is a widely recognized standard for visa applications, passport photo uploads, state civil service portals, and professional profile avatars. It offers a solid balance between crisp visual detail and lightweight web performance.',
+      'FixMyImage optimizes JPG, PNG, and WebP files to 50KB directly in your browser. Because processing is executed client-side, your personal documents stay completely private on your device while completing the compression in milliseconds.'
+    ]
+  },
+  '100kb': {
+    title: 'Compress Image to 100KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 100KB online for free. Perfect for email attachments, web publishing, and resume photos.',
+    h1: 'Compress Image to 100KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 100KB online.',
+    heading: 'Compressing Images to 100KB',
+    paragraphs: [
+      'A file size of 100KB is the sweet spot for modern digital media, including email newsletters, blog article illustrations, resume attachments, and portfolio galleries. It delivers crisp high-definition visuals on retina screens while keeping page loading times fast.',
+      'FixMyImage lets you compress single images or bulk batches to 100KB right inside your browser. No files are uploaded to cloud servers, ensuring fast processing and complete confidentiality.'
+    ]
+  },
+  '200kb': {
+    title: 'Compress Image to 200KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 200KB online for free. Ideal for e-commerce stores, social media headers, and blog graphics.',
+    h1: 'Compress Image to 200KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 200KB online.',
+    heading: 'Optimize Images to Under 200KB',
+    paragraphs: [
+      'E-commerce product catalogs, blog hero banners, and digital marketing creatives frequently require files under 200KB. This allows large-dimension images to display with rich colors and sharp focus without slowing down product catalog browsing.',
+      'FixMyImage processes your photos directly in memory. You can compress product photography, infographics, and banner artwork down to 200KB effortlessly while retaining fine texture and text sharpness.'
+    ]
+  },
+  '500kb': {
+    title: 'Compress Image to 500KB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 500KB online for free. Retain rich detail in high-resolution photos for web and print.',
+    h1: 'Compress Image to 500KB',
+    subtitle: 'Compress JPG, PNG and WebP images to 500KB online.',
+    heading: 'Compressing High-Resolution Images to 500KB',
+    paragraphs: [
+      'Large photography showcases, real estate listings, and professional portfolio images often target 500KB. This threshold preserves fine grain, subtle lighting gradients, and crisp focus across high-density 4K displays while dramatically reducing the multi-megabyte footprint of raw camera captures.',
+      'Using client-side processing pipelines, FixMyImage condenses heavy camera files to 500KB in seconds without sending your private photographs across the network.'
+    ]
+  },
+  '1mb': {
+    title: 'Compress Image to 1MB Online Free | FixMyImage',
+    desc: 'Compress JPG, PNG and WebP images to 1MB online for free. Quickly reduce multi-megabyte photos for email and web uploads.',
+    h1: 'Compress Image to 1MB',
+    subtitle: 'Compress JPG, PNG and WebP images to 1MB online.',
+    heading: 'Compress Images to 1MB Online',
+    paragraphs: [
+      'Modern smartphone cameras and digital camera sensors capture images ranging from 5MB to over 20MB. Many email providers, messaging apps, and content management systems reject attachments exceeding 1MB. Compressing down to 1MB maintains near-lossless clarity while eliminating file transfer bottlenecks.',
+      'FixMyImage provides instant in-browser compression to 1MB without registration or subscription fees. Enjoy high-speed batch compression that respects your privacy and works across desktop and mobile devices.'
+    ]
+  }
+};
+
+const currentData = SIZE_DATA[target.size] || {
+  title: `Compress Image to ${displaySize} Online – Free Image Compressor | FixMyImage`,
+  desc: `Compress JPG, PNG and WebP images to ${displaySize} online for free.`,
+  h1: `Compress Image to ${displaySize}`,
+  subtitle: `Compress JPG, PNG and WebP images to ${displaySize} online.`,
+  heading: `Compress Images to ${displaySize}`,
+  paragraphs: [
+    `Reduce your JPG, PNG, and WebP image file sizes to ${displaySize} quickly and safely in your browser.`
+  ]
+};
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={currentData.title} description={currentData.desc} canonical={canonicalUrl}>
   <Header />
 
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-      
-      <div class="mb-12">
-        <UploadDropzone h1={h1} subtitle={subtitle} presetValue={target.value} presetUnit={target.unit} />
-      </div>
-
-
-
+      <UploadDropzone h1={currentData.h1} subtitle={currentData.subtitle} presetValue={target.value} presetUnit={target.unit} />
     </div>
   </main>
+
+  <SeoContent
+    heading={currentData.heading}
+    paragraphs={currentData.paragraphs}
+    faqs={faqs}
+    relatedHeading="Other Image Compression Sizes"
+    relatedLinks={relatedLinks}
+  />
 
   <Footer />
 </BaseLayout>

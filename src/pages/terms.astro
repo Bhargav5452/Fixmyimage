@@ -6,75 +6,154 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const title = "Terms of Service | FixMyImage – Free Online Image Tools";
+const description = "Read the Terms of Service for FixMyImage. Understand your rights, acceptable use, user ownership, and our commitment to free, client-side image editing.";
+const canonicalUrl = "https://fixmyimage.app/terms";
+
+const termsSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Terms of Service",
+  "description": description,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app"
+  }
+};
 ---
 
 <BaseLayout
-  title="Terms of Service | FixMyImage"
-  description="Terms of service for FixMyImage — free browser-based image tools."
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
 >
   <Header />
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 py-12 md:py-20 text-ink">
-    <h1 class="text-4xl font-extrabold text-ink mb-4">Terms of Service</h1>
-    <p class="text-body text-sm mb-10">Last updated: September 2026</p>
 
-    <div class="space-y-8 text-[15px] leading-relaxed text-body">
+  <script type="application/ld+json" set:html={JSON.stringify(termsSchema)} />
 
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-ink font-medium">Terms of Service</span>
+    </nav>
+
+    <header class="mb-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-3">
+        Terms of Service
+      </h1>
+      <p class="text-sm text-mute">Last Revised: September 30, 2026</p>
+    </header>
+
+    <div class="space-y-10 text-[15px] sm:text-[16px] leading-relaxed text-body">
+      
+      <!-- Section 1 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">1. Acceptance of Terms</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">1. Agreement to Terms</h2>
+        <p class="mb-3">
+          These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") and FixMyImage ("we," "us," or "our") governing your access to and use of the website at <a href="https://fixmyimage.app" class="text-link hover:underline">fixmyimage.app</a> and all associated image processing utilities.
+        </p>
         <p>
-          By using FixMyImage, you agree to these Terms of Service. If you do not agree, please do not use the service.
+          By accessing or using any part of FixMyImage, you acknowledge that you have read, understood, and agreed to be bound by these Terms and our <a href="/privacy" class="text-link hover:underline">Privacy Policy</a>. If you do not agree with all of these Terms, you are prohibited from using the site and must discontinue use immediately.
         </p>
       </section>
 
+      <!-- Section 2 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">2. What FixMyImage is</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">2. Description of the Service &amp; Client-Side Operation</h2>
+        <p class="mb-3">
+          FixMyImage provides web-based utilities designed to compress, resize, convert, and watermark digital image files. Our services operate on a purely <strong class="text-ink">client-side basis</strong>. 
+        </p>
         <p>
-          FixMyImage is a collection of free, browser-based image tools. All image processing happens
-          locally in your browser. We do not receive, store or process your image files on any server.
+          Your browser compiles and executes the algorithms locally using standard HTML5 Canvas, Web Workers, and WebAssembly. At no point are your image files uploaded to, processed on, or retained by our servers. All computational workload is performed by your device's browser and hardware.
         </p>
       </section>
 
+      <!-- Section 3 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">3. Use of the service</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">3. User Ownership &amp; Intellectual Property</h2>
+        <div class="bg-canvas-elevated border border-hairline rounded-xl p-5 mb-4">
+          <p class="font-bold text-ink mb-1">Your Content Remains Exclusively Yours</p>
+          <p class="text-sm text-body">
+            You retain 100% full ownership, title, copyright, and intellectual property rights in and to all images, logos, graphics, and text that you process using FixMyImage. Because files never touch our servers, FixMyImage acquires zero rights, titles, or licenses to your content.
+          </p>
+        </div>
         <p>
-          You may use FixMyImage for personal or commercial purposes to process images you own or have
-          the right to modify. You agree not to use the service for any unlawful purpose or to process
-          material that infringes the rights of others.
+          The underlying FixMyImage platform, including its brand, website design, UI layout, logos, documentation, custom code, and software architecture, is protected by international copyright, trademark, and intellectual property laws and remains the exclusive property of FixMyImage.
         </p>
       </section>
 
+      <!-- Section 4 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">4. No warranties</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">4. Acceptable Use Policy</h2>
+        <p class="mb-3">
+          You agree to use FixMyImage solely for lawful purposes in accordance with these Terms. You represent and warrant that:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 ml-2 mb-3">
+          <li>You own or hold valid licenses, permissions, and rights to modify, convert, compress, or watermark all files you input into the service.</li>
+          <li>Your use does not infringe upon any third-party copyright, trademark, privacy, publicity, or proprietary right.</li>
+          <li>You will not attempt to decompile, reverse-engineer, disrupt, or compromise the operational integrity of our web servers or client scripts.</li>
+          <li>You will not use automated scripts, scrapers, or bots in a manner that degrades service performance for other users.</li>
+        </ul>
+      </section>
+
+      <!-- Section 5 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">5. Disclaimer of Warranties</h2>
+        <p class="mb-3">
+          FixMyImage is provided strictly on an <strong class="text-ink">"AS IS"</strong> and <strong class="text-ink">"AS AVAILABLE"</strong> basis without warranties of any kind, whether express, statutory, or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, title, and non-infringement.
+        </p>
         <p>
-          FixMyImage is provided "as is" without warranties of any kind, express or implied. We do not
-          guarantee that the service will be uninterrupted, error-free, or that the output will meet
-          specific requirements. Use the service at your own risk.
+          We do not warrant that: (a) the website or its tools will function uninterrupted, secure, or bug-free; (b) image conversions or compressions will meet specific legal, institutional, or aesthetic requirements; or (c) that browser hardware acceleration will achieve specific processing speeds on every device.
         </p>
       </section>
 
+      <!-- Section 6 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">5. Limitation of liability</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">6. Limitation of Liability</h2>
+        <p class="mb-3">
+          To the maximum extent permitted by applicable law, in no event shall FixMyImage, its developers, operators, or affiliates be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of data, loss of business, corruption of files, or device downtime resulting from your use of or inability to use the service.
+        </p>
         <p>
-          To the fullest extent permitted by law, FixMyImage and its operators shall not be liable for
-          any indirect, incidental, special or consequential damages arising from your use of or inability
-          to use the service.
+          You are solely responsible for maintaining backup copies of all original visual media before performing client-side operations.
         </p>
       </section>
 
+      <!-- Section 7 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">6. Changes to these terms</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">7. Modifications to the Service and Terms</h2>
         <p>
-          We may update these terms from time to time. We will update the date at the top of this page
-          when we do. Continued use of FixMyImage after any change constitutes acceptance.
+          We reserve the right to modify, suspend, or discontinue any aspect of FixMyImage at any time without notice or liability. We may update these Terms periodically to reflect operational, legal, or technical changes. Continued use of the website following any posted modifications constitutes full acceptance of the updated Terms.
         </p>
       </section>
 
+      <!-- Section 8 -->
       <section>
-        <h2 class="text-xl font-bold text-ink mb-3">7. Contact</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">8. Governing Law</h2>
         <p>
-          Questions about these terms? Email us at
-          <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline">hello@fixmyimage.app</a>.
+          These Terms and any disputes arising from or relating to your use of FixMyImage shall be governed by and construed in accordance with applicable laws, without giving effect to any principles of conflicts of law.
         </p>
+      </section>
+
+      <!-- Section 9 -->
+      <section class="border-t border-hairline pt-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">9. Inquiries &amp; Legal Notices</h2>
+        <p class="mb-4">
+          For any questions regarding these Terms of Service or to provide legal feedback, please reach out via email:
+        </p>
+        <div class="bg-canvas border border-hairline rounded-xl p-5 inline-block">
+          <p class="text-ink font-semibold">FixMyImage Legal Team</p>
+          <p class="text-sm text-body mt-1">
+            Email: <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline font-medium">hello@fixmyimage.app</a>
+          </p>
+          <p class="text-sm text-mute mt-1">
+            Online Contact Form: <a href="/contact" class="text-link hover:underline">fixmyimage.app/contact</a>
+          </p>
+        </div>
       </section>
 
     </div>

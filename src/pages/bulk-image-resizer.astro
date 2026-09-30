@@ -3,29 +3,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 const title = "Bulk Image Resizer – Resize Multiple Images Online | FixMyImage";
-const desc = "Resize multiple images at once with the same settings.";
+const desc = "Resize multiple images at once online for free. Batch resize photos by pixels, percentage, or centimeters with fast browser processing.";
+const canonicalUrl = "https://fixmyimage.app/bulk-image-resizer";
+
+const faqs = getFaqsForRoute('/bulk-image-resizer');
+
+const relatedLinks = [
+  { label: "Resize in Pixels", href: "/resize-image-in-pixels" },
+  { label: "Resize in Centimeters", href: "/resize-image-in-cm" },
+  { label: "Standard Image Resizer", href: "/resize-image" },
+  { label: "Bulk Image Compressor", href: "/compress-image" },
+  { label: "Convert Images", href: "/convert-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc} canonical="https://fixmyimage.app/bulk-image-resizer">
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
   
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-      
-      <div class="mb-12">
-        <ResizeDropzone 
-          h1="Bulk Image Resizer" 
-          subtitle="Resize multiple images at once with the same settings." 
-          initialMode="custom" 
-        />
-      </div>
-
-
-
+      <ResizeDropzone 
+        h1="Bulk Image Resizer" 
+        subtitle="Resize multiple images at once with the same settings." 
+        initialMode="custom" 
+      />
     </div>
   </main>
   
+  <SeoContent
+    heading="Fast Batch Image Resizing for Multiple Photos"
+    paragraphs={[
+      "Managing product catalogs, event photography, or web graphics often requires adjusting dimensions on dozens of photos at once. FixMyImage allows you to batch resize entire photo sets simultaneously with uniform width and height settings.",
+      "By utilizing your browser local processing capabilities, bulk resizing avoids slow file uploads and bandwidth bottlenecks. Maintain aspect ratios, scale by percentage or fixed pixels, and download all resized assets in one convenient archive."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Batch & Resizing Tools"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

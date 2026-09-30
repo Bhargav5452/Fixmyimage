@@ -3,22 +3,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const title = "Convert Images Online – Free Image Converter | FixMyImage";
+const description = "Convert JPG, PNG, WebP, and AVIF formats online for free. Fast, private batch image converter working directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/convert-image";
+
+const faqs = getFaqsForRoute('/convert-image');
+
+const relatedLinks = [
+  { label: "JPG to PNG", href: "/jpg-to-png" },
+  { label: "PNG to JPG", href: "/png-to-jpg" },
+  { label: "WebP to JPG", href: "/webp-to-jpg" },
+  { label: "WebP to PNG", href: "/webp-to-png" },
+  { label: "AVIF to JPG", href: "/avif-to-jpg" },
+  { label: "AVIF to PNG", href: "/avif-to-png" },
+  { label: "Compress Images", href: "/compress-image" },
+  { label: "Resize Images", href: "/resize-image" }
+];
 ---
 
 <BaseLayout
-  title={t('metadata.convert_title')}
-  description={t('metadata.convert_desc')}
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
 >
   <Header />
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-
       <ConvertDropzone />
     </div>
   </main>
+  
+  <SeoContent
+    heading="Fast and Private Online Image Conversion"
+    paragraphs={[
+      "FixMyImage offers an efficient image conversion tool that lets you seamlessly transition between popular image formats, including JPG, PNG, WebP, and AVIF. Whether you need transparent assets for web design, widely compatible files for legacy systems, or lightweight formats for website performance, conversion is simple.",
+      "Because conversion is executed entirely client-side, your files stay private on your device. Benefit from immediate batch processing without cloud upload waiting times or file size caps."
+    ]}
+    faqs={faqs}
+    relatedHeading="Popular Image Converters"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

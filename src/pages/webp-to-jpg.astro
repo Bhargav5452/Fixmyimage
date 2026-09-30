@@ -3,14 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "WebP to JPG Converter – Convert WebP to JPG Online | FixMyImage";
-const desc = "Convert WebP images to JPG format online for free.";
+const title = "WebP to JPG Converter – Convert WebP to JPG Online Free | FixMyImage";
+const desc = "Convert WebP images to JPG format online for free. Transform modern WebP files into widely compatible JPEG photos directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/webp-to-jpg";
+
+const faqs = getFaqsForRoute('/webp-to-jpg');
+
+const relatedLinks = [
+  { label: "WebP to PNG", href: "/webp-to-png" },
+  { label: "JPG to PNG", href: "/jpg-to-png" },
+  { label: "AVIF to JPG", href: "/avif-to-jpg" },
+  { label: "PNG to JPG", href: "/png-to-jpg" },
+  { label: "Compress Image", href: "/compress-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
       <ConvertDropzone 
         h1="Convert WebP to JPG"
@@ -20,5 +33,17 @@ const desc = "Convert WebP images to JPG format online for free.";
       />
     </div>
   </main>
+
+  <SeoContent
+    heading="Convert WebP to Widely Compatible JPG"
+    paragraphs={[
+      "Convert next-generation WebP files into standard JPG images with ease. Many websites save images in WebP to improve page speed, but older desktop applications, office suites, and photo printing services still require traditional JPG files.",
+      "FixMyImage converts your WebP graphics to standard JPEG files directly in your browser without requiring software installations or account registrations. Fast, private, and capable of handling bulk photo batches."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Image Converters"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>

@@ -3,29 +3,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
 
-const title = "Resize Images Online – Free Image Resizer | FixMyImage";
-const desc = "Resize JPG, PNG, WebP and other supported images online.";
+import { getFaqsForRoute } from '../data/curatedFaqs';
+
+const title = "Free Image Resizer Online – Resize Images Fast | FixMyImage";
+const desc = "Resize JPG, PNG, and WebP images online for free. Change dimensions by exact pixels, percentage, or centimeters directly in your browser.";
+const canonicalUrl = "https://fixmyimage.app/resize-image";
+
+const faqs = getFaqsForRoute('/resize-image');
+
+const relatedLinks = [
+  { label: "Resize in Pixels", href: "/resize-image-in-pixels" },
+  { label: "Resize in CM", href: "/resize-image-in-cm" },
+  { label: "Bulk Image Resizer", href: "/bulk-image-resizer" },
+  { label: "Compress Images", href: "/compress-image" },
+  { label: "Convert Images", href: "/convert-image" },
+  { label: "Watermark Images", href: "/watermark-image" }
+];
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
   <Header />
   
-  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-4xl mx-auto">
-      
-      <div class="mb-12">
-        <ResizeDropzone 
-          h1="Resize Images" 
-          subtitle="Resize JPG, PNG, WebP and other supported images online." 
-          initialMode="custom" 
-        />
-      </div>
-
-
-
+      <ResizeDropzone 
+        h1="Resize Images" 
+        subtitle="Resize JPG, PNG, WebP and other supported images online." 
+        initialMode="custom" 
+      />
     </div>
   </main>
   
+  <SeoContent
+    heading="Accurate and Flexible Online Image Resizing"
+    paragraphs={[
+      "FixMyImage provides a versatile, browser-based image resizer that gives you complete control over your photo dimensions. Easily adjust image widths and heights by exact pixel coordinates, proportional percentages, or physical centimeters to match requirements for social media, digital advertising, or printing.",
+      "The tool features aspect ratio locking to prevent accidental distortion while scaling. Because all resizing algorithms run locally on your device, processing is instantaneous, secure, and available for bulk image sets without account registration."
+    ]}
+    faqs={faqs}
+    relatedHeading="Related Resizing & Optimization Tools"
+    relatedLinks={relatedLinks}
+  />
+
   <Footer />
 </BaseLayout>
