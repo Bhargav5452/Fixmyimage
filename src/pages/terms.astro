@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Terms of Service | FixMyImage"
+  description="Terms of service for FixMyImage — free browser-based image tools."
+>
+  <Header />
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 py-12 md:py-20 text-ink">
+    <h1 class="text-4xl font-extrabold text-ink mb-4">Terms of Service</h1>
+    <p class="text-body text-sm mb-10">Last updated: September 2026</p>
+
+    <div class="space-y-8 text-[15px] leading-relaxed text-body">
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">1. Acceptance of Terms</h2>
+        <p>
+          By using FixMyImage, you agree to these Terms of Service. If you do not agree, please do not use the service.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">2. What FixMyImage is</h2>
+        <p>
+          FixMyImage is a collection of free, browser-based image tools. All image processing happens
+          locally in your browser. We do not receive, store or process your image files on any server.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">3. Use of the service</h2>
+        <p>
+          You may use FixMyImage for personal or commercial purposes to process images you own or have
+          the right to modify. You agree not to use the service for any unlawful purpose or to process
+          material that infringes the rights of others.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">4. No warranties</h2>
+        <p>
+          FixMyImage is provided "as is" without warranties of any kind, express or implied. We do not
+          guarantee that the service will be uninterrupted, error-free, or that the output will meet
+          specific requirements. Use the service at your own risk.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">5. Limitation of liability</h2>
+        <p>
+          To the fullest extent permitted by law, FixMyImage and its operators shall not be liable for
+          any indirect, incidental, special or consequential damages arising from your use of or inability
+          to use the service.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">6. Changes to these terms</h2>
+        <p>
+          We may update these terms from time to time. We will update the date at the top of this page
+          when we do. Continued use of FixMyImage after any change constitutes acceptance.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink mb-3">7. Contact</h2>
+        <p>
+          Questions about these terms? Email us at
+          <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline">hello@fixmyimage.app</a>.
+        </p>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "Free online tools to compress, resize, convert and watermark images directly in your browser. Fast, private, no uploads.",
+  canonical,
+  ogImage = "/web-app-manifest-512x512.png",
+} = Astro.props;
+
+const siteUrl = "https://fixmyimage.app";
+const canonicalUrl = canonical ?? (siteUrl + (Astro.url.pathname === '/' ? '' : Astro.url.pathname.replace(/\/$/, '')));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FixMyImage" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="FixMyImage" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FixMyImage",
+      "url": siteUrl,
+      "description": "Free online image tools — compress, resize, convert and watermark images in your browser."
+    })} />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Theme: no FOUC -->
+    <script is:inline>
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

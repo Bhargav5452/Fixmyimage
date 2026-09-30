@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ResizeDropzone from '../components/ResizeDropzone.astro';
+---
+
+<BaseLayout
+  title="Resize Images Online – Free Image Resizer | FixMyImage"
+  description="Change image dimensions to the exact size you need. Set width and height, scale by percentage, or use social media presets. Supports multiple images."
+>
+  <Header />
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-24 bg-canvas">
+    <div class="w-full max-w-4xl mx-auto text-center">
+
+      <ResizeDropzone />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="w-full bg-canvas border-t border-hairline mt-auto">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+
+    <p class="text-[13px] text-mute order-2 sm:order-1">
+      &copy; {year} FixMyImage
+    </p>
+
+    <nav class="flex items-center gap-5 order-1 sm:order-2" aria-label="Footer navigation">
+      <a href="/about"   class="text-[13px] text-body hover:text-ink transition-colors">About</a>
+      <a href="/contact" class="text-[13px] text-body hover:text-ink transition-colors">Contact</a>
+      <a href="/privacy" class="text-[13px] text-body hover:text-ink transition-colors">Privacy</a>
+      <a href="/terms"   class="text-[13px] text-body hover:text-ink transition-colors">Terms</a>
+    </nav>
+
+  </div>
+</footer>

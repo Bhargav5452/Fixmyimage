@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+---
+
+<BaseLayout
+  title="Convert Images Online – JPG, PNG & WebP Converter | FixMyImage"
+  description="Convert images between JPG, PNG and WebP in your browser. Handles transparency automatically when converting to JPG. Supports multiple files."
+>
+  <Header />
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-24 bg-canvas">
+    <div class="w-full max-w-4xl mx-auto text-center">
+
+      <ConvertDropzone />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

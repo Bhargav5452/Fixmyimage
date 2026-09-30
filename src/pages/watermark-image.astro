@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WatermarkDropzone from '../components/WatermarkDropzone.astro';
+---
+
+<BaseLayout
+  title="Watermark Images Online – Add Text or Logo Free | FixMyImage"
+  description="Add a text or logo watermark to images. Control position, size, opacity and rotation. Works on JPG, PNG and WebP. Supports multiple images."
+>
+  <Header />
+  <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-24 bg-canvas">
+    <div class="w-full max-w-4xl mx-auto text-center">
+
+      <WatermarkDropzone />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

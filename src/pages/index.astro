@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Free Online Image Tools | FixMyImage"
+  description="Free online tools to compress, resize, convert and watermark images directly in your browser. No uploads. No account. No cost."
+>
+  <Header />
+
+  <main class="flex-grow">
+
+    <section class="border-b border-hairline bg-canvas">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div class="max-w-xl">
+          <h1 class="text-[36px] sm:text-[48px] font-bold tracking-tight text-ink leading-[1.1] mb-5 text-balance">
+            Fix your images.<br/>Move on.
+          </h1>
+          <p class="text-[17px] sm:text-[18px] text-body leading-relaxed max-w-md">
+            Four free browser tools for the most common image problems. No uploads, no account, nothing installed.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tool Directory ───────────────────────────────────────── -->
+    <section id="tools" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+
+      <!-- Primary tools: 2-col featured -->
+      <div class="grid sm:grid-cols-2 gap-4 mb-4">
+
+        <a href="/compress-image" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
+              <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="text-ink/80 group-hover:text-accent transition-colors">
+                <path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/>
+                <path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
+              </svg>
+            </div>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Compress Images</h2>
+            <p class="text-[14px] text-body leading-relaxed">Reduce file size to a target — 50 KB, 100 KB, 1 MB. Works on JPG, PNG and WebP.</p>
+          </div>
+          <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
+            Compress images
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <a href="/resize-image" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
+              <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="text-ink/80 group-hover:text-accent transition-colors">
+                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M14 15H9v-5"/><path d="M16 3h5v5"/><path d="M21 3l-6 6"/>
+              </svg>
+            </div>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Resize Images</h2>
+            <p class="text-[14px] text-body leading-relaxed">Set exact dimensions, scale by percentage, or use social media presets. Aspect ratio lock included.</p>
+          </div>
+          <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
+            Resize images
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Secondary tools: 2-col compact -->
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <a href="/convert-image" class="group flex items-center justify-between p-6 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <div class="flex items-center gap-5">
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm shrink-0 group-hover:scale-105 transition-all duration-300" aria-hidden="true">
+              <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="text-ink/80 group-hover:text-accent transition-colors">
+                <path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-[15px] font-semibold text-ink tracking-[-0.01em]">Convert Images</h2>
+              <p class="text-[13px] text-body mt-0.5">JPG, PNG and WebP — in either direction</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-mute group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-3" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+
+        <a href="/watermark-image" class="group flex items-center justify-between p-6 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <div class="flex items-center gap-5">
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm shrink-0 group-hover:scale-105 transition-all duration-300" aria-hidden="true">
+              <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="text-ink/80 group-hover:text-accent transition-colors">
+                <circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 1 1 0-5.66"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-[15px] font-semibold text-ink tracking-[-0.01em]">Watermark Images</h2>
+              <p class="text-[13px] text-body mt-0.5">Text or logo, any position, full opacity control</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-mute group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-3" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── Trust strip ──────────────────────────────────────────── -->
+    <section class="border-t border-hairline bg-canvas-elevated">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <dl class="grid sm:grid-cols-3 gap-6 sm:gap-8 text-[13px]">
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div>
+              <dt class="font-semibold text-ink">Private by design</dt>
+              <dd class="text-body mt-0.5">Images never leave your device. Processing happens entirely in your browser.</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <div>
+              <dt class="font-semibold text-ink">No account required</dt>
+              <dd class="text-body mt-0.5">Free to use. No sign-up, no email, no payment information.</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <div>
+              <dt class="font-semibold text-ink">Multiple files at once</dt>
+              <dd class="text-body mt-0.5">Select up to 50 images per session. Results download as a single ZIP.</dd>
+            </div>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

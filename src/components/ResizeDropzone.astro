@@ -1,0 +1,728 @@
+---
+---
+<div id="upload-app" class="w-full">
+
+  <!-- ── Global Drag Overlay ────────────────────────────────── -->
+  <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="w-24 h-24 bg-accent text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M14 15H9v-5"/><path d="M16 3h5v5"/><path d="M21 3l-6 6"/>
+      </svg>
+    </div>
+    <h2 class="text-3xl font-bold text-ink">Drop files here</h2>
+  </div>
+
+  <!-- ── Upload State ────────────────────────────────────────── -->
+  <div id="state-upload" class="flex flex-col items-center justify-center py-20">
+    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-3 text-center">Resize Images</h1>
+    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">Set exact dimensions or scale by percentage. Drop files below to start.</p>
+
+    <label
+      id="upload-zone"
+      for="file-input"
+      class="flex flex-col items-center justify-center cursor-pointer group"
+    >
+      <input type="file" id="file-input" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label="Upload images to resize" />
+      
+      <div class="inline-flex items-center justify-center h-16 sm:h-20 px-10 sm:px-14 text-[20px] sm:text-[24px] font-bold text-white bg-accent rounded-xl hover:bg-accent/90 transition-transform hover:scale-105 shadow-xl shadow-accent/20 mb-8 pointer-events-none">
+        Select images
+      </div>
+
+      <p class="text-[18px] sm:text-[20px] font-medium text-ink/70">or drop images here</p>
+    </label>
+  </div>
+
+  <!-- ── Config State ────────────────────────────────────────── -->
+  <div id="state-config" class="hidden flex-col md:flex-row gap-8 items-start">
+    
+    <!-- Left Column: Files -->
+    <div class="flex-1 w-full flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <span class="text-[13px] font-semibold text-body tracking-label">FILES &thinsp;<span id="file-count" class="text-ink">0</span></span>
+        <label class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-body hover:text-ink border border-hairline hover:border-ink/30 bg-canvas-elevated rounded-lg cursor-pointer transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          Add more
+          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" />
+        </label>
+      </div>
+      <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[250px] md:max-h-[500px] overflow-y-auto p-1"></div>
+    </div>
+
+    <!-- Right Column: Settings & Action -->
+    <div class="w-full md:w-80 shrink-0 flex flex-col gap-6 bg-canvas-elevated p-6 rounded-2xl border border-hairline shadow-sm">
+
+    <!-- Mode tabs -->
+    <div>
+      <label class="tracking-label text-mute block mb-2.5">RESIZE MODE</label>
+      <div class="flex gap-1 p-1 bg-canvas rounded-lg border border-hairline" role="tablist">
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas-elevated text-ink shadow-sm border border-hairline" data-mode="custom" role="tab" aria-selected="true">Custom</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-mode="percentage" role="tab" aria-selected="false">Percent</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-mode="preset" role="tab" aria-selected="false">Presets</button>
+      </div>
+    </div>
+
+    <!-- Custom panel -->
+    <div id="panel-custom" class="mode-panel block">
+      <div class="flex items-end gap-3">
+        <div class="flex-1">
+          <label class="tracking-label text-mute block mb-2" for="input-width">WIDTH (px)</label>
+          <input type="number" id="input-width" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
+        </div>
+        <button
+          type="button"
+          id="btn-lock"
+          data-locked="true"
+          aria-label="Lock aspect ratio"
+          class="mb-0.5 w-9 h-9 rounded-lg border border-hairline text-mute hover:bg-hairline-soft hover:text-ink flex items-center justify-center transition-colors data-[locked=true]:bg-ink data-[locked=true]:text-canvas data-[locked=true]:border-ink"
+        >
+          <svg id="icon-locked" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg id="icon-unlocked" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        </button>
+        <div class="flex-1">
+          <label class="tracking-label text-mute block mb-2" for="input-height">HEIGHT (px)</label>
+          <input type="number" id="input-height" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Percentage panel -->
+    <div id="panel-percentage" class="mode-panel hidden">
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button type="button" class="pct-btn preset-btn" data-pct="25">25%</button>
+        <button type="button" class="pct-btn preset-btn" data-pct="50" data-active="true">50%</button>
+        <button type="button" class="pct-btn preset-btn" data-pct="75">75%</button>
+        <button type="button" class="pct-btn preset-btn" data-pct="150">150%</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="tracking-label text-mute whitespace-nowrap" for="input-pct">CUSTOM</label>
+        <div class="relative w-28">
+          <input type="number" id="input-pct" min="1" class="w-full border border-hairline bg-canvas rounded-lg pl-3 pr-7 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" placeholder="e.g. 80" />
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[13px] pointer-events-none" aria-hidden="true">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preset panel -->
+    <div id="panel-preset" class="mode-panel hidden">
+      <div class="grid grid-cols-2 gap-2 max-h-52 overflow-y-auto">
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1920" data-h="1080">
+          <span class="block text-[13px] font-semibold text-ink num">1920 × 1080</span>
+          <span class="block text-[11px] text-mute mt-0.5">1080p / Standard</span>
+        </button>
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1080">
+          <span class="block text-[13px] font-semibold text-ink num">1080 × 1080</span>
+          <span class="block text-[11px] text-mute mt-0.5">Square Post</span>
+        </button>
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1920">
+          <span class="block text-[13px] font-semibold text-ink num">1080 × 1920</span>
+          <span class="block text-[11px] text-mute mt-0.5">Story / Reels</span>
+        </button>
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1350">
+          <span class="block text-[13px] font-semibold text-ink num">1080 × 1350</span>
+          <span class="block text-[11px] text-mute mt-0.5">Portrait Post</span>
+        </button>
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1200" data-h="628">
+          <span class="block text-[13px] font-semibold text-ink num">1200 × 628</span>
+          <span class="block text-[11px] text-mute mt-0.5">Link Preview</span>
+        </button>
+        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="800" data-h="800">
+          <span class="block text-[13px] font-semibold text-ink num">800 × 800</span>
+          <span class="block text-[11px] text-mute mt-0.5">Small Square</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Format & Quality -->
+    <div class="grid grid-cols-2 gap-4 pt-1">
+      <div>
+        <label class="tracking-label text-mute block mb-2" for="select-format">FORMAT</label>
+        <select id="select-format" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink focus:outline-none focus:ring-2 focus:ring-accent transition">
+          <option value="original">Keep original</option>
+          <option value="jpeg">JPG</option>
+          <option value="png">PNG</option>
+          <option value="webp">WebP</option>
+        </select>
+      </div>
+      <div id="quality-container">
+        <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-quality">
+          <span>QUALITY</span>
+          <span id="quality-label" class="text-ink font-semibold normal-case text-[12px]">High</span>
+        </label>
+        <input type="range" id="input-quality" min="1" max="3" value="3" class="w-full mt-1 accent-accent" />
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div id="error-message" class="hidden items-start gap-2.5 p-3 bg-danger-bg border border-danger/20 rounded-lg text-[13px] text-danger">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+      <span id="error-text">Something went wrong.</span>
+    </div>
+
+    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-base shadow-lg shadow-ink/5">Resize Images</button>
+    </div>
+  </div>
+
+  <!-- ── Processing State ────────────────────────────────────── -->
+  <div id="state-processing" class="hidden flex-col gap-5">
+    <div>
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[14px] font-semibold text-ink">Resizing…</span>
+        <span class="text-[13px] text-mute num"><span id="proc-completed-count">0</span> / <span id="proc-total-count">0</span></span>
+      </div>
+      <div class="h-1 bg-hairline rounded-full overflow-hidden mt-3">
+        <div id="progress-bar" class="h-full bg-accent rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+    <div class="border border-hairline rounded-xl bg-canvas-elevated overflow-hidden">
+      <div id="progress-list" class="divide-y divide-hairline max-h-72 overflow-y-auto"></div>
+    </div>
+    <button type="button" id="btn-cancel" class="btn-ghost w-full">Cancel</button>
+  </div>
+
+  <!-- ── Result State ──────────────────────────────────────────── -->
+  <div id="state-result" class="hidden flex-col items-center gap-6 max-w-3xl mx-auto w-full mt-10">
+    
+    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">Images have been resized!</h2>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full mt-4">
+      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        <span id="download-text">Download resized images</span>
+      </a>
+    </div>
+
+    <!-- Single file stats -->
+    <div id="res-single-stats" class="hidden flex items-center justify-center gap-6 mt-6">
+      <div class="relative w-[88px] h-[88px] shrink-0 rounded-full flex items-center justify-center">
+        <svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 36 36">
+          <path class="text-hairline" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+          <path class="text-accent" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+        </svg>
+        <div class="flex flex-col items-center justify-center relative z-10 text-center mt-0.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg>
+        </div>
+      </div>
+      
+      <div class="text-left">
+        <p class="text-[15px] text-body mb-1">Your image was successfully resized.</p>
+        <p class="text-[14px] font-medium text-mute"><span id="res-original-dim" class="line-through"></span> &nbsp;&rarr;&nbsp; <span id="res-dimensions" class="text-ink font-semibold num"></span></p>
+        <p class="text-[13px] text-mute mt-1"><span id="res-format"></span> &middot; <span id="res-size"></span></p>
+      </div>
+    </div>
+
+    <!-- Batch stats -->
+    <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
+      <span id="res-success-count" class="num text-ink font-bold">0</span> resized &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
+    </div>
+
+    <!-- Continue to -->
+    <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
+      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">Continue to...</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="/compress-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg> Compress Image</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <a href="/convert-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Convert Image</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <a href="/watermark-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> Watermark</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style is:global>
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.625rem 1.25rem;
+    background: var(--color-ink); color: var(--color-canvas-elevated);
+    font-size: 0.875rem; font-weight: 600; border-radius: 9999px;
+    border: 1px solid transparent; cursor: pointer;
+    transition: opacity 150ms; text-decoration: none; user-select: none;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.625rem 1.25rem;
+    background: transparent; color: var(--color-body);
+    font-size: 0.875rem; font-weight: 500; border-radius: 9999px;
+    border: 1px solid var(--color-hairline); cursor: pointer;
+    transition: background 150ms, color 150ms; text-decoration: none; user-select: none;
+  }
+  .btn-ghost:hover { background: var(--color-hairline-soft); color: var(--color-ink); }
+  .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-ghost:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .preset-btn {
+    padding: 0.375rem 0.875rem; font-size: 0.8125rem; font-weight: 500;
+    border: 1px solid var(--color-hairline); border-radius: 8px;
+    background: var(--color-canvas-elevated); color: var(--color-body);
+    cursor: pointer; transition: all 150ms;
+  }
+  .preset-btn:hover { border-color: var(--color-ink); color: var(--color-ink); }
+  .preset-btn[data-active="true"] { background: var(--color-ink); color: var(--color-canvas-elevated); border-color: var(--color-ink); }
+  .preset-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .tracking-label { letter-spacing: 0.05em; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; }
+
+  .file-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.625rem 0.875rem; }
+  .file-row-badge { width: 28px; height: 28px; border-radius: 6px; background: var(--color-canvas); border: 1px solid var(--color-hairline); display: flex; align-items: center; justify-content: center; font-size: 0.625rem; font-weight: 700; color: var(--color-mute); flex-shrink: 0; text-transform: uppercase; }
+  .file-row-name { font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-row-size { font-size: 0.6875rem; color: var(--color-mute); font-variant-numeric: tabular-nums; }
+  .file-row-remove { flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px; border: none; background: transparent; color: var(--color-mute); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 150ms, color 150ms; }
+  .file-row-remove:hover { background: var(--color-danger-bg); color: var(--color-danger); }
+
+  .prog-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.5rem 0.875rem; font-size: 0.8125rem; }
+  .prog-row-name { color: var(--color-ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .status-pending   { color: var(--color-mute);    font-size: 0.75rem; white-space: nowrap; }
+  .status-working   { color: var(--color-accent);  font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+  .status-done      { color: var(--color-success); font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+  .status-failed    { color: var(--color-danger);  font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+  .status-cancelled { color: var(--color-mute);    font-size: 0.75rem; white-space: nowrap; }
+</style>
+
+<script>
+  import JSZip from 'jszip';
+  import { resizeImage } from '../lib/resize';
+  import { formatBytes } from '../lib/format';
+
+  let files: File[] = [];
+  let currentMode = 'custom';
+  let refWidth = 0, refHeight = 0, refRatio = 1;
+  let isLocked = true;
+  let isProcessing = false, isCancelled = false;
+  let completedCount = 0, successCount = 0, failedCount = 0;
+  let outputUrl: string | null = null;
+
+  const elUpload     = document.getElementById('state-upload')!;
+  const elConfig     = document.getElementById('state-config')!;
+  const elProcessing = document.getElementById('state-processing')!;
+  const elResult     = document.getElementById('state-result')!;
+
+  const fileInput     = document.getElementById('file-input')!;
+  const fileInputMore = document.getElementById('file-input-more')!;
+  const fileList      = document.getElementById('file-list')!;
+  const fileCountEl   = document.getElementById('file-count')!;
+
+  const modeTabs   = document.querySelectorAll<HTMLElement>('.mode-tab');
+  const modePanels = document.querySelectorAll<HTMLElement>('.mode-panel');
+
+  const inputWidth  = document.getElementById('input-width')!;
+  const inputHeight = document.getElementById('input-height')!;
+  const btnLock     = document.getElementById('btn-lock')!;
+  const iconLocked   = document.getElementById('icon-locked')!;
+  const iconUnlocked = document.getElementById('icon-unlocked')!;
+
+  const pctBtns      = document.querySelectorAll<HTMLElement>('.pct-btn');
+  const inputPct     = document.getElementById('input-pct')!;
+  const presetDimBtns = document.querySelectorAll<HTMLElement>('.preset-dim-btn');
+
+  const selectFormat     = document.getElementById('select-format')!;
+  const qualityContainer = document.getElementById('quality-container')!;
+  const inputQuality     = document.getElementById('input-quality')!;
+  const qualityLabel     = document.getElementById('quality-label')!;
+
+  const btnStart      = document.getElementById('btn-start')!;
+  const errorContainer = document.getElementById('error-message')!;
+  const errorTextEl   = document.getElementById('error-text')!;
+
+  const procCompletedCount = document.getElementById('proc-completed-count')!;
+  const procTotalCount     = document.getElementById('proc-total-count')!;
+  const progressBar        = document.getElementById('progress-bar')!;
+  const progressList       = document.getElementById('progress-list')!;
+  const btnCancel          = document.getElementById('btn-cancel')!;
+
+  const resBatchSummary = document.getElementById('res-batch-summary')!;
+  const resSuccessCount = document.getElementById('res-success-count')!;
+  const resFailedCount  = document.getElementById('res-failed-count')!;
+  const resSingleStats  = document.getElementById('res-single-stats')!;
+  const btnDownload     = document.getElementById('btn-download')!;
+  const downloadText    = document.getElementById('download-text')!;
+  const btnRestart      = document.getElementById('btn-restart')!;
+
+  // Event listeners
+  fileInput.addEventListener('change', handleFilesSelected);
+  fileInputMore.addEventListener('change', handleFilesSelected);
+  btnStart.addEventListener('click', startProcessing);
+  btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = 'Cancelling…'; });
+  btnRestart.addEventListener('click', resetApp);
+
+  // Drag and drop
+  const uploadZone = document.getElementById('upload-zone')!;
+  uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('border-accent/60'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('border-accent/60'));
+  uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault(); uploadZone.classList.remove('border-accent/60');
+    const dropped = Array.from(e.dataTransfer?.files ?? []);
+    if (dropped.length) addFiles(dropped);
+  });
+
+  // Mode tabs
+  modeTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      if (isProcessing) return;
+      modeTabs.forEach(t => {
+        t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border', 'border-hairline');
+        t.classList.add('text-body');
+        t.setAttribute('aria-selected', 'false');
+      });
+      const target = (e.currentTarget as HTMLElement);
+      target.classList.remove('text-body');
+      target.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border', 'border-hairline');
+      target.setAttribute('aria-selected', 'true');
+      currentMode = target.dataset.mode;
+      modePanels.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
+      document.getElementById(`panel-${currentMode}`)!.classList.remove('hidden');
+      document.getElementById(`panel-${currentMode}`)!.classList.add('block');
+    });
+  });
+
+  // Lock
+  btnLock.addEventListener('click', () => {
+    isLocked = !isLocked;
+    btnLock.setAttribute('data-locked', isLocked.toString());
+    iconLocked.classList.toggle('hidden', !isLocked);
+    iconUnlocked.classList.toggle('hidden', isLocked);
+    if (isLocked) {
+      const w = parseInt(inputWidth.value);
+      if (!isNaN(w) && w > 0) inputHeight.value = Math.round(w / refRatio).toString();
+    }
+  });
+
+  inputWidth.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value);
+    if (!isNaN(val) && val > 0 && isLocked) inputHeight.value = Math.round(val / refRatio).toString();
+  });
+  inputHeight.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value);
+    if (!isNaN(val) && val > 0 && isLocked) inputWidth.value = Math.round(val * refRatio).toString();
+  });
+
+  pctBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if (isProcessing) return;
+      pctBtns.forEach(b => b.setAttribute('data-active', 'false'));
+      (e.currentTarget as HTMLElement).setAttribute('data-active', 'true');
+      inputPct.value = '';
+    });
+  });
+
+  inputPct.addEventListener('input', (e) => {
+    if ((e.target as HTMLInputElement).value) pctBtns.forEach(b => b.setAttribute('data-active', 'false'));
+  });
+
+  presetDimBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if (isProcessing) return;
+      presetDimBtns.forEach(b => b.setAttribute('data-active', 'false'));
+      (e.currentTarget as HTMLElement).setAttribute('data-active', 'true');
+    });
+  });
+
+  selectFormat.addEventListener('change', () => {
+    const fmt = selectFormat.value;
+    if (fmt === 'png') {
+      qualityContainer.classList.add('opacity-50', 'pointer-events-none');
+    } else {
+      qualityContainer.classList.remove('opacity-50', 'pointer-events-none');
+    }
+  });
+
+  inputQuality.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value);
+    qualityLabel.textContent = val === 1 ? 'Small file' : val === 2 ? 'Balanced' : 'High';
+  });
+
+  // Global Drag and Drop
+  const dragOverlay = document.getElementById('drag-overlay')!;
+  let dragCounter = 0;
+
+  document.body.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    dragCounter++;
+    if (dragCounter === 1 && !isProcessing) {
+      dragOverlay.classList.remove('opacity-0', 'pointer-events-none');
+    }
+  });
+  
+  document.body.addEventListener('dragover', (e) => { e.preventDefault(); });
+  
+  document.body.addEventListener('dragleave', () => {
+    dragCounter--;
+    if (dragCounter === 0) {
+      dragOverlay.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
+  
+  document.body.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dragCounter = 0;
+    dragOverlay.classList.add('opacity-0', 'pointer-events-none');
+    if (isProcessing) return;
+    const dropped = Array.from(e.dataTransfer?.files ?? []);
+    if (dropped.length) addFiles(dropped);
+  });
+
+  // File handling
+  function handleFilesSelected(e) {
+    if (isProcessing) return;
+    addFiles(Array.from((e.target as HTMLInputElement).files));
+    (e.target as HTMLInputElement).value = '';
+  }
+
+  function addFiles(incoming) {
+    const newFiles = incoming.filter(f => f.type.startsWith('image/'));
+    const existing = new Set(files.map(f => f.name + f.size));
+    let added = 0;
+    for (const f of newFiles) {
+      if (files.length >= 50) { showError('Maximum 50 files.'); break; }
+      if (!existing.has(f.name + f.size)) { files.push(f); added++; existing.add(f.name + f.size); }
+    }
+    if (files.length > 0) {
+      renderFileList();
+      if (added > 0 && files.length === added) {
+        const img = new Image();
+        img.onload = () => {
+          refWidth = img.width; refHeight = img.height; refRatio = refWidth / refHeight;
+          inputWidth.value = refWidth; inputHeight.value = refHeight;
+          showState('config'); updateStartBtn(); hideError();
+        };
+        img.onerror = () => {
+          refWidth = 1920; refHeight = 1080; refRatio = 1920/1080;
+          inputWidth.value = 1920; inputHeight.value = 1080;
+          showState('config'); updateStartBtn(); hideError();
+        };
+        img.src = URL.createObjectURL(files[0]);
+      } else { showState('config'); updateStartBtn(); hideError(); }
+    } else if (added === 0 && newFiles.length > 0) showError('Those files are already added.');
+  }
+
+  function removeFile(index) {
+    if (isProcessing) return;
+    files.splice(index, 1);
+    renderFileList(); updateStartBtn();
+    if (!files.length) resetApp();
+  }
+
+  function updateStartBtn() {
+    btnStart.textContent = files.length === 1 ? 'Resize Image' : `Resize ${files.length} Images`;
+  }
+
+  function renderFileList() {
+    fileCountEl.textContent = files.length;
+    fileList.innerHTML = '';
+    files.forEach((file, i) => {
+      const ext = (file.type.split('/')[1] ?? 'img').replace('jpeg','jpg');
+      const row = document.createElement('div');
+      row.className = 'group relative bg-canvas-elevated border border-hairline rounded-xl overflow-hidden shadow-sm flex flex-col items-center p-2.5 text-center transition-shadow hover:shadow-md hover:border-ink/20';
+      const thumbUrl = URL.createObjectURL(file);
+      row.innerHTML = `
+        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="Remove ${file.name}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <div class="w-full aspect-square mb-2 bg-canvas flex items-center justify-center rounded-lg overflow-hidden relative">
+          <img src="${thumbUrl}" class="absolute w-full h-full object-cover" alt="" />
+          <div class="absolute bottom-1 right-1 bg-ink/70 backdrop-blur-md text-canvas-elevated text-[9px] font-bold px-1.5 py-0.5 rounded tracking-wider uppercase">${ext}</div>
+        </div>
+        <p class="text-[12px] font-medium text-ink w-full truncate mb-0.5" title="${file.name}">${file.name}</p>
+        <p class="text-[11px] text-mute">${formatBytes(file.size)}</p>
+      `;
+      const img = row.querySelector('img')!;
+      img.onload = () => URL.revokeObjectURL(thumbUrl);
+      fileList.appendChild(row);
+    });
+    fileList.querySelectorAll('.btn-rm').forEach(btn => {
+      btn.addEventListener('click', () => removeFile(parseInt(btn.dataset.idx)));
+    });
+  }
+
+  function getImageDimensions(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => { URL.revokeObjectURL(url); resolve({ w: img.width, h: img.height }); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Failed to read image')); };
+      img.src = url;
+    });
+  }
+
+  async function startProcessing() {
+    if (!files.length || isProcessing) return;
+    hideError();
+
+    let fixedW = 0, fixedH = 0, pct = 0;
+    if (currentMode === 'custom') {
+      fixedW = parseInt(inputWidth.value); fixedH = parseInt(inputHeight.value);
+      if (isNaN(fixedW) || isNaN(fixedH) || fixedW <= 0 || fixedH <= 0) { showError('Invalid dimensions.'); return; }
+    } else if (currentMode === 'preset') {
+      const active = Array.from(presetDimBtns).find(b => b.getAttribute('data-active') === 'true');
+      if (!active) { showError('Please select a preset.'); return; }
+      fixedW = parseInt(active.dataset.w); fixedH = parseInt(active.dataset.h);
+    } else {
+      if (inputPct.value) pct = parseFloat(inputPct.value);
+      else {
+        const active = Array.from(pctBtns).find(b => b.getAttribute('data-active') === 'true');
+        if (active) pct = parseFloat(active.dataset.pct);
+      }
+      if (isNaN(pct) || pct <= 0) { showError('Invalid percentage.'); return; }
+    }
+
+    const qVal = parseInt(inputQuality.value);
+    const quality = qVal === 1 ? 0.5 : qVal === 2 ? 0.75 : 0.95;
+    const globalFormat = selectFormat.value;
+
+    isProcessing = true; isCancelled = false;
+    completedCount = successCount = failedCount = 0;
+    procTotalCount.textContent = files.length; procCompletedCount.textContent = '0';
+    progressBar.style.width = '0%';
+    btnCancel.disabled = false; btnCancel.textContent = 'Cancel';
+
+    progressList.innerHTML = '';
+    const statusEls = new Map();
+    files.forEach((file, i) => {
+      const row = document.createElement('div');
+      row.className = 'prog-row';
+      row.innerHTML = `<span class="prog-row-name" title="${file.name}">${file.name}</span><span id="ps-${i}" class="status-pending">—</span>`;
+      progressList.appendChild(row);
+      statusEls.set(i, document.getElementById(`ps-${i}`)!);
+    });
+
+    await showState('processing');
+
+    const isSingle = files.length === 1;
+    let singleResult = null, singleOriginalDim = null;
+    const zip = new JSZip();
+    const queue = files.map((f, i) => ({ f, i }));
+    let active = 0;
+
+    await new Promise(resolve => {
+      function pump() {
+        if (isCancelled) queue.splice(0);
+        if (!queue.length && !active) { resolve(); return; }
+        while (active < 3 && queue.length) {
+          const { f, i } = queue.shift();
+          active++;
+          runTask(f, i).finally(() => {
+            active--; completedCount++;
+            procCompletedCount.textContent = completedCount;
+            progressBar.style.width = `${Math.round(completedCount / files.length * 100)}%`;
+            pump();
+          });
+        }
+      }
+
+      async function runTask(file, idx) {
+        const el = statusEls.get(idx);
+        if (isCancelled) { el.textContent = 'Cancelled'; el.className = 'status-cancelled'; return; }
+        el.textContent = 'Resizing…'; el.className = 'status-working';
+        try {
+          const dims = await getImageDimensions(file);
+          let tw = fixedW, th = fixedH;
+          if (currentMode === 'percentage') { tw = Math.floor(dims.w * pct / 100); th = Math.floor(dims.h * pct / 100); }
+          if (tw > 10000 || th > 10000) throw new Error('Dimensions exceed limit');
+          if (tw <= 0 || th <= 0) throw new Error('Dimensions too small');
+          const format = globalFormat === 'original' ? file.type : `image/${globalFormat}`;
+          const result = await resizeImage({ file, width: tw, height: th, format, quality });
+          
+          const outType = result.mimeType || file.type || 'image/jpeg';
+          const ext = (outType.split('/')[1] || 'jpg').replace('jpeg','jpg');
+          const lastDot = file.name.lastIndexOf('.');
+          const base = lastDot === -1 ? file.name : file.name.slice(0, lastDot);
+          const outName = `${base}-resized.${ext}`;
+          
+          if (isSingle) { singleResult = result; singleResult.filename = outName; singleOriginalDim = dims; }
+          else zip.file(outName, result.file);
+          successCount++;
+          el.textContent = '✓ Done'; el.className = 'status-done';
+        } catch (err) {
+          failedCount++;
+          el.textContent = 'Failed'; el.title = err.message || ''; el.className = 'status-failed';
+        }
+      }
+      pump();
+    });
+
+    if (outputUrl) { URL.revokeObjectURL(outputUrl); outputUrl = null; }
+
+    if (successCount > 0) {
+      document.getElementById('res-single-stats')!.classList.remove('hidden');
+      document.getElementById('res-batch-summary')!.classList.add('hidden');
+      
+      const titleEl = document.querySelector('h2.text-3xl');
+      if (titleEl) {
+        titleEl.textContent = successCount === 1 ? 'Image has been resized!' : 'Images have been resized!';
+      }
+
+      let downloadName = '';
+      if (isSingle && singleResult) {
+        outputUrl = URL.createObjectURL(singleResult.file);
+        btnDownload.href = outputUrl;
+        downloadName = singleResult.filename;
+        btnDownload.download = downloadName;
+        downloadText.textContent = 'Download resized image';
+        
+        document.getElementById('res-dimensions')!.textContent   = `${singleResult.width} × ${singleResult.height}`;
+        document.getElementById('res-original-dim')!.textContent = `${singleOriginalDim.w} × ${singleOriginalDim.h}`;
+        document.getElementById('res-size')!.textContent         = formatBytes(singleResult.outputBytes);
+        document.getElementById('res-format')!.textContent       = (singleResult.mimeType.split('/')[1] || 'jpg').replace('jpeg','jpg').toUpperCase();
+      } else {
+        const blob = await zip.generateAsync({ type: 'blob' });
+        outputUrl = URL.createObjectURL(blob);
+        btnDownload.href = outputUrl;
+        downloadName = 'FixMyImage-resized.zip';
+        btnDownload.download = downloadName;
+        downloadText.textContent = 'Download resized images';
+        
+        document.getElementById('res-dimensions')!.textContent   = `${successCount} items`;
+        document.getElementById('res-original-dim')!.textContent = `${files.length} items`;
+        document.getElementById('res-size')!.textContent         = 'ZIP';
+        document.getElementById('res-format')!.textContent       = 'ARCHIVE';
+      }
+      btnDownload.disabled = false;
+      const a = document.createElement('a'); a.href = outputUrl; a.download = downloadName;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    } else {
+      btnDownload.disabled = true;
+      document.getElementById('res-single-stats')!.classList.add('hidden');
+      document.getElementById('res-batch-summary')!.classList.remove('hidden');
+      resSuccessCount.textContent = '0'; resFailedCount.textContent = failedCount;
+    }
+
+    isProcessing = false;
+    await showState('result');
+  }
+
+  async function showState(state) {
+    const map = { upload: elUpload, config: elConfig, processing: elProcessing, result: elResult };
+    for (const [k, el] of Object.entries(map)) {
+      if (k !== state) { el.classList.add('hidden'); el.classList.remove('flex','block'); }
+    }
+    const el = map[state];
+    el.classList.remove('hidden');
+    el.classList.add(state === 'upload' ? 'block' : 'flex');
+  }
+
+  function resetApp() {
+    if (isProcessing && !isCancelled) return;
+    files = []; isProcessing = false; isCancelled = false;
+    fileInput.value = ''; fileInputMore.value = ''; hideError(); showState('upload');
+  }
+
+  function showError(msg) { errorTextEl.textContent = msg; errorContainer.classList.remove('hidden'); errorContainer.classList.add('flex'); }
+  function hideError() { errorContainer.classList.add('hidden'); errorContainer.classList.remove('flex'); }
+
+  showState('upload');
+</script>

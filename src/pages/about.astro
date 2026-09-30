@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="About FixMyImage | Free Browser-Based Image Tools"
+  description="FixMyImage is a free collection of online image tools that work entirely in your browser. No uploads. No account. No cost."
+>
+  <Header />
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 py-12 md:py-20 text-ink">
+    <h1 class="text-4xl font-extrabold text-ink mb-4">About FixMyImage</h1>
+
+    <div class="space-y-8 text-[15px] leading-relaxed text-body mt-8">
+
+      <section>
+        <p class="text-lg text-body mb-4">
+          FixMyImage is a small collection of free, browser-based image tools built to handle the most common image problems quickly.
+        </p>
+        <p>
+          The idea is simple: when a website rejects your image because it's too large, the wrong format,
+          or needs a watermark — you shouldn't have to install software or sign up for a service to fix it.
+          You should just be able to fix it and move on.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-ink mb-3">How it works</h2>
+        <p>
+          Every tool on this site processes images entirely inside your browser using the Canvas API.
+          <strong class="text-ink">Your files never leave your device.</strong> There are no servers receiving or storing your images.
+          When you close the tab, everything is gone.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-ink mb-3">Current tools</h2>
+        <ul class="space-y-3 mt-2">
+          <li>
+            <a href="/compress-image" class="text-link font-semibold hover:underline">Compress Images</a>
+            <span class="text-body"> — reduce file size to a target KB or MB</span>
+          </li>
+          <li>
+            <a href="/resize-image" class="text-link font-semibold hover:underline">Resize Images</a>
+            <span class="text-body"> — change width, height or scale by percentage</span>
+          </li>
+          <li>
+            <a href="/convert-image" class="text-link font-semibold hover:underline">Convert Images</a>
+            <span class="text-body"> — convert between JPG, PNG and WebP</span>
+          </li>
+          <li>
+            <a href="/watermark-image" class="text-link font-semibold hover:underline">Watermark Images</a>
+            <span class="text-body"> — add text or a logo with full position and opacity control</span>
+          </li>
+        </ul>
+        <p class="mt-4">All four tools support processing multiple images at once, with results packaged as a ZIP download.</p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-ink mb-3">Free, no account required</h2>
+        <p>
+          FixMyImage is free to use. There are no premium plans, no usage limits, and no watermarks added to your files.
+          We don't require an account, an email address, or payment information of any kind.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-ink mb-3">Contact</h2>
+        <p>
+          Found a bug or have a suggestion?
+          <a href="/contact" class="text-link hover:underline">Get in touch</a>.
+        </p>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
