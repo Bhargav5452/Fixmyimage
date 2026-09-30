@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import UploadDropzone from '../components/UploadDropzone.astro';
+
+export async function getStaticPaths() {
+  const targets = [
+    { size: '10kb', value: '10', unit: 'KB' },
+    { size: '20kb', value: '20', unit: 'KB' },
+    { size: '30kb', value: '30', unit: 'KB' },
+    { size: '40kb', value: '40', unit: 'KB' },
+    { size: '50kb', value: '50', unit: 'KB' },
+    { size: '100kb', value: '100', unit: 'KB' },
+    { size: '200kb', value: '200', unit: 'KB' },
+    { size: '500kb', value: '500', unit: 'KB' },
+    { size: '1mb', value: '1', unit: 'MB' },
+  ];
+  return targets.map(t => ({
+    params: { size: t.size },
+    props: { target: t }
+  }));
+}
+
+const { target } = Astro.props;
+const displaySize = target.unit === 'MB' ? `${target.value}MB` : `${target.value}KB`;
+const title = `Compress Image to ${displaySize} Online – Free Image Compressor | FixMyImage`;
+const desc = `Compress JPG, PNG and WebP images to ${displaySize} online.`;
+const h1 = `Compress Image to ${displaySize}`;
+const subtitle = `Compress JPG, PNG and WebP images to ${displaySize} online.`;
+---
+
+<BaseLayout title={title} description={desc}>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
+    <div class="w-full max-w-4xl mx-auto">
+      
+      <div class="mb-12">
+        <UploadDropzone h1={h1} subtitle={subtitle} presetValue={target.value} presetUnit={target.unit} />
+      </div>
+
+
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

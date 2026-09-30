@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@googleworkspace/drive-picker-element": "^0.7.3",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
     "browser-image-compression": "^2.0.2",

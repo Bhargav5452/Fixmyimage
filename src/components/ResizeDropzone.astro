@@ -1,6 +1,19 @@
 ---
+import ImageSourcePicker from './ImageSourcePicker.astro';
+
+export interface Props {
+  h1?: string;
+  subtitle?: string;
+  initialMode?: "custom" | "percentage" | "cm";
+}
+
+const {
+  h1 = "Resize Images",
+  subtitle = "Set exact dimensions or scale by percentage. Drop files below to start.",
+  initialMode = "custom"
+} = Astro.props;
 ---
-<div id="upload-app" class="w-full">
+<div id="upload-app" class="w-full" data-initial-mode={initialMode}>
 
   <!-- ── Global Drag Overlay ────────────────────────────────── -->
   <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -14,22 +27,10 @@
 
   <!-- ── Upload State ────────────────────────────────────────── -->
   <div id="state-upload" class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-3 text-center">Resize Images</h1>
-    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">Set exact dimensions or scale by percentage. Drop files below to start.</p>
+    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-0 text-center">{h1}</h1>
+    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">{subtitle}</p>
 
-    <label
-      id="upload-zone"
-      for="file-input"
-      class="flex flex-col items-center justify-center cursor-pointer group"
-    >
-      <input type="file" id="file-input" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label="Upload images to resize" />
-      
-      <div class="inline-flex items-center justify-center h-16 sm:h-20 px-10 sm:px-14 text-[20px] sm:text-[24px] font-bold text-white bg-accent rounded-xl hover:bg-accent/90 transition-transform hover:scale-105 shadow-xl shadow-accent/20 mb-8 pointer-events-none">
-        Select images
-      </div>
-
-      <p class="text-[18px] sm:text-[20px] font-medium text-ink/70">or drop images here</p>
-    </label>
+    <ImageSourcePicker id="resize-main" />
   </div>
 
   <!-- ── Config State ────────────────────────────────────────── -->
@@ -55,9 +56,9 @@
     <div>
       <label class="tracking-label text-mute block mb-2.5">RESIZE MODE</label>
       <div class="flex gap-1 p-1 bg-canvas rounded-lg border border-hairline" role="tablist">
-        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas-elevated text-ink shadow-sm border border-hairline" data-mode="custom" role="tab" aria-selected="true">Custom</button>
-        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-mode="percentage" role="tab" aria-selected="false">Percent</button>
-        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-mode="preset" role="tab" aria-selected="false">Presets</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas-elevated text-ink shadow-sm border border-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="custom" role="tab" aria-selected="true">Pixels</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="percentage" role="tab" aria-selected="false">Percentage</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="cm" role="tab" aria-selected="false">Centimeters</button>
       </div>
     </div>
 
@@ -102,34 +103,29 @@
       </div>
     </div>
 
-    <!-- Preset panel -->
-    <div id="panel-preset" class="mode-panel hidden">
-      <div class="grid grid-cols-2 gap-2 max-h-52 overflow-y-auto">
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1920" data-h="1080">
-          <span class="block text-[13px] font-semibold text-ink num">1920 × 1080</span>
-          <span class="block text-[11px] text-mute mt-0.5">1080p / Standard</span>
+    <!-- Centimeters panel -->
+    <div id="panel-cm" class="mode-panel hidden">
+      <div class="flex items-end gap-3">
+        <div class="flex-1">
+          <label class="tracking-label text-mute block mb-2" for="input-width-cm">WIDTH (cm)</label>
+          <input type="number" id="input-width-cm" step="0.01" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
+        </div>
+        <button
+          type="button"
+          id="btn-lock-cm"
+          data-locked="true"
+          aria-label="Lock aspect ratio"
+          class="mb-0.5 w-9 h-9 rounded-lg border border-hairline text-mute hover:bg-hairline-soft hover:text-ink flex items-center justify-center transition-colors data-[locked=true]:bg-ink data-[locked=true]:text-canvas data-[locked=true]:border-ink"
+        >
+          <svg id="icon-locked-cm" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg id="icon-unlocked-cm" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
         </button>
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1080">
-          <span class="block text-[13px] font-semibold text-ink num">1080 × 1080</span>
-          <span class="block text-[11px] text-mute mt-0.5">Square Post</span>
-        </button>
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1920">
-          <span class="block text-[13px] font-semibold text-ink num">1080 × 1920</span>
-          <span class="block text-[11px] text-mute mt-0.5">Story / Reels</span>
-        </button>
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1080" data-h="1350">
-          <span class="block text-[13px] font-semibold text-ink num">1080 × 1350</span>
-          <span class="block text-[11px] text-mute mt-0.5">Portrait Post</span>
-        </button>
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="1200" data-h="628">
-          <span class="block text-[13px] font-semibold text-ink num">1200 × 628</span>
-          <span class="block text-[11px] text-mute mt-0.5">Link Preview</span>
-        </button>
-        <button type="button" class="preset-dim-btn text-left p-3 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 transition-colors data-[active=true]:border-accent data-[active=true]:bg-accent/5" data-w="800" data-h="800">
-          <span class="block text-[13px] font-semibold text-ink num">800 × 800</span>
-          <span class="block text-[11px] text-mute mt-0.5">Small Square</span>
-        </button>
+        <div class="flex-1">
+          <label class="tracking-label text-mute block mb-2" for="input-height-cm">HEIGHT (cm)</label>
+          <input type="number" id="input-height-cm" step="0.01" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
+        </div>
       </div>
+      <p class="text-[12px] text-mute mt-3">* calculated at 300 DPI for high-quality print</p>
     </div>
 
     <!-- Format & Quality -->
@@ -189,10 +185,20 @@
       <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </button>
-      <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        <span id="download-text">Download resized images</span>
-      </a>
+      
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          <span id="download-text">Download resized images</span>
+        </a>
+
+        <!-- Third Party Save Buttons -->
+        <div class="flex flex-col gap-2">
+          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label="Import from URL">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Single file stats -->
@@ -218,6 +224,7 @@
     <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
       <span id="res-success-count" class="num text-ink font-bold">0</span> resized &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
     </div>
+
 
     <!-- Continue to -->
     <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
@@ -300,7 +307,8 @@
   import { formatBytes } from '../lib/format';
 
   let files: File[] = [];
-  let currentMode = 'custom';
+  const appContainer = document.getElementById('upload-app');
+  let currentMode = appContainer?.dataset.initialMode || 'custom';
   let refWidth = 0, refHeight = 0, refRatio = 1;
   let isLocked = true;
   let isProcessing = false, isCancelled = false;
@@ -312,7 +320,6 @@
   const elProcessing = document.getElementById('state-processing')!;
   const elResult     = document.getElementById('state-result')!;
 
-  const fileInput     = document.getElementById('file-input')!;
   const fileInputMore = document.getElementById('file-input-more')!;
   const fileList      = document.getElementById('file-list')!;
   const fileCountEl   = document.getElementById('file-count')!;
@@ -320,15 +327,20 @@
   const modeTabs   = document.querySelectorAll<HTMLElement>('.mode-tab');
   const modePanels = document.querySelectorAll<HTMLElement>('.mode-panel');
 
-  const inputWidth  = document.getElementById('input-width')!;
-  const inputHeight = document.getElementById('input-height')!;
+  const inputWidth  = document.getElementById('input-width')! as HTMLInputElement;
+  const inputHeight = document.getElementById('input-height')! as HTMLInputElement;
   const btnLock     = document.getElementById('btn-lock')!;
   const iconLocked   = document.getElementById('icon-locked')!;
   const iconUnlocked = document.getElementById('icon-unlocked')!;
 
+  const inputWidthCm  = document.getElementById('input-width-cm')! as HTMLInputElement;
+  const inputHeightCm = document.getElementById('input-height-cm')! as HTMLInputElement;
+  const btnLockCm     = document.getElementById('btn-lock-cm')!;
+  const iconLockedCm  = document.getElementById('icon-locked-cm')!;
+  const iconUnlockedCm= document.getElementById('icon-unlocked-cm')!;
+
   const pctBtns      = document.querySelectorAll<HTMLElement>('.pct-btn');
-  const inputPct     = document.getElementById('input-pct')!;
-  const presetDimBtns = document.querySelectorAll<HTMLElement>('.preset-dim-btn');
+  const inputPct     = document.getElementById('input-pct')! as HTMLInputElement;
 
   const selectFormat     = document.getElementById('select-format')!;
   const qualityContainer = document.getElementById('quality-container')!;
@@ -354,36 +366,49 @@
   const btnRestart      = document.getElementById('btn-restart')!;
 
   // Event listeners
-  fileInput.addEventListener('change', handleFilesSelected);
+  if (appContainer) {
+    appContainer.addEventListener('source-files-selected', ((e: CustomEvent) => {
+      if (isProcessing) return;
+      addFiles(e.detail.files);
+    }) as EventListener);
+  }
+
   fileInputMore.addEventListener('change', handleFilesSelected);
   btnStart.addEventListener('click', startProcessing);
   btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = 'Cancelling…'; });
   btnRestart.addEventListener('click', resetApp);
 
-  // Drag and drop
-  const uploadZone = document.getElementById('upload-zone')!;
-  uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('border-accent/60'); });
-  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('border-accent/60'));
-  uploadZone.addEventListener('drop', (e) => {
-    e.preventDefault(); uploadZone.classList.remove('border-accent/60');
-    const dropped = Array.from(e.dataTransfer?.files ?? []);
-    if (dropped.length) addFiles(dropped);
+
+
+  // Initialize mode
+  modeTabs.forEach(t => {
+    t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
+    t.classList.add('text-body', 'border-transparent');
+    t.setAttribute('aria-selected', 'false');
+    if (t.dataset.mode === currentMode) {
+      t.classList.remove('text-body', 'border-transparent');
+      t.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
+      t.setAttribute('aria-selected', 'true');
+    }
   });
+  modePanels.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
+  document.getElementById(`panel-${currentMode}`)!.classList.remove('hidden');
+  document.getElementById(`panel-${currentMode}`)!.classList.add('block');
 
   // Mode tabs
   modeTabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
       if (isProcessing) return;
       modeTabs.forEach(t => {
-        t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border', 'border-hairline');
-        t.classList.add('text-body');
+        t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
+        t.classList.add('text-body', 'border-transparent');
         t.setAttribute('aria-selected', 'false');
       });
       const target = (e.currentTarget as HTMLElement);
-      target.classList.remove('text-body');
-      target.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border', 'border-hairline');
+      target.classList.remove('text-body', 'border-transparent');
+      target.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
       target.setAttribute('aria-selected', 'true');
-      currentMode = target.dataset.mode;
+      currentMode = target.dataset.mode!;
       modePanels.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
       document.getElementById(`panel-${currentMode}`)!.classList.remove('hidden');
       document.getElementById(`panel-${currentMode}`)!.classList.add('block');
@@ -411,6 +436,28 @@
     if (!isNaN(val) && val > 0 && isLocked) inputWidth.value = Math.round(val * refRatio).toString();
   });
 
+  // CM Lock
+  let isLockedCm = true;
+  btnLockCm.addEventListener('click', () => {
+    isLockedCm = !isLockedCm;
+    btnLockCm.setAttribute('data-locked', isLockedCm.toString());
+    iconLockedCm.classList.toggle('hidden', !isLockedCm);
+    iconUnlockedCm.classList.toggle('hidden', isLockedCm);
+    if (isLockedCm) {
+      const w = parseFloat(inputWidthCm.value);
+      if (!isNaN(w) && w > 0) inputHeightCm.value = (Math.round((w / refRatio) * 100) / 100).toString();
+    }
+  });
+
+  inputWidthCm.addEventListener('input', (e) => {
+    const val = parseFloat((e.target as HTMLInputElement).value);
+    if (!isNaN(val) && val > 0 && isLockedCm) inputHeightCm.value = (Math.round((val / refRatio) * 100) / 100).toString();
+  });
+  inputHeightCm.addEventListener('input', (e) => {
+    const val = parseFloat((e.target as HTMLInputElement).value);
+    if (!isNaN(val) && val > 0 && isLockedCm) inputWidthCm.value = (Math.round((val * refRatio) * 100) / 100).toString();
+  });
+
   pctBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       if (isProcessing) return;
@@ -424,13 +471,7 @@
     if ((e.target as HTMLInputElement).value) pctBtns.forEach(b => b.setAttribute('data-active', 'false'));
   });
 
-  presetDimBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      if (isProcessing) return;
-      presetDimBtns.forEach(b => b.setAttribute('data-active', 'false'));
-      (e.currentTarget as HTMLElement).setAttribute('data-active', 'true');
-    });
-  });
+
 
   selectFormat.addEventListener('change', () => {
     const fmt = selectFormat.value;
@@ -497,12 +538,16 @@
         const img = new Image();
         img.onload = () => {
           refWidth = img.width; refHeight = img.height; refRatio = refWidth / refHeight;
-          inputWidth.value = refWidth; inputHeight.value = refHeight;
+          inputWidth.value = refWidth.toString(); inputHeight.value = refHeight.toString();
+          inputWidthCm.value = (Math.round((refWidth / 118.1102) * 100) / 100).toString();
+          inputHeightCm.value = (Math.round((refHeight / 118.1102) * 100) / 100).toString();
           showState('config'); updateStartBtn(); hideError();
         };
         img.onerror = () => {
           refWidth = 1920; refHeight = 1080; refRatio = 1920/1080;
-          inputWidth.value = 1920; inputHeight.value = 1080;
+          inputWidth.value = "1920"; inputHeight.value = "1080";
+          inputWidthCm.value = (Math.round((1920 / 118.1102) * 100) / 100).toString();
+          inputHeightCm.value = (Math.round((1080 / 118.1102) * 100) / 100).toString();
           showState('config'); updateStartBtn(); hideError();
         };
         img.src = URL.createObjectURL(files[0]);
@@ -567,10 +612,10 @@
     if (currentMode === 'custom') {
       fixedW = parseInt(inputWidth.value); fixedH = parseInt(inputHeight.value);
       if (isNaN(fixedW) || isNaN(fixedH) || fixedW <= 0 || fixedH <= 0) { showError('Invalid dimensions.'); return; }
-    } else if (currentMode === 'preset') {
-      const active = Array.from(presetDimBtns).find(b => b.getAttribute('data-active') === 'true');
-      if (!active) { showError('Please select a preset.'); return; }
-      fixedW = parseInt(active.dataset.w); fixedH = parseInt(active.dataset.h);
+    } else if (currentMode === 'cm') {
+      const cw = parseFloat(inputWidthCm.value); const ch = parseFloat(inputHeightCm.value);
+      if (isNaN(cw) || isNaN(ch) || cw <= 0 || ch <= 0) { showError('Invalid dimensions in centimeters.'); return; }
+      fixedW = Math.round(cw * 118.1102); fixedH = Math.round(ch * 118.1102);
     } else {
       if (inputPct.value) pct = parseFloat(inputPct.value);
       else {
@@ -718,7 +763,7 @@
   function resetApp() {
     if (isProcessing && !isCancelled) return;
     files = []; isProcessing = false; isCancelled = false;
-    fileInput.value = ''; fileInputMore.value = ''; hideError(); showState('upload');
+    fileInputMore.value = ''; hideError(); showState('upload');
   }
 
   function showError(msg) { errorTextEl.textContent = msg; errorContainer.classList.remove('hidden'); errorContainer.classList.add('flex'); }

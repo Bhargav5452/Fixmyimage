@@ -1,6 +1,25 @@
 ---
+import ImageSourcePicker from './ImageSourcePicker.astro';
+
+export interface Props {
+  h1?: string;
+  subtitle?: string;
+  initialInputFormat?: "jpeg" | "png" | "webp" | "avif";
+  initialOutputFormat?: "jpeg" | "png" | "webp" | "avif";
+}
+
+const {
+  h1 = "Convert Images",
+  subtitle = "Convert between JPG, PNG, WebP and AVIF formats. Drop files below to start.",
+  initialInputFormat,
+  initialOutputFormat = "jpeg"
+} = Astro.props;
+
+const acceptAttr = initialInputFormat 
+  ? `image/${initialInputFormat}`
+  : "image/jpeg, image/png, image/webp, image/avif";
 ---
-<div id="upload-app" class="w-full">
+<div id="upload-app" class="w-full" data-initial-output={initialOutputFormat} data-initial-input={initialInputFormat || ''}>
 
   <!-- ── Global Drag Overlay ────────────────────────────────── -->
   <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -14,18 +33,10 @@
 
   <!-- ── Upload State ────────────────────────────────────────── -->
   <div id="state-upload" class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-3 text-center">Convert Images</h1>
-    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">Convert between JPG, PNG and WebP formats. Drop files below to start.</p>
+    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-0 text-center">{h1}</h1>
+    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">{subtitle}</p>
 
-    <label for="file-input" id="upload-zone" class="flex flex-col items-center justify-center cursor-pointer group">
-      <input type="file" id="file-input" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label="Upload images to convert" />
-      
-      <div class="inline-flex items-center justify-center h-16 sm:h-20 px-10 sm:px-14 text-[20px] sm:text-[24px] font-bold text-white bg-accent rounded-xl hover:bg-accent/90 transition-transform hover:scale-105 shadow-xl shadow-accent/20 mb-8 pointer-events-none">
-        Select images
-      </div>
-
-      <p class="text-[18px] sm:text-[20px] font-medium text-ink/70">or drop images here</p>
-    </label>
+    <ImageSourcePicker id="convert-main" accept={acceptAttr} />
   </div>
 
   <!-- ── Config State ────────────────────────────────────────── -->
@@ -38,7 +49,7 @@
         <label class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-body hover:text-ink border border-hairline hover:border-ink/30 bg-canvas-elevated rounded-lg cursor-pointer transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           Add more
-          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" />
+          <input type="file" id="file-input-more" multiple class="sr-only" accept={acceptAttr} />
         </label>
       </div>
       <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[250px] md:max-h-[500px] overflow-y-auto p-1"></div>
@@ -47,13 +58,23 @@
     <!-- Right Column: Settings & Action -->
     <div class="w-full md:w-80 shrink-0 flex flex-col gap-6 bg-canvas-elevated p-6 rounded-2xl border border-hairline shadow-sm">
 
+    {initialInputFormat && (
+      <div>
+        <label class="tracking-label text-mute block mb-2.5">CONVERT FROM</label>
+        <div class="w-full bg-canvas border border-hairline rounded-lg px-3 py-2.5 text-[14px] font-bold text-body uppercase text-center opacity-80 cursor-not-allowed">
+          {initialInputFormat === 'jpeg' ? 'JPG' : initialInputFormat}
+        </div>
+      </div>
+    )}
+
     <!-- Format selector -->
     <div>
       <label class="tracking-label text-mute block mb-2.5">CONVERT TO</label>
-      <div class="flex gap-2" role="group" aria-label="Output format">
-        <button type="button" class="format-btn flex-1 py-2.5 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink" data-format="jpeg" data-active="true">JPG</button>
-        <button type="button" class="format-btn flex-1 py-2.5 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink" data-format="png">PNG</button>
-        <button type="button" class="format-btn flex-1 py-2.5 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink" data-format="webp">WebP</button>
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Output format">
+        <button type="button" class="format-btn flex-1 py-2.5 px-3 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="jpeg" data-active={initialOutputFormat === 'jpeg' ? 'true' : 'false'} disabled={initialInputFormat === 'jpeg'}>JPG</button>
+        <button type="button" class="format-btn flex-1 py-2.5 px-3 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="png" data-active={initialOutputFormat === 'png' ? 'true' : 'false'} disabled={initialInputFormat === 'png'}>PNG</button>
+        <button type="button" class="format-btn flex-1 py-2.5 px-3 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="webp" data-active={initialOutputFormat === 'webp' ? 'true' : 'false'} disabled={initialInputFormat === 'webp'}>WebP</button>
+        <button type="button" class="format-btn flex-1 py-2.5 px-3 text-[13px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="avif" data-active={initialOutputFormat === 'avif' ? 'true' : 'false'} disabled={initialInputFormat === 'avif'}>AVIF</button>
       </div>
     </div>
 
@@ -112,10 +133,20 @@
       <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </button>
-      <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        <span id="download-text">Download converted images</span>
-      </a>
+
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          <span id="download-text">Download converted images</span>
+        </a>
+
+        <!-- Third Party Save Buttons -->
+        <div class="flex flex-col gap-2">
+          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label="Import from URL">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Single file stats -->
@@ -141,6 +172,9 @@
     <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
       <span id="res-success-count" class="num text-ink font-bold">0</span> converted &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
     </div>
+
+
+
 
     <!-- Continue to -->
     <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
@@ -195,7 +229,7 @@
   import { formatBytes } from '../lib/format';
 
   let files: File[] = [];
-  let targetFormat = 'jpeg';
+  let targetFormat = document.getElementById('upload-app')?.dataset.initialOutput || 'jpeg';
   let isProcessing = false, isCancelled = false;
   let completedCount = 0, successCount = 0, failedCount = 0;
   let outputUrl: string | null = null;
@@ -204,7 +238,6 @@
   const elConfig     = document.getElementById('state-config')!;
   const elProcessing = document.getElementById('state-processing')!;
   const elResult     = document.getElementById('state-result')!;
-  const fileInput    = document.getElementById('file-input')!;
   const fileInputMore = document.getElementById('file-input-more')!;
   const fileList     = document.getElementById('file-list')!;
   const fileCountEl  = document.getElementById('file-count')!;
@@ -229,7 +262,14 @@
   const downloadText = document.getElementById('download-text')!;
   const btnRestart   = document.getElementById('btn-restart')!;
 
-  fileInput.addEventListener('change', handleFilesSelected);
+  const appContainer = document.getElementById('upload-app');
+  if (appContainer) {
+    appContainer.addEventListener('source-files-selected', ((e: CustomEvent) => {
+      if (isProcessing) return;
+      addFiles(e.detail.files);
+    }) as EventListener);
+  }
+
   fileInputMore.addEventListener('change', handleFilesSelected);
   btnStart.addEventListener('click', startProcessing);
   btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = 'Cancelling…'; });
@@ -275,6 +315,12 @@
     });
   });
 
+  // Initialize format buttons
+  formatBtns.forEach(b => {
+    b.setAttribute('data-active', (b.dataset.format === targetFormat).toString());
+  });
+  updateUI();
+
   inputQuality.addEventListener('input', (e) => {
     const val = parseInt((e.target as HTMLInputElement).value);
     qualityLabel.textContent = val === 1 ? 'Small file' : val === 2 ? 'Balanced' : 'High';
@@ -302,6 +348,16 @@
 
   function addFiles(incoming) {
     const newFiles = incoming.filter(f => f.type.startsWith('image/'));
+    const expectedInput = appContainer?.dataset.initialInput;
+    
+    if (expectedInput) {
+      const invalid = newFiles.some(f => !f.type.includes(expectedInput));
+      if (invalid) {
+        showError(`Please upload only ${expectedInput.toUpperCase()} files for this conversion.`);
+        return;
+      }
+    }
+
     const existing = new Set(files.map(f => f.name + f.size));
     let added = 0;
     for (const f of newFiles) {
@@ -495,7 +551,7 @@
   function resetApp() {
     if (isProcessing && !isCancelled) return;
     files = []; isProcessing = false; isCancelled = false;
-    fileInput.value = ''; fileInputMore.value = ''; hideError(); showState('upload');
+    fileInputMore.value = ''; hideError(); showState('upload');
   }
 
   function showError(msg) { errorTextEl.textContent = msg; errorContainer.classList.remove('hidden'); errorContainer.classList.add('flex'); }

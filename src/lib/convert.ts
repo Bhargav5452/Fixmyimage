@@ -68,9 +68,10 @@ export async function convertImage(req: ConvertRequest, onProgress?: (p: number)
             }
 
             // Verify if the browser silently fell back to PNG
-            // (e.g. older Safari when asking for WebP)
-            if (req.format === 'image/webp' && blob.type !== 'image/webp') {
-               reject(new ConvertError("Your browser does not support WebP conversion."));
+            // (e.g. older Safari when asking for WebP, or many browsers for AVIF)
+            if ((req.format === 'image/webp' || req.format === 'image/avif') && blob.type !== req.format) {
+               const formatName = req.format.split('/')[1].toUpperCase();
+               reject(new ConvertError(`Your browser does not support ${formatName} conversion.`));
                return;
             }
             

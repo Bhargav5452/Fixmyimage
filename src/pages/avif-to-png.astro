@@ -3,21 +3,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConvertDropzone from '../components/ConvertDropzone.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const title = "AVIF to PNG Converter – Convert AVIF to PNG Online | FixMyImage";
+const desc = "Convert AVIF images to PNG format online for free.";
 ---
 
-<BaseLayout
-  title={t('metadata.convert_title')}
-  description={t('metadata.convert_desc')}
->
+<BaseLayout title={title} description={desc}>
   <Header />
   <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
     <div class="w-full max-w-4xl mx-auto">
-
-      <ConvertDropzone />
+      <ConvertDropzone 
+        h1="Convert AVIF to PNG"
+        subtitle="Convert AVIF images to PNG format online for free."
+        initialInputFormat="avif"
+        initialOutputFormat="png"
+      />
     </div>
   </main>
   <Footer />

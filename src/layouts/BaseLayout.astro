@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { LANGUAGES } from '../i18n/config';
+import { getLangFromUrl, getRelativeLocaleUrl } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -16,11 +18,15 @@ const {
 } = Astro.props;
 
 const siteUrl = "https://fixmyimage.app";
-const canonicalUrl = canonical ?? (siteUrl + (Astro.url.pathname === '/' ? '' : Astro.url.pathname.replace(/\/$/, '')));
+const currentLang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname.replace(LANGUAGES[currentLang].prefix, '') || '/';
+
+const canonicalUrl = canonical ?? (siteUrl + getRelativeLocaleUrl(currentLang, currentPath).replace(/\/$/, ''));
+const finalCanonical = canonicalUrl || siteUrl;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLang} dir={LANGUAGES[currentLang].dir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +39,12 @@ const canonicalUrl = canonical ?? (siteUrl + (Astro.url.pathname === '/' ? '' : 
     <!-- Primary Meta -->
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="canonical" href={finalCanonical} />
+    {Object.keys(LANGUAGES).map((code) => (
+      <link rel="alternate" hreflang={code} href={siteUrl + getRelativeLocaleUrl(code as keyof typeof LANGUAGES, currentPath).replace(/\/$/, '') || siteUrl} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={siteUrl + getRelativeLocaleUrl('en', currentPath).replace(/\/$/, '') || siteUrl} />
+    
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->

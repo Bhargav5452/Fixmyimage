@@ -1,18 +1,21 @@
 ---
+import { getLangFromUrl, getRelativeLocaleUrl, useTranslations } from '../i18n/utils';
 const year = new Date().getFullYear();
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 <footer class="w-full bg-canvas border-t border-hairline mt-auto">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
 
     <p class="text-[13px] text-mute order-2 sm:order-1">
-      &copy; {year} FixMyImage
+      &copy; {year} FixMyImage. {t('footer.all_rights')}
     </p>
 
     <nav class="flex items-center gap-5 order-1 sm:order-2" aria-label="Footer navigation">
-      <a href="/about"   class="text-[13px] text-body hover:text-ink transition-colors">About</a>
-      <a href="/contact" class="text-[13px] text-body hover:text-ink transition-colors">Contact</a>
-      <a href="/privacy" class="text-[13px] text-body hover:text-ink transition-colors">Privacy</a>
-      <a href="/terms"   class="text-[13px] text-body hover:text-ink transition-colors">Terms</a>
+      <a href={getRelativeLocaleUrl(lang, 'about')}   class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.about')}</a>
+      <a href={getRelativeLocaleUrl(lang, 'contact')} class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.contact')}</a>
+      <a href={getRelativeLocaleUrl(lang, 'privacy')} class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.privacy')}</a>
+      <a href={getRelativeLocaleUrl(lang, 'terms')}   class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.terms')}</a>
     </nav>
 
   </div>

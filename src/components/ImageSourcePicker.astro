@@ -1,0 +1,164 @@
+---
+interface Props {
+  id: string;
+  compact?: boolean;
+  accept?: string;
+}
+
+const { id, compact = false, accept = "image/jpeg, image/png, image/webp" } = Astro.props;
+
+import { useTranslations, getLangFromUrl } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class={`image-source-picker w-full flex flex-col items-center ${compact ? 'justify-center' : 'mb-0'}`} data-picker-id={id}>
+  
+  <!-- Default View -->
+  <div class="picker-default-view flex items-center justify-center gap-2 sm:gap-3 transition-all duration-300 w-full">
+    <!-- Invisible spacer to perfectly balance the right icon so the main button stays dead center -->
+    <div class={`shrink-0 ${compact ? 'w-10 h-10' : 'w-10 h-10 sm:w-12 sm:h-12'}`} aria-hidden="true"></div>
+
+    <label
+      for={`file-input-${id}`}
+      class="flex flex-col items-center justify-center cursor-pointer group"
+    >
+      <input
+        type="file"
+        id={`file-input-${id}`}
+        multiple
+        class="sr-only file-input-local"
+        accept={accept}
+        aria-label="Upload images"
+      />
+      
+      <div class={`inline-flex items-center justify-center font-bold text-white bg-accent rounded-lg hover:bg-accent/90 transition-transform hover:scale-105 shadow-xl shadow-accent/20 pointer-events-none ${
+        compact ? 'h-12 px-6 text-[16px] w-[200px]' : 'h-[64px] sm:h-[76px] w-[260px] sm:w-[320px] text-[20px] sm:text-[24px]'
+      }`}>
+        {t('compress.select')}
+      </div>
+    </label>
+
+    <button type="button" class={`btn-url rounded-full bg-accent text-white flex items-center justify-center hover:bg-accent/90 transition-transform hover:scale-110 shadow-lg shrink-0 ${compact ? 'w-10 h-10' : 'w-10 h-10 sm:w-12 sm:h-12'}`} aria-label="Import from URL">
+      <svg xmlns="http://www.w3.org/2000/svg" width={compact ? "18" : "20"} height={compact ? "18" : "20"} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    </button>
+  </div>
+
+  <!-- URL Input View -->
+  <div class="picker-url-view hidden w-full max-w-lg transition-all duration-300">
+    <form class="url-import-form relative flex items-center w-full bg-canvas border-2 border-accent rounded-full shadow-lg overflow-hidden h-16 sm:h-20">
+      <input 
+        type="url" 
+        class="url-input flex-1 bg-transparent border-none px-6 h-full text-[16px] sm:text-[18px] text-ink focus:outline-none placeholder:text-mute"
+        placeholder="Paste URL or search keywords"
+        required
+      />
+      <button type="submit" class="btn-url-submit h-full px-5 text-accent hover:bg-accent/10 transition-colors flex items-center justify-center" aria-label="Import">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+      </button>
+      <button type="button" class="btn-close-url h-full px-5 text-mute hover:text-ink transition-colors border-l border-hairline flex items-center justify-center" aria-label="Cancel">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </form>
+    <div class="url-error hidden mt-3 text-[14px] text-danger text-center font-medium bg-danger-bg rounded-lg py-2 px-3"></div>
+  </div>
+</div>
+
+{!compact && <p class="text-[13px] sm:text-[14px] text-ink/50 mt-3 text-center w-full picker-drop-text">{t('compress.drop')}</p>}
+
+<script>
+  // Setup click handlers for all ImageSourcePicker instances
+  document.querySelectorAll('.image-source-picker').forEach(picker => {
+    const pickerId = picker.getAttribute('data-picker-id');
+    
+    // Elements
+    const btnUrl = picker.querySelector('.btn-url');
+    const fileInput = picker.querySelector('.file-input-local') as HTMLInputElement;
+    const defaultView = picker.querySelector('.picker-default-view');
+    const urlView = picker.querySelector('.picker-url-view');
+    const dropText = picker.querySelector('.picker-drop-text');
+    const formUrl = picker.querySelector('.url-import-form') as HTMLFormElement;
+    const inputUrl = picker.querySelector('.url-input') as HTMLInputElement;
+    const btnCloseUrl = picker.querySelector('.btn-close-url');
+    const errorUrl = picker.querySelector('.url-error');
+    const btnUrlSubmit = picker.querySelector('.btn-url-submit') as HTMLButtonElement;
+
+    // View toggles
+    const showUrlView = () => {
+      defaultView?.classList.add('hidden');
+      dropText?.classList.add('hidden');
+      urlView?.classList.remove('hidden');
+      inputUrl?.focus();
+      errorUrl?.classList.add('hidden');
+    };
+
+    const hideUrlView = () => {
+      urlView?.classList.add('hidden');
+      defaultView?.classList.remove('hidden');
+      dropText?.classList.remove('hidden');
+      inputUrl.value = '';
+    };
+
+    // Local file selection
+    fileInput?.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        picker.dispatchEvent(new CustomEvent('source-files-selected', {
+          bubbles: true,
+          detail: { files: Array.from(fileInput.files) }
+        }));
+        fileInput.value = '';
+      }
+    });
+
+    // URL Import flow
+    btnUrl?.addEventListener('click', showUrlView);
+    btnCloseUrl?.addEventListener('click', hideUrlView);
+
+    formUrl?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const url = inputUrl.value.trim();
+      if (!url) return;
+
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        errorUrl!.textContent = 'Enter a valid image URL (http:// or https://).';
+        errorUrl!.classList.remove('hidden');
+        return;
+      }
+
+      btnUrlSubmit.disabled = true;
+      btnUrlSubmit.innerHTML = `<svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+      errorUrl?.classList.add('hidden');
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const blob = await response.blob();
+        if (!blob.type.startsWith('image/')) throw new Error('Not an image');
+        
+        const fileName = url.split('/').pop()?.split('?')[0] || 'image.jpg';
+        const file = new File([blob], fileName, { type: blob.type });
+
+        picker.dispatchEvent(new CustomEvent('source-files-selected', {
+          bubbles: true,
+          detail: { files: [file] }
+        }));
+        
+        hideUrlView();
+      } catch (err) {
+        errorUrl!.textContent = "Couldn't access this image. The host may block direct access. Try downloading it first.";
+        errorUrl!.classList.remove('hidden');
+      } finally {
+        btnUrlSubmit.disabled = false;
+        btnUrlSubmit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>`;
+      }
+    });
+
+    // Auto-open if query param is present (only on main picker, not compact)
+    if (window.location.search.includes('url=true') && !picker.hasAttribute('compact')) {
+      showUrlView();
+      // Clean up the URL so a normal reload doesn't trigger it again
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  });
+</script>

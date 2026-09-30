@@ -4,11 +4,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResizeDropzone from '../components/ResizeDropzone.astro';
 
-const title = "Resize Images Online – Free Image Resizer | FixMyImage";
-const desc = "Resize JPG, PNG, WebP and other supported images online.";
+const title = "Resize Image in Pixels Online – Free Image Resizer | FixMyImage";
+const desc = "Resize images to exact pixel dimensions online.";
 ---
 
-<BaseLayout title={title} description={desc}>
+<BaseLayout title={title} description={desc} canonical="https://fixmyimage.app/resize-image-in-pixels">
   <Header />
   
   <main class="flex-grow flex flex-col items-center px-4 py-12 md:py-20 bg-canvas">
@@ -16,8 +16,8 @@ const desc = "Resize JPG, PNG, WebP and other supported images online.";
       
       <div class="mb-12">
         <ResizeDropzone 
-          h1="Resize Images" 
-          subtitle="Resize JPG, PNG, WebP and other supported images online." 
+          h1="Resize Image in Pixels" 
+          subtitle="Resize images to exact pixel dimensions online." 
           initialMode="custom" 
         />
       </div>
