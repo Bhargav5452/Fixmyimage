@@ -64,7 +64,9 @@ const t = useTranslations(lang);
   </div>
 </div>
 
-{!compact && <p class="text-[15px] sm:text-[16px] text-ink/50 mt-3 text-center w-full picker-drop-text">{t('compress.drop')}</p>}
+<div class="picker-drop-text w-full">
+  {!compact && <p class="hidden sm:block text-[15px] sm:text-[16px] text-ink/50 mt-3 text-center">{t('compress.drop')}</p>}
+</div>
 
 <script>
   // Setup click handlers for all ImageSourcePicker instances
