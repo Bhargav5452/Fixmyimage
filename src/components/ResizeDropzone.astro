@@ -57,7 +57,7 @@ const {
       <label class="tracking-label text-mute block mb-2.5">RESIZE MODE</label>
       <div class="flex gap-1 p-1 bg-canvas rounded-lg border border-hairline" role="tablist">
         <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas-elevated text-ink shadow-sm border border-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="custom" role="tab" aria-selected="true">Pixels</button>
-        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="percentage" role="tab" aria-selected="false">Percentage</button>
+        <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="presets" role="tab" aria-selected="false">Social Presets</button>
         <button type="button" class="mode-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" data-mode="cm" role="tab" aria-selected="false">Centimeters</button>
       </div>
     </div>
@@ -86,20 +86,45 @@ const {
       </div>
     </div>
 
-    <!-- Percentage panel -->
-    <div id="panel-percentage" class="mode-panel hidden">
-      <div class="flex flex-wrap gap-2 mb-3">
-        <button type="button" class="pct-btn preset-btn" data-pct="25">25%</button>
-        <button type="button" class="pct-btn preset-btn" data-pct="50" data-active="true">50%</button>
-        <button type="button" class="pct-btn preset-btn" data-pct="75">75%</button>
-        <button type="button" class="pct-btn preset-btn" data-pct="150">150%</button>
-      </div>
-      <div class="flex items-center gap-2">
-        <label class="tracking-label text-mute whitespace-nowrap" for="input-pct">CUSTOM</label>
-        <div class="relative w-28">
-          <input type="number" id="input-pct" min="1" class="w-full border border-hairline bg-canvas rounded-lg pl-3 pr-7 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" placeholder="e.g. 80" />
-          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[13px] pointer-events-none" aria-hidden="true">%</span>
-        </div>
+    <!-- Presets panel -->
+    <div id="panel-presets" class="mode-panel hidden">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[220px] overflow-y-auto p-1">
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1080" data-h="1080">
+           <span class="text-[12px] font-bold text-ink">Instagram Post</span>
+           <span class="text-[11px] text-mute">1080 × 1080</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1080" data-h="1920">
+           <span class="text-[12px] font-bold text-ink">IG Story / Reel</span>
+           <span class="text-[11px] text-mute">1080 × 1920</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1200" data-h="630">
+           <span class="text-[12px] font-bold text-ink">Facebook Post</span>
+           <span class="text-[11px] text-mute">1200 × 630</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1640" data-h="856">
+           <span class="text-[12px] font-bold text-ink">Facebook Cover</span>
+           <span class="text-[11px] text-mute">1640 × 856</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1280" data-h="720">
+           <span class="text-[12px] font-bold text-ink">YT Thumbnail</span>
+           <span class="text-[11px] text-mute">1280 × 720</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="2560" data-h="1440">
+           <span class="text-[12px] font-bold text-ink">YT Channel Banner</span>
+           <span class="text-[11px] text-mute">2560 × 1440</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1200" data-h="627">
+           <span class="text-[12px] font-bold text-ink">LinkedIn Post</span>
+           <span class="text-[11px] text-mute">1200 × 627</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1600" data-h="900">
+           <span class="text-[12px] font-bold text-ink">X / Twitter</span>
+           <span class="text-[11px] text-mute">1600 × 900</span>
+        </button>
+        <button type="button" class="preset-btn flex flex-col items-start p-2 border border-hairline rounded hover:bg-hairline-soft" data-w="1000" data-h="1500">
+           <span class="text-[12px] font-bold text-ink">Pinterest Pin</span>
+           <span class="text-[11px] text-mute">1000 × 1500</span>
+        </button>
       </div>
     </div>
 
@@ -339,8 +364,7 @@ const {
   const iconLockedCm  = document.getElementById('icon-locked-cm')!;
   const iconUnlockedCm= document.getElementById('icon-unlocked-cm')!;
 
-  const pctBtns      = document.querySelectorAll<HTMLElement>('.pct-btn');
-  const inputPct     = document.getElementById('input-pct')! as HTMLInputElement;
+  const presetBtns   = document.querySelectorAll<HTMLElement>('.preset-btn');
 
   const selectFormat     = document.getElementById('select-format')!;
   const qualityContainer = document.getElementById('quality-container')!;
@@ -399,21 +423,26 @@ const {
   modeTabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
       if (isProcessing) return;
-      modeTabs.forEach(t => {
-        t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
-        t.classList.add('text-body', 'border-transparent');
-        t.setAttribute('aria-selected', 'false');
-      });
-      const target = (e.currentTarget as HTMLElement);
-      target.classList.remove('text-body', 'border-transparent');
-      target.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
-      target.setAttribute('aria-selected', 'true');
-      currentMode = target.dataset.mode!;
-      modePanels.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
-      document.getElementById(`panel-${currentMode}`)!.classList.remove('hidden');
-      document.getElementById(`panel-${currentMode}`)!.classList.add('block');
+      switchMode((e.currentTarget as HTMLElement).dataset.mode!);
     });
   });
+
+  function switchMode(mode: string) {
+    currentMode = mode;
+    modeTabs.forEach(t => {
+      t.classList.remove('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
+      t.classList.add('text-body', 'border-transparent');
+      t.setAttribute('aria-selected', 'false');
+      if (t.dataset.mode === mode) {
+        t.classList.remove('text-body', 'border-transparent');
+        t.classList.add('bg-canvas-elevated', 'text-ink', 'shadow-sm', 'border-hairline');
+        t.setAttribute('aria-selected', 'true');
+      }
+    });
+    modePanels.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
+    document.getElementById(`panel-${currentMode}`)!.classList.remove('hidden');
+    document.getElementById(`panel-${currentMode}`)!.classList.add('block');
+  }
 
   // Lock
   btnLock.addEventListener('click', () => {
@@ -458,19 +487,28 @@ const {
     if (!isNaN(val) && val > 0 && isLockedCm) inputWidthCm.value = (Math.round((val * refRatio) * 100) / 100).toString();
   });
 
-  pctBtns.forEach(btn => {
+  presetBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       if (isProcessing) return;
-      pctBtns.forEach(b => b.setAttribute('data-active', 'false'));
-      (e.currentTarget as HTMLElement).setAttribute('data-active', 'true');
-      inputPct.value = '';
+      const target = e.currentTarget as HTMLElement;
+      const w = target.dataset.w!;
+      const h = target.dataset.h!;
+      
+      // Unlock aspect ratio so it doesn't fight the preset
+      if (isLocked) {
+        isLocked = false;
+        btnLock.setAttribute('data-locked', 'false');
+        iconLocked.classList.add('hidden');
+        iconUnlocked.classList.remove('hidden');
+      }
+
+      inputWidth.value = w;
+      inputHeight.value = h;
+      
+      // Switch back to custom panel to show the populated fields
+      switchMode('custom');
     });
   });
-
-  inputPct.addEventListener('input', (e) => {
-    if ((e.target as HTMLInputElement).value) pctBtns.forEach(b => b.setAttribute('data-active', 'false'));
-  });
-
 
 
   selectFormat.addEventListener('change', () => {
@@ -608,21 +646,14 @@ const {
     if (!files.length || isProcessing) return;
     hideError();
 
-    let fixedW = 0, fixedH = 0, pct = 0;
-    if (currentMode === 'custom') {
+    let fixedW = 0, fixedH = 0;
+    if (currentMode === 'custom' || currentMode === 'presets') {
       fixedW = parseInt(inputWidth.value); fixedH = parseInt(inputHeight.value);
       if (isNaN(fixedW) || isNaN(fixedH) || fixedW <= 0 || fixedH <= 0) { showError('Invalid dimensions.'); return; }
     } else if (currentMode === 'cm') {
       const cw = parseFloat(inputWidthCm.value); const ch = parseFloat(inputHeightCm.value);
       if (isNaN(cw) || isNaN(ch) || cw <= 0 || ch <= 0) { showError('Invalid dimensions in centimeters.'); return; }
       fixedW = Math.round(cw * 118.1102); fixedH = Math.round(ch * 118.1102);
-    } else {
-      if (inputPct.value) pct = parseFloat(inputPct.value);
-      else {
-        const active = Array.from(pctBtns).find(b => b.getAttribute('data-active') === 'true');
-        if (active) pct = parseFloat(active.dataset.pct);
-      }
-      if (isNaN(pct) || pct <= 0) { showError('Invalid percentage.'); return; }
     }
 
     const qVal = parseInt(inputQuality.value);
@@ -676,7 +707,6 @@ const {
         try {
           const dims = await getImageDimensions(file);
           let tw = fixedW, th = fixedH;
-          if (currentMode === 'percentage') { tw = Math.floor(dims.w * pct / 100); th = Math.floor(dims.h * pct / 100); }
           if (tw > 10000 || th > 10000) throw new Error('Dimensions exceed limit');
           if (tw <= 0 || th <= 0) throw new Error('Dimensions too small');
           const format = globalFormat === 'original' ? file.type : `image/${globalFormat}`;

@@ -84,15 +84,15 @@ const acceptAttr = initialInputFormat
       <p>JPG doesn't support transparency. Transparent areas will be filled with white.</p>
     </div>
 
-    <!-- Quality (hidden for PNG) -->
+    <!-- Target Size (hidden for PNG) -->
     <div id="panel-quality">
-      <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-quality">
-        <span>QUALITY</span>
-        <span id="quality-label" class="text-ink font-semibold normal-case text-[12px]">High</span>
+      <label class="tracking-label text-mute block mb-3 text-center" for="input-quality">
+        TARGET SIZE: <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
       </label>
-      <input type="range" id="input-quality" min="1" max="3" value="3" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
-      <div class="flex justify-between text-[11px] text-mute mt-1">
-        <span>Small file</span><span>Balanced</span><span>High quality</span>
+      <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
+      <div class="flex justify-between text-[11px] text-mute mt-2">
+        <span id="min-size-label">--</span>
+        <span id="max-size-label">--</span>
       </div>
     </div>
 
@@ -233,6 +233,8 @@ const acceptAttr = initialInputFormat
   let isProcessing = false, isCancelled = false;
   let completedCount = 0, successCount = 0, failedCount = 0;
   let outputUrl: string | null = null;
+  let minTargetBytes = 0;
+  let maxTargetBytes = 0;
 
   const elUpload     = document.getElementById('state-upload')!;
   const elConfig     = document.getElementById('state-config')!;
@@ -244,8 +246,10 @@ const acceptAttr = initialInputFormat
   const formatBtns   = document.querySelectorAll<HTMLElement>('.format-btn');
   const noticeTransparency = document.getElementById('notice-transparency')!;
   const panelQuality = document.getElementById('panel-quality')!;
-  const inputQuality = document.getElementById('input-quality')!;
+  const inputQuality = document.getElementById('input-quality')! as HTMLInputElement;
   const qualityLabel = document.getElementById('quality-label')!;
+  const minSizeLabel = document.getElementById('min-size-label')!;
+  const maxSizeLabel = document.getElementById('max-size-label')!;
   const btnStart     = document.getElementById('btn-start')!;
   const errorContainer = document.getElementById('error-message')!;
   const errorTextEl  = document.getElementById('error-text')!;
@@ -321,10 +325,44 @@ const acceptAttr = initialInputFormat
   });
   updateUI();
 
-  inputQuality.addEventListener('input', (e) => {
-    const val = parseInt((e.target as HTMLInputElement).value);
-    qualityLabel.textContent = val === 1 ? 'Small file' : val === 2 ? 'Balanced' : 'High';
+  inputQuality.addEventListener('input', () => {
+    updateTargetLabel();
   });
+
+  function formatCleanBytes(bytes: number) {
+    if (bytes < 1024) return Math.round(bytes) + ' B';
+    const kb = bytes / 1024;
+    if (kb < 1024) return Math.round(kb) + ' KB';
+    const mb = kb / 1024;
+    return mb.toFixed(1) + ' MB';
+  }
+
+  function calculateSizeRange() {
+    if (!files.length) return;
+    const totalOriginalBytes = files.reduce((sum, f) => sum + f.size, 0);
+    
+    // Sensible achievable minimum and max
+    minTargetBytes = Math.max(files.length * 5 * 1024, totalOriginalBytes * 0.15);
+    maxTargetBytes = totalOriginalBytes * 0.95;
+    
+    if (minTargetBytes >= maxTargetBytes) {
+       minTargetBytes = totalOriginalBytes * 0.5;
+       maxTargetBytes = totalOriginalBytes * 0.95;
+    }
+    
+    minSizeLabel.textContent = formatCleanBytes(minTargetBytes);
+    maxSizeLabel.textContent = formatCleanBytes(maxTargetBytes);
+    
+    // Maintain relative slider position if possible, otherwise default to 75
+    if (!inputQuality.value) inputQuality.value = "75";
+    updateTargetLabel();
+  }
+  
+  function updateTargetLabel() {
+    const pct = parseInt(inputQuality.value) / 100;
+    const currentTargetBytes = minTargetBytes + pct * (maxTargetBytes - minTargetBytes);
+    qualityLabel.textContent = formatCleanBytes(currentTargetBytes);
+  }
 
   function updateUI() {
     if (targetFormat === 'png') {
@@ -365,6 +403,7 @@ const acceptAttr = initialInputFormat
       if (!existing.has(f.name + f.size)) { files.push(f); added++; existing.add(f.name + f.size); }
     }
     if (files.length > 0) {
+      calculateSizeRange();
       renderFileList(); updateUI(); showState('config');
       btnStart.textContent = files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`;
       hideError();
@@ -373,7 +412,9 @@ const acceptAttr = initialInputFormat
 
   function removeFile(index) {
     if (isProcessing) return;
-    files.splice(index, 1); renderFileList(); updateUI();
+    files.splice(index, 1); 
+    calculateSizeRange();
+    renderFileList(); updateUI();
     btnStart.textContent = files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`;
     if (!files.length) resetApp();
   }
@@ -419,8 +460,9 @@ const acceptAttr = initialInputFormat
   async function startProcessing() {
     if (!files.length || isProcessing) return;
     hideError();
-    const qVal = parseInt(inputQuality.value);
-    const quality = qVal === 1 ? 0.5 : qVal === 2 ? 0.75 : 0.95;
+    const pct = parseInt(inputQuality.value) / 100;
+    // Map 0 - 100 to a quality of 0.15 - 0.95
+    const quality = 0.15 + (pct * 0.80);
     const format = `image/${targetFormat}`;
 
     isProcessing = true; isCancelled = false;
