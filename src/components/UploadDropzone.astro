@@ -14,8 +14,8 @@ export interface Props {
 const {
   h1 = t('compress.h1'),
   subtitle = t('compress.subtitle'),
-  presetValue = "100",
-  presetUnit = "KB"
+  presetValue,
+  presetUnit
 } = Astro.props;
 ---
 
@@ -24,7 +24,7 @@ const {
      All processing logic preserved from original implementation.
      Only HTML structure and class names have changed.
 ════════════════════════════════════════════════════════════ -->
-<div id="upload-app" class="w-full" data-preset-value={presetValue} data-preset-unit={presetUnit}>
+<div id="upload-app" class="w-full" data-preset-value={presetValue || ""} data-preset-unit={presetUnit || ""}>
 
   <!-- ── Global Drag Overlay ────────────────────────────────── -->
   <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -67,30 +67,25 @@ const {
     <div class="w-full md:w-[340px] lg:w-[360px] shrink-0 flex flex-col gap-6 lg:gap-7 bg-canvas-elevated p-6 lg:p-7 rounded-2xl border border-hairline shadow-sm">
       <!-- Target size -->
       <div>
-        <label class="tracking-label text-mute block mb-3">TARGET SIZE PER IMAGE</label>
-        <div class="flex flex-wrap gap-2 mb-4" id="preset-buttons" role="group" aria-label="Preset target sizes">
-          <button type="button" class="preset-btn" data-value="10"  data-unit="KB" data-active={presetValue === "10" && presetUnit === "KB" ? "true" : "false"}>10 KB</button>
-          <button type="button" class="preset-btn" data-value="50"  data-unit="KB" data-active={presetValue === "50" && presetUnit === "KB" ? "true" : "false"}>50 KB</button>
-          <button type="button" class="preset-btn" data-value="100" data-unit="KB" data-active={presetValue === "100" && presetUnit === "KB" ? "true" : "false"}>100 KB</button>
-          <button type="button" class="preset-btn" data-value="200" data-unit="KB" data-active={presetValue === "200" && presetUnit === "KB" ? "true" : "false"}>200 KB</button>
-          <button type="button" class="preset-btn" data-value="500" data-unit="KB" data-active={presetValue === "500" && presetUnit === "KB" ? "true" : "false"}>500 KB</button>
-          <button type="button" class="preset-btn" data-value="1"   data-unit="MB" data-active={presetValue === "1" && presetUnit === "MB" ? "true" : "false"}>1 MB</button>
-        </div>
-        <div class="flex items-center gap-2">
-          <input
-            type="number"
-            id="custom-size"
-            placeholder="Custom"
-            min="1"
-            autocomplete="off"
-            class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2.5 text-[13px] text-ink placeholder:text-mute focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition"
-            aria-label="Custom target size"
-          />
-          <select id="custom-unit" class="border border-hairline bg-canvas rounded-lg px-3 py-2.5 text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" aria-label="Size unit">
-            <option value="KB">KB</option>
-            <option value="MB">MB</option>
-          </select>
-        </div>
+        {presetValue ? (
+          <div>
+            <label class="tracking-label text-mute block mb-3 text-center">TARGET SIZE PER IMAGE</label>
+            <div class="px-4 py-3 bg-canvas border border-hairline rounded-lg text-center shadow-sm">
+              <span class="text-[16px] font-semibold text-ink">{presetValue} {presetUnit}</span>
+            </div>
+          </div>
+        ) : (
+          <div id="panel-quality">
+            <label class="tracking-label text-mute block mb-3 text-center" for="input-quality">
+              TARGET SIZE: <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
+            </label>
+            <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
+            <div class="flex justify-between text-[11px] text-mute mt-2">
+              <span id="min-size-label">--</span>
+              <span id="max-size-label">--</span>
+            </div>
+          </div>
+        )}
       </div>
 
       <!-- Error -->
@@ -329,28 +324,22 @@ const {
   const fileList      = document.getElementById('file-list')!;
   const fileCountEl   = document.getElementById('file-count')!;
 
-  const presetBtns    = document.querySelectorAll<HTMLButtonElement>('.preset-btn');
-  const customSize    = document.getElementById('custom-size')! as HTMLInputElement;
-  const customUnit    = document.getElementById('custom-unit')! as HTMLSelectElement;
+  const inputQuality = document.getElementById('input-quality') as HTMLInputElement | null;
+  const qualityLabel = document.getElementById('quality-label');
+  const minSizeLabel = document.getElementById('min-size-label');
+  const maxSizeLabel = document.getElementById('max-size-label');
+
+  let minTargetBytes = 0;
+  let maxTargetBytes = 0;
 
   // ── State ──────────────────────────────────────────────────
   let files: File[] = [];
   const appElement = document.getElementById('upload-app')!;
-  const presetVal = appElement.dataset.presetValue || '100';
-  const presetUn = appElement.dataset.presetUnit || 'KB';
+  const presetVal = appElement.dataset.presetValue;
+  const presetUn = appElement.dataset.presetUnit;
 
-  let targetValue = parseFloat(presetVal);
-  let targetUnit: "KB" | "MB" = presetUn as "KB" | "MB";
-  
-  // Custom initialization if the preset is not in the standard buttons
-  let isStandardPreset = false;
-  presetBtns.forEach(b => {
-    if (b.dataset.value === presetVal && b.dataset.unit === presetUn) isStandardPreset = true;
-  });
-  if (!isStandardPreset) {
-    customSize.value = presetVal;
-    customUnit.value = presetUn;
-  }
+  let targetValue = presetVal ? parseFloat(presetVal) : 0;
+  let targetUnit: "KB" | "MB" = (presetUn as "KB" | "MB") || "KB";
   let isProcessing = false;
   let isCancelled = false;
   let completedCount = 0;
@@ -426,28 +415,49 @@ const {
     if (dropped.length) addFiles(dropped);
   });
 
-  presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (isProcessing) return;
-      targetValue = parseFloat(btn.dataset.value!);
-      targetUnit  = btn.dataset.unit as "KB" | "MB";
-      presetBtns.forEach(b => b.setAttribute('data-active', 'false'));
-      btn.setAttribute('data-active', 'true');
-      customSize.value = '';
-    });
-  });
+  function formatCleanBytes(bytes: number) {
+    if (bytes < 1024) return Math.round(bytes) + ' B';
+    const kb = bytes / 1024;
+    if (kb < 1024) return Math.round(kb) + ' KB';
+    const mb = kb / 1024;
+    return mb.toFixed(1) + ' MB';
+  }
 
-  customSize.addEventListener('input', () => {
-    const v = parseFloat(customSize.value);
-    if (!isNaN(v) && v > 0) {
-      targetValue = v;
-      targetUnit  = customUnit.value as "KB" | "MB";
-      presetBtns.forEach(b => b.setAttribute('data-active', 'false'));
+  function calculateSizeRange() {
+    if (!files.length || !inputQuality) return;
+    const totalOriginalBytes = files.reduce((sum, f) => sum + f.size, 0);
+    
+    // Sensible achievable minimum and max per image (so we calculate based on average size)
+    const avgOriginalBytes = totalOriginalBytes / files.length;
+    minTargetBytes = Math.max(5 * 1024, avgOriginalBytes * 0.15);
+    maxTargetBytes = avgOriginalBytes * 0.95;
+    
+    if (minTargetBytes >= maxTargetBytes) {
+       minTargetBytes = avgOriginalBytes * 0.5;
+       maxTargetBytes = avgOriginalBytes * 0.95;
     }
-  });
-  customUnit.addEventListener('change', () => {
-    if (customSize.value) targetUnit = customUnit.value as "KB" | "MB";
-  });
+    
+    if (minSizeLabel) minSizeLabel.textContent = formatCleanBytes(minTargetBytes);
+    if (maxSizeLabel) maxSizeLabel.textContent = formatCleanBytes(maxTargetBytes);
+    
+    if (!inputQuality.value) inputQuality.value = "75";
+    updateTargetLabel();
+  }
+  
+  function updateTargetLabel() {
+    if (!inputQuality || !qualityLabel) return;
+    const pct = parseInt(inputQuality.value) / 100;
+    const currentTargetBytes = minTargetBytes + pct * (maxTargetBytes - minTargetBytes);
+    qualityLabel.textContent = formatCleanBytes(currentTargetBytes);
+    targetValue = currentTargetBytes / 1024;
+    targetUnit = "KB";
+  }
+
+  if (inputQuality) {
+    inputQuality.addEventListener('input', () => {
+      updateTargetLabel();
+    });
+  }
 
   // ── File handling ──────────────────────────────────────────
   function handleFilesSelected(e: Event) {
@@ -464,12 +474,16 @@ const {
       if (files.length >= 50) { showError('Maximum 50 files.'); break; }
       if (!existing.has(f.name + f.size)) { files.push(f); existing.add(f.name + f.size); }
     }
-    if (files.length) { renderFileList(); showState('config'); updateStartBtn(); hideError(); }
+    if (files.length) { 
+      calculateSizeRange();
+      renderFileList(); showState('config'); updateStartBtn(); hideError(); 
+    }
   }
 
   function removeFile(index: number) {
     if (isProcessing) return;
     files.splice(index, 1);
+    calculateSizeRange();
     renderFileList();
     updateStartBtn();
     if (!files.length) resetApp();
