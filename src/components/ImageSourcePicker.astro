@@ -17,7 +17,7 @@ const t = useTranslations(lang);
   <!-- Default View -->
   <div class="picker-default-view flex items-center justify-center gap-2 sm:gap-3 transition-all duration-300 w-full">
     <!-- Invisible spacer to perfectly balance the right icon so the main button stays dead center -->
-    <div class={`shrink-0 ${compact ? 'w-12 h-12' : 'w-12 h-12 sm:w-16 sm:h-16'}`} aria-hidden="true"></div>
+    <div class={`shrink-0 ${compact ? 'w-10 h-10' : 'w-10 h-10 sm:w-14 sm:h-14'}`} aria-hidden="true"></div>
 
     <label
       for={`file-input-${id}`}
@@ -33,23 +33,23 @@ const t = useTranslations(lang);
       />
       
       <div class={`inline-flex items-center justify-center font-bold text-white bg-accent rounded-lg hover:bg-accent/90 transition-transform hover:scale-105 shadow-xl shadow-accent/20 pointer-events-none ${
-        compact ? 'h-14 px-8 text-[18px] w-[240px]' : 'h-[72px] sm:h-[90px] w-[300px] sm:w-[400px] text-[22px] sm:text-[28px]'
+        compact ? 'h-12 px-6 text-[16px] w-[200px]' : 'h-[60px] sm:h-[70px] w-[240px] sm:w-[300px] text-[18px] sm:text-[20px]'
       }`}>
         {t('compress.select')}
       </div>
     </label>
 
-    <button type="button" class={`btn-url rounded-full bg-accent text-white flex items-center justify-center hover:bg-accent/90 transition-transform hover:scale-110 shadow-lg shrink-0 ${compact ? 'w-12 h-12' : 'w-12 h-12 sm:w-16 sm:h-16'}`} aria-label="Import from URL">
-      <svg xmlns="http://www.w3.org/2000/svg" width={compact ? "20" : "24"} height={compact ? "20" : "24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    <button type="button" class={`btn-url rounded-full bg-accent text-white flex items-center justify-center hover:bg-accent/90 transition-transform hover:scale-110 shadow-lg shrink-0 ${compact ? 'w-10 h-10' : 'w-10 h-10 sm:w-14 sm:h-14'}`} aria-label="Import from URL">
+      <svg xmlns="http://www.w3.org/2000/svg" width={compact ? "18" : "20"} height={compact ? "18" : "20"} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
     </button>
   </div>
 
   <!-- URL Input View -->
   <div class="picker-url-view hidden w-full max-w-lg transition-all duration-300">
-    <form class="url-import-form relative flex items-center w-full bg-canvas border-2 border-accent rounded-full shadow-lg overflow-hidden h-16 sm:h-[90px]">
+    <form class="url-import-form relative flex items-center w-full bg-canvas border-2 border-accent rounded-full shadow-lg overflow-hidden h-[54px] sm:h-[70px]">
       <input 
         type="url" 
-        class="url-input flex-1 bg-transparent border-none px-6 h-full text-[16px] sm:text-[18px] text-ink focus:outline-none placeholder:text-mute"
+        class="url-input flex-1 bg-transparent border-none px-5 h-full text-[15px] sm:text-[16px] text-ink focus:outline-none placeholder:text-mute"
         placeholder="Paste image URL"
         required
       />

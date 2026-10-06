@@ -22,7 +22,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
   </div>
 
   <!-- ── Config State ────────────────────────────────────────── -->
-  <div id="state-config" class="hidden flex-col md:flex-row gap-8 lg:gap-16 items-start">
+  <div id="state-config" class="hidden flex-col md:flex-row gap-6 lg:gap-10 items-start">
     
     <!-- Left Column: Files -->
     <div class="flex-1 w-full flex flex-col gap-4">
@@ -34,16 +34,16 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
           <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" />
         </label>
       </div>
-      <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] md:max-h-[600px] overflow-y-auto p-1"></div>
+      <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[260px] md:max-h-[500px] overflow-y-auto p-1"></div>
     </div>
 
     <!-- Right Column: Settings & Action -->
-    <div class="w-full md:w-[400px] lg:w-[440px] shrink-0 flex flex-col gap-6 lg:gap-8 bg-canvas-elevated p-6 lg:p-8 rounded-2xl md:rounded-3xl border border-hairline shadow-sm">
+    <div class="w-full md:w-[350px] lg:w-[380px] shrink-0 flex flex-col gap-6 lg:gap-7 bg-canvas-elevated p-6 lg:p-7 rounded-2xl border border-hairline shadow-sm">
 
     <!-- Live Preview -->
-    <div class="relative w-full bg-canvas-elevated rounded-xl border border-hairline overflow-hidden flex items-center justify-center" style="min-height:260px;max-height:420px;">
+    <div class="relative w-full bg-canvas-elevated rounded-xl border border-hairline overflow-hidden flex items-center justify-center" style="min-height:230px;max-height:360px;">
       <div id="preview-wrapper" class="relative max-w-full max-h-full inline-block">
-        <img id="image-preview" src="" class="max-w-full max-h-[400px] object-contain block" alt="Preview" />
+        <img id="image-preview" src="" class="max-w-full max-h-[340px] object-contain block" alt="Preview" />
         <div id="wm-overlay-container" class="absolute inset-0 overflow-hidden pointer-events-none p-[2%]">
           <div id="wm-element" class="absolute origin-center transition-all duration-75 flex items-center justify-center whitespace-nowrap">
             <span id="wm-text-preview" class="font-bold hidden drop-shadow-md"></span>
@@ -134,14 +134,14 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
                 <span>OPACITY</span>
                 <span id="val-opacity" class="text-ink font-semibold normal-case text-[12px]">70%</span>
               </label>
-              <input type="range" id="input-opacity" min="10" max="100" value="70" class="w-full accent-accent h-2 lg:h-2.5 cursor-pointer" />
+              <input type="range" id="input-opacity" min="10" max="100" value="70" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
             </div>
             <div>
               <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-rotation">
                 <span>ROTATION</span>
                 <span id="val-rotation" class="text-ink font-semibold normal-case text-[12px]">0°</span>
               </label>
-              <input type="range" id="input-rotation" min="-180" max="180" value="0" step="15" class="w-full accent-accent h-2 lg:h-2.5 cursor-pointer" />
+              <input type="range" id="input-rotation" min="-180" max="180" value="0" step="15" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
             </div>
           </div>
 
@@ -155,7 +155,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
       <span id="error-text">Something went wrong.</span>
     </div>
 
-    <button type="button" id="btn-start" class="btn-primary w-full py-4 text-[18px] lg:text-[20px] rounded-xl shadow-lg shadow-ink/5">Apply Watermark</button>
+    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">Apply Watermark</button>
     </div>
   </div>
 
@@ -480,18 +480,18 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     files.forEach((file, i) => {
       const ext = (file.type.split('/')[1] ?? 'img').replace('jpeg','jpg');
       const row = document.createElement('div');
-      row.className = 'group relative bg-canvas-elevated border border-hairline rounded-xl md:rounded-2xl overflow-hidden shadow-sm flex flex-col items-center p-3 md:p-4 text-center transition-shadow hover:shadow-md hover:border-ink/20';
+      row.className = 'group relative bg-canvas-elevated border border-hairline rounded-xl overflow-hidden shadow-sm flex flex-col items-center p-2.5 md:p-3 text-center transition-shadow hover:shadow-md hover:border-ink/20';
       const thumbUrl = URL.createObjectURL(file);
       row.innerHTML = `
-        <button type="button" class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="Remove ${file.name}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="Remove ${file.name}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
-        <div class="w-full aspect-square mb-3 bg-canvas flex items-center justify-center rounded-lg overflow-hidden relative">
+        <div class="w-full aspect-square mb-2 bg-canvas flex items-center justify-center rounded-lg overflow-hidden relative">
           <img src="${thumbUrl}" class="absolute w-full h-full object-cover" alt="" />
-          <div class="absolute bottom-1 right-1 bg-ink/70 backdrop-blur-md text-canvas-elevated text-[10px] font-bold px-2 py-1 mb-1 mr-1 rounded tracking-wider uppercase">${ext}</div>
+          <div class="absolute bottom-1 right-1 bg-ink/70 backdrop-blur-md text-canvas-elevated text-[9.5px] font-bold px-1.5 py-0.5 mb-1 mr-1 rounded tracking-wider uppercase">${ext}</div>
         </div>
-        <p class="text-[13px] md:text-[14px] font-medium text-ink w-full truncate mb-0.5" title="${file.name}">${file.name}</p>
-        <p class="text-[12px] md:text-[13px] text-mute">${formatBytes(file.size)}</p>
+        <p class="text-[12px] md:text-[13px] font-medium text-ink w-full truncate mb-0.5" title="${file.name}">${file.name}</p>
+        <p class="text-[11px] md:text-[12px] text-mute">${formatBytes(file.size)}</p>
       `;
       const img = row.querySelector('img')!;
       img.onload = () => URL.revokeObjectURL(thumbUrl);
