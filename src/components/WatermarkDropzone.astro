@@ -129,16 +129,16 @@ const {
           <!-- Position grid -->
           <div>
             <label class="tracking-label text-mute block mb-2">{isEs ? 'POSICIÓN' : 'POSITION'}</label>
-            <div class="grid grid-cols-3 gap-1.5 max-w-[120px]" role="group" aria-label="Watermark position">
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tl" aria-label="Top left"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tc" aria-label="Top center"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tr" aria-label="Top right"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="cl" aria-label="Middle left"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="c" aria-label="Center"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="cr" aria-label="Middle right"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="bl" aria-label="Bottom left"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="bc" aria-label="Bottom center"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
-              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="br" data-active="true" aria-label="Bottom right"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+            <div class="grid grid-cols-3 gap-1.5 max-w-[120px]" role="group" aria-label={isEs ? 'Posición de la marca de agua' : 'Watermark position'}>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tl" aria-label={isEs ? 'Arriba a la izquierda' : 'Top left'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tc" aria-label={isEs ? 'Arriba en el centro' : 'Top center'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tr" aria-label={isEs ? 'Arriba a la derecha' : 'Top right'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="cl" aria-label={isEs ? 'Centro izquierda' : 'Middle left'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="c" aria-label={isEs ? 'Centro' : 'Center'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="cr" aria-label={isEs ? 'Centro derecha' : 'Middle right'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="bl" aria-label={isEs ? 'Abajo a la izquierda' : 'Bottom left'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="bc" aria-label={isEs ? 'Abajo en el centro' : 'Bottom center'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
+              <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="br" data-active="true" aria-label={isEs ? 'Abajo a la derecha' : 'Bottom right'}><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
             </div>
           </div>
 
@@ -210,7 +210,7 @@ const {
 
         <!-- Third Party Save Buttons -->
         <div class="flex flex-col gap-2">
-          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label="Import from URL">
+          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label={isEs ? 'Importar desde URL' : 'Import from URL'}>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           </a>
         </div>
@@ -341,7 +341,7 @@ const {
   fileInputMore.addEventListener('change', handleFilesSelected);
   logoInput.addEventListener('change', handleLogoSelect);
   btnStart.addEventListener('click', startProcessing);
-  btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = 'Cancelling…'; });
+  btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = isEs ? 'Cancelando…' : 'Cancelling…'; });
   btnRestart.addEventListener('click', resetApp);
 
   // Global Drag and drop
@@ -503,7 +503,7 @@ const {
       row.className = 'group relative bg-canvas-elevated border border-hairline rounded-xl overflow-hidden shadow-sm flex flex-col items-center p-2.5 md:p-3 text-center transition-shadow hover:shadow-md hover:border-ink/20';
       const thumbUrl = URL.createObjectURL(file);
       row.innerHTML = `
-        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="Remove ${file.name}">
+        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="${isEs ? 'Eliminar' : 'Remove'} ${file.name}">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
         <div class="w-full aspect-square mb-2 bg-canvas flex items-center justify-center rounded-lg overflow-hidden relative">

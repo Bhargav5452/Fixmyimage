@@ -16,7 +16,7 @@ const t = useTranslations(lang);
     </a>
 
     <!-- Nav -->
-    <nav class="flex items-center gap-2" aria-label="Main navigation">
+    <nav class="flex items-center gap-2" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
       <a href={getRelativeLocaleUrl(lang, 'compress-image')} class="hidden sm:inline-flex items-center px-4 py-2 text-[17px] font-medium text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors">{t('nav.compress')}</a>
       <a href={getRelativeLocaleUrl(lang, 'resize-image')} class="hidden sm:inline-flex items-center px-4 py-2 text-[17px] font-medium text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors">{t('nav.resize')}</a>
       <a href={getRelativeLocaleUrl(lang, 'convert-image')} class="hidden sm:inline-flex items-center px-4 py-2 text-[17px] font-medium text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors">{t('nav.convert')}</a>
@@ -31,7 +31,7 @@ const t = useTranslations(lang);
         type="button"
         id="theme-toggle"
         class="flex items-center justify-center w-10 h-10 text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        aria-label="Toggle dark mode"
+        aria-label={lang === 'es' ? 'Cambiar modo oscuro' : 'Toggle dark mode'}
       >
         <!-- Sun (shown in dark mode) -->
         <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" aria-hidden="true">
@@ -44,7 +44,7 @@ const t = useTranslations(lang);
       </button>
 
       <!-- Mobile: tools menu -->
-      <button type="button" id="mobile-menu-toggle" class="sm:hidden flex items-center justify-center w-10 h-10 text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" aria-label="Toggle menu" aria-expanded="false">
+      <button type="button" id="mobile-menu-toggle" class="sm:hidden flex items-center justify-center w-10 h-10 text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" aria-label={lang === 'es' ? 'Abrir o cerrar menú' : 'Toggle menu'} aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="menu-icon">
           <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>
         </svg>

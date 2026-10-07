@@ -24,7 +24,7 @@ function getTargetUrl(code: keyof typeof LANGUAGES) {
 ---
 
 {hasMultipleLanguages && (
-  <div class="relative group" aria-label="Language switcher">
+  <div class="relative group" aria-label={currentLang === 'es' ? 'Selector de idioma' : 'Language switcher'}>
     <button type="button" class="flex items-center gap-2 px-3 py-1.5 text-[13px] font-medium text-body hover:text-ink hover:bg-hairline-soft rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
       {LANGUAGES[currentLang].nativeName}

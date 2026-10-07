@@ -11,7 +11,7 @@ const t = useTranslations(lang);
       &copy; {year} FixMyImage. {t('footer.all_rights')}
     </p>
 
-    <nav class="flex items-center gap-5 order-1 sm:order-2" aria-label="Footer navigation">
+    <nav class="flex items-center gap-5 order-1 sm:order-2" aria-label={lang === 'es' ? 'Navegación del pie de página' : 'Footer navigation'}>
       <a href={getRelativeLocaleUrl(lang, 'about')}   class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.about')}</a>
       <a href={getRelativeLocaleUrl(lang, 'contact')} class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.contact')}</a>
       <a href={getRelativeLocaleUrl(lang, 'privacy')} class="text-[13px] text-body hover:text-ink transition-colors">{t('footer.privacy')}</a>

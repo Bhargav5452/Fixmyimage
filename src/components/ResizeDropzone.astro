@@ -137,33 +137,33 @@ const {
     <div id="panel-cm" class="mode-panel hidden">
       <div class="flex items-end gap-3">
         <div class="flex-1">
-          <label class="tracking-label text-mute block mb-2" for="input-width-cm">WIDTH (cm)</label>
+          <label class="tracking-label text-mute block mb-2" for="input-width-cm">{isEs ? 'ANCHURA (cm)' : 'WIDTH (cm)'}</label>
           <input type="number" id="input-width-cm" step="0.01" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
         </div>
         <button
           type="button"
           id="btn-lock-cm"
           data-locked="true"
-          aria-label="Lock aspect ratio"
+          aria-label={isEs ? 'Bloquear proporción' : 'Lock aspect ratio'}
           class="mb-0.5 w-9 h-9 rounded-lg border border-hairline text-mute hover:bg-hairline-soft hover:text-ink flex items-center justify-center transition-colors data-[locked=true]:bg-ink data-[locked=true]:text-canvas data-[locked=true]:border-ink"
         >
           <svg id="icon-locked-cm" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <svg id="icon-unlocked-cm" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
         </button>
         <div class="flex-1">
-          <label class="tracking-label text-mute block mb-2" for="input-height-cm">HEIGHT (cm)</label>
+          <label class="tracking-label text-mute block mb-2" for="input-height-cm">{isEs ? 'ALTURA (cm)' : 'HEIGHT (cm)'}</label>
           <input type="number" id="input-height-cm" step="0.01" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink num focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition" />
         </div>
       </div>
-      <p class="text-[12px] text-mute mt-3">* calculated at 300 DPI for high-quality print</p>
+      <p class="text-[12px] text-mute mt-3">{isEs ? '* calculado a 300 DPI para impresión de alta calidad' : '* calculated at 300 DPI for high-quality print'}</p>
     </div>
 
     <!-- Format & Quality -->
     <div class="grid grid-cols-2 gap-4 pt-1">
       <div>
-        <label class="tracking-label text-mute block mb-2" for="select-format">FORMAT</label>
+        <label class="tracking-label text-mute block mb-2" for="select-format">{isEs ? 'FORMATO' : 'FORMAT'}</label>
         <select id="select-format" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink focus:outline-none focus:ring-2 focus:ring-accent transition">
-          <option value="original">Keep original</option>
+          <option value="original">{isEs ? 'Formato original' : 'Keep original'}</option>
           <option value="jpeg">JPG</option>
           <option value="png">PNG</option>
           <option value="webp">WebP</option>
@@ -171,7 +171,7 @@ const {
       </div>
       <div id="quality-container">
         <label class="tracking-label text-mute block mb-3 text-center" for="input-quality">
-          TARGET SIZE: <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
+          {isEs ? 'TAMAÑO OBJETIVO:' : 'TARGET SIZE:'} <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
         </label>
         <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
         <div class="flex justify-between text-[11px] text-mute mt-2">
@@ -184,10 +184,10 @@ const {
     <!-- Error -->
     <div id="error-message" class="hidden items-start gap-2.5 p-3 bg-danger-bg border border-danger/20 rounded-lg text-[13px] text-danger">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-      <span id="error-text">Something went wrong.</span>
+      <span id="error-text">{isEs ? 'Algo salió mal al redimensionar.' : 'Something went wrong.'}</span>
     </div>
 
-    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">Resize Images</button>
+    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">{isEs ? 'Redimensionar imágenes' : 'Resize Images'}</button>
     </div>
   </div>
 
@@ -195,7 +195,7 @@ const {
   <div id="state-processing" class="hidden flex-col gap-5">
     <div>
       <div class="flex items-center justify-between mb-1">
-        <span class="text-[14px] font-semibold text-ink">Resizing…</span>
+        <span class="text-[14px] font-semibold text-ink">{isEs ? 'Redimensionando…' : 'Resizing…'}</span>
         <span class="text-[13px] text-mute num"><span id="proc-completed-count">0</span> / <span id="proc-total-count">0</span></span>
       </div>
       <div class="h-1 bg-hairline rounded-full overflow-hidden mt-3">
@@ -205,7 +205,7 @@ const {
     <div class="border border-hairline rounded-xl bg-canvas-elevated overflow-hidden">
       <div id="progress-list" class="divide-y divide-hairline max-h-72 overflow-y-auto"></div>
     </div>
-    <button type="button" id="btn-cancel" class="btn-ghost w-full">Cancel</button>
+    <button type="button" id="btn-cancel" class="btn-ghost w-full">{isEs ? 'Cancelar' : 'Cancel'}</button>
   </div>
 
   <!-- ── Result State ──────────────────────────────────────────── -->
@@ -227,7 +227,7 @@ const {
 
         <!-- Third Party Save Buttons -->
         <div class="flex flex-col gap-2">
-          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label="Import from URL">
+          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label={isEs ? 'Importar desde URL' : 'Import from URL'}>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           </a>
         </div>
@@ -664,7 +664,7 @@ const {
       row.className = 'group relative bg-canvas-elevated border border-hairline rounded-xl overflow-hidden shadow-sm flex flex-col items-center p-2.5 md:p-3 text-center transition-shadow hover:shadow-md hover:border-ink/20';
       const thumbUrl = URL.createObjectURL(file);
       row.innerHTML = `
-        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="Remove ${file.name}">
+        <button type="button" class="absolute top-1.5 right-1.5 w-6 h-6 bg-white rounded-full shadow border border-hairline flex items-center justify-center text-body hover:text-danger hover:bg-danger-bg opacity-0 group-hover:opacity-100 transition-opacity btn-rm z-10" data-idx="${i}" aria-label="${isEs ? 'Eliminar' : 'Remove'} ${file.name}">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
         <div class="w-full aspect-square mb-2 bg-canvas flex items-center justify-center rounded-lg overflow-hidden relative">
@@ -688,7 +688,7 @@ const {
       const img = new Image();
       const url = URL.createObjectURL(file);
       img.onload = () => { URL.revokeObjectURL(url); resolve({ w: img.width, h: img.height }); };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Failed to read image')); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error(isEs ? 'Error al leer la imagen' : 'Failed to read image')); };
       img.src = url;
     });
   }
@@ -815,10 +815,10 @@ const {
         btnDownload.download = downloadName;
         downloadText.textContent = isEs ? 'Descargar imágenes redimensionadas' : 'Download resized images';
         
-        document.getElementById('res-dimensions')!.textContent   = `${successCount} items`;
-        document.getElementById('res-original-dim')!.textContent = `${files.length} items`;
+        document.getElementById('res-dimensions')!.textContent   = `${successCount} ${isEs ? 'archivos' : 'items'}`;
+        document.getElementById('res-original-dim')!.textContent = `${files.length} ${isEs ? 'archivos' : 'items'}`;
         document.getElementById('res-size')!.textContent         = 'ZIP';
-        document.getElementById('res-format')!.textContent       = 'ARCHIVE';
+        document.getElementById('res-format')!.textContent       = isEs ? 'ARCHIVO' : 'ARCHIVE';
       }
       btnDownload.disabled = false;
       const a = document.createElement('a'); a.href = outputUrl; a.download = downloadName;
