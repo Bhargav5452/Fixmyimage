@@ -87,7 +87,7 @@ export const es: typeof en = {
     lock_ratio: 'Bloquear proporción',
     percentage: 'Porcentaje',
     output_format: 'FORMATO DE SALIDA',
-    format_original: 'Mantener formato original',
+    format_original: 'Formato original',
     format_jpg: 'JPG',
     format_png: 'PNG',
     format_webp: 'WebP',
