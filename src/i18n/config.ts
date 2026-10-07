@@ -19,6 +19,7 @@ export type Locale = keyof typeof LANGUAGES;
 
 // Bidirectional route mapping between English and Spanish SEO pages
 export const EN_TO_ES_ROUTES: Record<string, string> = {
+  '/': '/es',
   '/compress-image': '/comprimir-imagen',
   '/resize-image': '/redimensionar-imagen',
   '/convert-image': '/convertir-imagen',
@@ -38,6 +39,7 @@ export const EN_TO_ES_ROUTES: Record<string, string> = {
 };
 
 export const ES_TO_EN_ROUTES: Record<string, string> = {
+  '/es': '/',
   '/comprimir-imagen': '/compress-image',
   '/redimensionar-imagen': '/resize-image',
   '/convertir-imagen': '/convert-image',
@@ -56,4 +58,4 @@ export const ES_TO_EN_ROUTES: Record<string, string> = {
   '/redimensionar-imagenes-por-lotes': '/bulk-image-resizer'
 };
 
-export const SPANISH_PAGE_PATHS = new Set([...Object.keys(ES_TO_EN_ROUTES), '/']);
+export const SPANISH_PAGE_PATHS = new Set([...Object.keys(ES_TO_EN_ROUTES)]);

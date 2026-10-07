@@ -9,16 +9,17 @@ const hasMultipleLanguages = Object.keys(LANGUAGES).length > 1;
 
 function getTargetUrl(code: keyof typeof LANGUAGES) {
   if (code === 'en') {
-    if (currentLang === 'en') return currentPath;
+    if (currentLang === 'en') return currentPath || '/';
+    if (currentPath === '/es') return '/';
     return ES_TO_EN_ROUTES[currentPath] || '/';
   }
   if (code === 'es') {
-    if (currentLang === 'es') return currentPath;
+    if (currentLang === 'es') return currentPath || '/es/';
+    if (currentPath === '/') return '/es/';
     if (EN_TO_ES_ROUTES[currentPath]) return EN_TO_ES_ROUTES[currentPath];
-    if (currentPath === '/') return '/';
     if (currentPath.startsWith('/compress-image-to-')) return '/comprimir-imagen';
     if (currentPath.startsWith('/resize-image-')) return '/redimensionar-imagen';
-    return '/';
+    return '/es/';
   }
   return currentPath;
 }

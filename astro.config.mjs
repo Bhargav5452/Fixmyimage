@@ -25,7 +25,10 @@ export default defineConfig({
     '/es/resize-image-in-pixels': { status: 301, destination: '/redimensionar-imagen-en-pixeles' },
     '/es/resize-image-in-cm': { status: 301, destination: '/redimensionar-imagen-en-cm' },
     '/es/bulk-image-resizer': { status: 301, destination: '/redimensionar-imagenes-por-lotes' },
-    '/es': { status: 301, destination: '/' },
+    '/es/comprimir-imagen': { status: 301, destination: '/comprimir-imagen' },
+    '/es/redimensionar-imagen': { status: 301, destination: '/redimensionar-imagen' },
+    '/es/convertir-imagen': { status: 301, destination: '/convertir-imagen' },
+    '/es/marca-de-agua': { status: 301, destination: '/marca-de-agua' },
     '/es/about': { status: 301, destination: '/about' },
     '/es/contact': { status: 301, destination: '/contact' },
     '/es/privacy': { status: 301, destination: '/privacy' },
@@ -37,6 +40,12 @@ export default defineConfig({
   },
 
   integrations: [sitemap({
-    filter: (page) => !page.includes('/404') && !page.includes('/es/') && !page.endsWith('/es')
+    filter: (page) => {
+      if (page.includes('/404')) return false;
+      if (page.includes('/es/')) {
+        return page.endsWith('/es/') || page.endsWith('/es');
+      }
+      return true;
+    }
   })],
 });

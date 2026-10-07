@@ -9,7 +9,10 @@ const dictionaries: Record<string, any> = {
 
 export function getLangFromUrl(url: URL): Locale {
   const pathname = url.pathname.replace(/\/$/, '') || '/';
-  if (SPANISH_PAGE_PATHS.has(pathname) || pathname.startsWith('/es')) {
+  if (pathname === '/es' || pathname.startsWith('/es/')) {
+    return 'es';
+  }
+  if (SPANISH_PAGE_PATHS.has(pathname)) {
     return 'es';
   }
   return DEFAULT_LOCALE;
@@ -36,9 +39,6 @@ export function getRelativeLocaleUrl(lang: Locale, path: string) {
     }
     if (SPANISH_PAGE_PATHS.has(normalizedPath)) {
       return normalizedPath;
-    }
-    if (normalizedPath === '/') {
-      return '/';
     }
     return normalizedPath;
   }

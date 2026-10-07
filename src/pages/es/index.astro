@@ -1,50 +1,51 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import SeoContent from '../components/SeoContent.astro';
-import { getLangFromUrl, getRelativeLocaleUrl, useTranslations } from '../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SeoContent from '../../components/SeoContent.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const homeFaqs = [
   {
-    q: "Is FixMyImage completely free to use?",
-    a: "Yes. All tools on FixMyImage are 100% free with no hidden charges, subscriptions, usage quotas, or account sign-ups."
+    q: "¿Es FixMyImage completamente gratis?",
+    a: "Sí. Todas las herramientas de FixMyImage son 100% gratuitas, sin cargos ocultos, suscripciones de pago, límites de uso ni necesidad de registrarse."
   },
   {
-    q: "Are my photos uploaded or stored on any server?",
-    a: "No. All image processing executes strictly within your web browser on your local device, ensuring your pictures remain entirely private."
+    q: "¿Se suben mis fotos a algún servidor en internet?",
+    a: "No. Todo el procesamiento de imágenes se ejecuta estrictamente en tu navegador web de forma local, garantizando que tus fotos y documentos permanezcan completamente privados."
   },
   {
-    q: "Can I process multiple images at the same time?",
-    a: "Yes. FixMyImage supports bulk batch processing, allowing you to compress, resize, convert, or watermark multiple photos simultaneously."
+    q: "¿Puedo procesar varias imágenes al mismo tiempo?",
+    a: "Sí. FixMyImage admite el procesamiento por lotes en todas sus herramientas, permitiéndote comprimir, redimensionar, convertir o marcar decenas de fotos en una sola sesión."
   },
   {
-    q: "Does FixMyImage add watermarks to my processed files?",
-    a: "No. Your downloaded images remain clean and unaltered, unless you intentionally use our watermark tool to apply your own logo or text."
+    q: "¿Añade FixMyImage marcas de agua a los archivos descargados?",
+    a: "No. Tus fotos descargadas se mantienen completamente limpias y originales, a menos que utilices voluntariamente nuestra herramienta de marcas de agua para aplicar tu propio logotipo."
   }
 ];
 
 const homeRelatedLinks = [
-  { label: "Image Compressor", href: "/compress-image" },
-  { label: "Image Resizer", href: "/resize-image" },
-  { label: "Bulk Image Resizer", href: "/bulk-image-resizer" },
-  { label: "Image Converter", href: "/convert-image" },
-  { label: "Watermark Tool", href: "/watermark-image" },
-  { label: "Compress to 50KB", href: "/compress-image-to-50kb" },
-  { label: "Compress to 100KB", href: "/compress-image-to-100kb" },
-  { label: "JPG to PNG", href: "/jpg-to-png" },
-  { label: "PNG to JPG", href: "/png-to-jpg" },
-  { label: "WebP to JPG", href: "/webp-to-jpg" }
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" },
+  { label: "Redimensionar por lotes", href: "/redimensionar-imagenes-por-lotes" },
+  { label: "Convertir imagen", href: "/convertir-imagen" },
+  { label: "Poner marca de agua", href: "/marca-de-agua" },
+  { label: "Comprimir a 50 KB", href: "/comprimir-imagen-a-50-kb" },
+  { label: "Comprimir a 100 KB", href: "/comprimir-imagen-a-100-kb" },
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Convertir PNG a JPG", href: "/convertir-png-a-jpg" },
+  { label: "Convertir WebP a JPG", href: "/convertir-webp-a-jpg" }
 ];
 ---
 
 <BaseLayout
   title={t('metadata.home_title')}
   description={t('metadata.home_desc')}
-  canonical="https://fixmyimage.app"
+  canonical="https://fixmyimage.app/es"
+  lang="es"
 >
   <Header />
 
@@ -56,17 +57,17 @@ const homeRelatedLinks = [
         <!-- Hero Text -->
         <div class="max-w-2xl mx-auto flex flex-col items-center text-center mb-12">
           <h1 class="text-[36px] sm:text-[48px] font-bold tracking-tight text-ink leading-[1.1] mb-5 text-balance">
-            Every tool you could want to edit images in bulk
+            {t('home.h1')}
           </h1>
           <p class="text-[17px] sm:text-[18px] text-body leading-relaxed max-w-lg mx-auto">
-            Your online photo editor is here and forever free!
+            ¡Tu editor de fotos online está aquí y es gratis para siempre!
           </p>
         </div>
 
         <!-- All tools: 4-col single row -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-        <a href={getRelativeLocaleUrl(lang, 'compress-image')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/comprimir-imagen" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -84,7 +85,7 @@ const homeRelatedLinks = [
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'resize-image')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/redimensionar-imagen" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -102,7 +103,7 @@ const homeRelatedLinks = [
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'convert-image')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/convertir-imagen" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -119,7 +120,7 @@ const homeRelatedLinks = [
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'watermark-image')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/marca-de-agua" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -137,7 +138,7 @@ const homeRelatedLinks = [
         </a>
 
         <!-- FEATURED TOOLS (Row 2) -->
-        <a href={getRelativeLocaleUrl(lang, 'avif-to-jpg')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/convertir-avif-a-jpg" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -145,16 +146,16 @@ const homeRelatedLinks = [
                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
               </svg>
             </div>
-            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">AVIF to JPG</h2>
-            <p class="text-[14px] text-body leading-relaxed">Convert AVIF images to JPG format quickly and easily.</p>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Convertir AVIF a JPG</h2>
+            <p class="text-[14px] text-body leading-relaxed">Convierte imágenes en formato AVIF a JPG de forma rápida y sencilla.</p>
           </div>
           <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
-            AVIF to JPG
+            Convertir AVIF a JPG
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'webp-to-png')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/convertir-webp-a-png" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -162,16 +163,16 @@ const homeRelatedLinks = [
                 <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/>
               </svg>
             </div>
-            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">WebP to PNG</h2>
-            <p class="text-[14px] text-body leading-relaxed">Convert WebP images to PNG format while preserving image quality.</p>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Convertir WebP a PNG</h2>
+            <p class="text-[14px] text-body leading-relaxed">Convierte imágenes WebP a formato PNG preservando la calidad de imagen.</p>
           </div>
           <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
-            WebP to PNG
+            Convertir WebP a PNG
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'resize-image-in-pixels')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/redimensionar-imagen-en-pixeles" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -179,16 +180,16 @@ const homeRelatedLinks = [
                 <path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/>
               </svg>
             </div>
-            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Resize Image in Pixels</h2>
-            <p class="text-[14px] text-body leading-relaxed">Set exact image width and height in pixels for any platform.</p>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Redimensionar en píxeles</h2>
+            <p class="text-[14px] text-body leading-relaxed">Define la anchura y altura exactas en píxeles para cualquier plataforma.</p>
           </div>
           <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
-            Resize Image in Pixels
+            Redimensionar en píxeles
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
         </a>
 
-        <a href={getRelativeLocaleUrl(lang, 'bulk-image-resizer')} class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href="/redimensionar-imagenes-por-lotes" class="group relative flex flex-col justify-between p-6 sm:p-8 bg-canvas-elevated border border-hairline rounded-2xl hover:border-accent/30 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           <div>
             <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-hairline shadow-sm mb-5 group-hover:scale-105 group-hover:shadow transition-all duration-300" aria-hidden="true">
               <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-white/60 to-transparent dark:from-white/5 pointer-events-none"></div>
@@ -196,11 +197,11 @@ const homeRelatedLinks = [
                 <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
               </svg>
             </div>
-            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Bulk Image Resizer</h2>
-            <p class="text-[14px] text-body leading-relaxed">Resize multiple images at once with the same dimensions.</p>
+            <h2 class="text-[18px] font-semibold text-ink mb-1.5 tracking-[-0.01em]">Redimensionar por lotes</h2>
+            <p class="text-[14px] text-body leading-relaxed">Cambia el tamaño de múltiples imágenes a la vez con las mismas dimensiones.</p>
           </div>
           <div class="mt-6 flex items-center gap-1.5 text-[13px] font-medium text-accent">
-            Bulk Image Resizer
+            Redimensionar por lotes
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
         </a>
@@ -216,22 +217,22 @@ const homeRelatedLinks = [
           <div class="flex items-start gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
             <div>
-              <dt class="font-semibold text-ink">Private by design</dt>
-              <dd class="text-body mt-0.5">Images never leave your device. Processing happens entirely in your browser.</dd>
+              <dt class="font-semibold text-ink">Privado por diseño</dt>
+              <dd class="text-body mt-0.5">Las imágenes nunca salen de tu dispositivo. El procesamiento se realiza 100% en tu navegador.</dd>
             </div>
           </div>
           <div class="flex items-start gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             <div>
-              <dt class="font-semibold text-ink">No account required</dt>
-              <dd class="text-body mt-0.5">Free to use. No sign-up, no email, no payment information.</dd>
+              <dt class="font-semibold text-ink">Sin cuenta requerida</dt>
+              <dd class="text-body mt-0.5">De uso completamente libre y gratuito. Sin registros, sin correos y sin datos de pago.</dd>
             </div>
           </div>
           <div class="flex items-start gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mt-0.5 shrink-0" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             <div>
-              <dt class="font-semibold text-ink">Multiple files at once</dt>
-              <dd class="text-body mt-0.5">Select up to 50 images per session. Results download as a single ZIP.</dd>
+              <dt class="font-semibold text-ink">Múltiples archivos a la vez</dt>
+              <dd class="text-body mt-0.5">Selecciona hasta 50 imágenes por sesión. Descarga tus resultados en un único archivo ZIP.</dd>
             </div>
           </div>
         </dl>
@@ -241,30 +242,30 @@ const homeRelatedLinks = [
   </main>
 
   <SeoContent
-    heading="Free In-Browser Image Optimization and Editing Suite"
+    heading="Suite gratuita de optimización y edición de imágenes en el navegador"
     paragraphs={[
-      "FixMyImage is a privacy-first collection of free online photo tools engineered to handle everyday image tasks with speed and precision. Whether you are managing product listings for an online store, preparing document attachments for government or academic portals, or tuning graphics for social media, FixMyImage provides specialized utilities right inside your browser without accounts, fees, or watermarks.",
-      "Unlike traditional cloud-based utilities that require transferring your photos across the web to third-party servers, FixMyImage operates entirely client-side. By leveraging modern browser APIs and local memory rendering, all compression, resizing, format conversion, and watermarking happen directly on your device. Your personal files remain completely private, and tasks complete instantly without server upload queues."
+      "FixMyImage es una colección de herramientas fotográficas online gratuitas orientadas a la privacidad, diseñadas para resolver tareas habituales con imágenes de forma rápida y precisa. Ya sea que gestiones catálogos para una tienda online, prepares documentos para trámites oficiales y oposiciones, o ajustes gráficos para redes sociales, FixMyImage te ofrece utilidades especializadas directamente en tu navegador sin cuentas, costes ni marcas de agua.",
+      "A diferencia de los conversores tradicionales en la nube que requieren transferir tus fotos a servidores externos, FixMyImage funciona completamente en el cliente. Mediante APIs web modernas y procesamiento local en memoria, toda la compresión, redimensión, conversión de formato y estampado de marcas de agua ocurren directamente en tu ordenador o teléfono. Tus archivos privados nunca se exponen en internet y las tareas se completan de forma instantánea sin esperas en colas de subida."
     ]}
     sections={[
       {
-        title: "Supported Image Tasks",
+        title: "Tareas y utilidades disponibles",
         paragraphs: [
-          "Image Compression: Shrink large JPG, PNG, and WebP files with fine-grained quality controls or target specific file sizes such as 20KB, 50KB, 100KB, or 1MB for portal forms and email attachments.",
-          "Image Resizing: Resize individual photos or entire batches by exact pixel dimensions, percentage scaling, or physical centimeters with calibrated print DPI.",
-          "Format Conversion: Seamlessly switch between JPG, PNG, WebP, and AVIF formats while preserving image quality, transparency channels, and color fidelity.",
-          "Watermarking: Stamp custom text notices or brand logos onto images with full control over opacity, positioning, and rotation to protect your creative work."
+          "Compresión de imágenes: Reduce el tamaño de archivos pesados JPG, PNG y WebP con controles precisos de calidad o fijando límites específicos como 20 KB, 50 KB, 100 KB o 1 MB para formularios y correo electrónico.",
+          "Redimensión de imágenes: Modifica el tamaño de fotos individuales o lotes enteros mediante píxeles exactos, escalado porcentual o medidas en centímetros calibradas para impresión en alta calidad.",
+          "Conversión de formatos: Cambia de formato entre JPG, PNG, WebP y AVIF con total fluidez, preservando la nitidez de imagen, canales de transparencia y fidelidad cromática.",
+          "Marcas de agua: Estampa avisos de texto personalizados o logotipos corporativos sobre tus fotos con control exhaustivo de opacidad, ubicación y rotación para salvaguardar tus creaciones."
         ]
       },
       {
-        title: "Who Is FixMyImage For?",
+        title: "¿Para quién está diseñado FixMyImage?",
         paragraphs: [
-          "FixMyImage is built for creators, photographers, e-commerce sellers, web developers, and everyday users who need dependable image processing without installing heavyweight software or handing over personal data. From quick passport photo prep to mass product image optimization, every tool is designed to deliver immediate results in a clean, ad-free workflow."
+          "FixMyImage está pensado para creadores de contenido, fotógrafos, tiendas de comercio electrónico, desarrolladores web y usuarios cotidianos que necesitan procesar fotos con fiabilidad sin instalar programas pesados ni ceder su información personal. Desde preparar una foto para el DNI o carné hasta optimizar cientos de imágenes de producto, cada herramienta está diseñada para ofrecer resultados profesionales inmediatos y sin publicidad intrusiva."
         ]
       }
     ]}
     faqs={homeFaqs}
-    relatedHeading="Explore Popular Tools"
+    relatedHeading="Explorar herramientas populares"
     relatedLinks={homeRelatedLinks}
   />
 
