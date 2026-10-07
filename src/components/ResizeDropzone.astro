@@ -55,7 +55,7 @@ const {
     </div>
 
     <!-- Right Column: Settings & Action -->
-    <div class="w-full md:w-[340px] lg:w-[360px] shrink-0 flex flex-col gap-6 lg:gap-7 bg-canvas-elevated p-6 lg:p-7 rounded-2xl border border-hairline shadow-sm">
+    <div class="w-full md:w-[420px] lg:w-[440px] max-w-full shrink-0 flex flex-col gap-6 lg:gap-7 bg-canvas-elevated p-6 lg:p-7 rounded-2xl border border-hairline shadow-sm">
 
     <!-- Mode tabs -->
     <div>
@@ -158,8 +158,9 @@ const {
       <p class="text-[12px] text-mute mt-3">{isEs ? '* calculado a 300 DPI para impresión de alta calidad' : '* calculated at 300 DPI for high-quality print'}</p>
     </div>
 
-    <!-- Format & Quality -->
-    <div class="grid grid-cols-2 gap-4 pt-1 items-start">
+    <!-- Format & Target Size -->
+    <div class="grid grid-cols-2 gap-4 lg:gap-5 pt-1 items-start">
+      <!-- Left Column: FORMAT -->
       <div class="relative min-w-0" id="format-picker-wrapper">
         <label id="label-format" class="tracking-label text-mute block mb-2" for="format-select-btn">{isEs ? 'FORMATO' : 'FORMAT'}</label>
 
@@ -175,7 +176,7 @@ const {
         <button
           type="button"
           id="format-select-btn"
-          class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-[13px] sm:text-[14px] text-ink flex items-center justify-between gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent hover:border-ink/30 cursor-pointer"
+          class="w-full h-10 px-3.5 bg-canvas border border-hairline rounded-lg text-[13px] sm:text-[14px] text-ink flex items-center justify-between gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent hover:border-ink/30 cursor-pointer"
           aria-haspopup="listbox"
           aria-expanded="false"
           aria-controls="format-dropdown-menu"
@@ -187,51 +188,55 @@ const {
           </svg>
         </button>
 
-        <!-- Custom Dropdown Menu (opens upward to stay within the card and avoid overlapping the Resize button) -->
+        <!-- Custom Dropdown Menu (opens directly downward below the format select button) -->
         <ul
           id="format-dropdown-menu"
-          class="hidden absolute bottom-full mb-1.5 left-0 right-0 z-30 bg-canvas-elevated border border-hairline rounded-lg shadow-lg py-1 focus:outline-none overflow-hidden"
+          class="hidden absolute top-full mt-1.5 left-0 w-full min-w-full z-50 bg-canvas-elevated border border-hairline rounded-lg shadow-xl py-1 focus:outline-none overflow-hidden"
           role="listbox"
           tabindex="-1"
           aria-labelledby="label-format"
         >
-          <li role="option" data-value="original" aria-selected="true" class="format-option px-3 py-2 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
+          <li role="option" data-value="original" aria-selected="true" class="format-option px-3.5 py-2.5 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
             <span class="truncate">{isEs ? 'Formato original' : 'Keep original'}</span>
-            <svg class="check-icon w-4 h-4 text-accent shrink-0 ml-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="check-icon w-4 h-4 text-accent shrink-0 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li role="option" data-value="jpeg" aria-selected="false" class="format-option px-3 py-2 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
+          <li role="option" data-value="jpeg" aria-selected="false" class="format-option px-3.5 py-2.5 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
             <span>JPG</span>
-            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li role="option" data-value="png" aria-selected="false" class="format-option px-3 py-2 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
+          <li role="option" data-value="png" aria-selected="false" class="format-option px-3.5 py-2.5 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
             <span>PNG</span>
-            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li role="option" data-value="webp" aria-selected="false" class="format-option px-3 py-2 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
+          <li role="option" data-value="webp" aria-selected="false" class="format-option px-3.5 py-2.5 text-[13px] text-ink font-medium cursor-pointer flex items-center justify-between hover:bg-hairline-soft transition-colors select-none focus:outline-none focus:bg-hairline-soft">
             <span>WebP</span>
-            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="check-icon hidden w-4 h-4 text-accent shrink-0 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
         </ul>
       </div>
 
+      <!-- Right Column: TARGET SIZE -->
       <div id="quality-container" class="min-w-0">
         <label class="tracking-label text-mute block mb-2 text-center" for="input-quality">
-          {isEs ? 'TAMAÑO OBJETIVO:' : 'TARGET SIZE:'} <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
+          {isEs ? 'TAMAÑO OBJETIVO' : 'TARGET SIZE'}
         </label>
-        <div class="h-10 flex items-center">
-          <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
-        </div>
-        <div class="flex justify-between text-[11px] text-mute mt-1">
-          <span id="min-size-label">--</span>
-          <span id="max-size-label">--</span>
+        <div class="flex flex-col justify-between h-10">
+          <div class="text-center text-[13px] sm:text-[14px] font-semibold text-ink leading-tight">
+            <span id="quality-label">--</span>
+          </div>
+          <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer block" />
+          <div class="flex justify-between text-[11px] text-mute leading-tight">
+            <span id="min-size-label">--</span>
+            <span id="max-size-label">--</span>
+          </div>
         </div>
       </div>
     </div>
