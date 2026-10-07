@@ -255,6 +255,25 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
     }
   ],
 
+  '/': [
+    {
+      q: "¿Es FixMyImage completamente gratis?",
+      a: "Sí. Todas las herramientas de FixMyImage son 100% gratuitas, sin cargos ocultos, suscripciones de pago, límites de uso ni necesidad de registrarse."
+    },
+    {
+      q: "¿Se suben mis fotos a algún servidor en internet?",
+      a: "No. Todo el procesamiento de imágenes se ejecuta estrictamente en tu navegador web de forma local, garantizando que tus fotos y documentos permanezcan completamente privados."
+    },
+    {
+      q: "¿Puedo procesar varias imágenes al mismo tiempo?",
+      a: "Sí. FixMyImage admite el procesamiento por lotes en todas sus herramientas, permitiéndote comprimir, redimensionar, convertir o marcar decenas de fotos en una sola sesión."
+    },
+    {
+      q: "¿Añade FixMyImage marcas de agua a los archivos descargados?",
+      a: "No. Tus fotos descargadas se mantienen completamente limpias y originales, a menos que utilices voluntariamente nuestra herramienta de marcas de agua para aplicar tu propio logotipo."
+    }
+  ],
+
   '/es': [
     {
       q: "¿Es FixMyImage completamente gratis?",

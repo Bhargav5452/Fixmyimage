@@ -38,7 +38,7 @@ export function getRelativeLocaleUrl(lang: Locale, path: string) {
       return normalizedPath;
     }
     if (normalizedPath === '/') {
-      return '/comprimir-imagen';
+      return '/';
     }
     return normalizedPath;
   }

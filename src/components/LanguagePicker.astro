@@ -15,9 +15,10 @@ function getTargetUrl(code: keyof typeof LANGUAGES) {
   if (code === 'es') {
     if (currentLang === 'es') return currentPath;
     if (EN_TO_ES_ROUTES[currentPath]) return EN_TO_ES_ROUTES[currentPath];
+    if (currentPath === '/') return '/';
     if (currentPath.startsWith('/compress-image-to-')) return '/comprimir-imagen';
     if (currentPath.startsWith('/resize-image-')) return '/redimensionar-imagen';
-    return '/comprimir-imagen';
+    return '/';
   }
   return currentPath;
 }

@@ -25,7 +25,7 @@ export default defineConfig({
     '/es/resize-image-in-pixels': { status: 301, destination: '/redimensionar-imagen-en-pixeles' },
     '/es/resize-image-in-cm': { status: 301, destination: '/redimensionar-imagen-en-cm' },
     '/es/bulk-image-resizer': { status: 301, destination: '/redimensionar-imagenes-por-lotes' },
-    '/es': { status: 301, destination: '/comprimir-imagen' },
+    '/es': { status: 301, destination: '/' },
     '/es/about': { status: 301, destination: '/about' },
     '/es/contact': { status: 301, destination: '/contact' },
     '/es/privacy': { status: 301, destination: '/privacy' },
