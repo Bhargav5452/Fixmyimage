@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir AVIF a JPG online gratis | FixMyImage";
+const description = "Convierte imágenes modernas AVIF a JPG estándar online gratis. Abre y comparte tus fotos en cualquier programa sin incompatibilidades.";
+const canonicalUrl = "https://fixmyimage.app/convertir-avif-a-jpg";
+
+const faqs = getSpanishFaqsForRoute('/convertir-avif-a-jpg');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir AVIF a PNG", href: "/convertir-avif-a-png" },
+  { label: "Convertir WebP a JPG", href: "/convertir-webp-a-jpg" },
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir AVIF a JPG online"
+        subtitle="Transforma fotos AVIF a formato JPG estándar de forma rápida y segura en tu navegador."
+        initialInputFormat="avif"
+        initialOutputFormat="jpeg"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Convierte archivos AVIF a JPG estándar sin pérdidas apreciables"
+    paragraphs={[
+      "El formato AVIF ofrece tasas de compresión impresionantes en la web, pero suele ser incompatible con la mayoría de los visores de imágenes locales y programas de edición. FixMyImage te permite convertir AVIF a JPG en cuestión de segundos para que puedas abrir, imprimir y compartir tus fotos sin barreras técnicas.",
+      "La conversión decodifica el archivo AVIF en la memoria local de tu navegador y genera un JPG optimizado de alta fidelidad, asegurando absoluta rapidez y privacidad en tus archivos personales."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir AVIF a JPG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

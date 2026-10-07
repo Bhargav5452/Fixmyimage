@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir WebP a PNG online gratis | FixMyImage";
+const description = "Convierte fotos WebP a formato PNG online gratis. Conserva las transparencias y compatibilidad total con programas de edición.";
+const canonicalUrl = "https://fixmyimage.app/convertir-webp-a-png";
+
+const faqs = getSpanishFaqsForRoute('/convertir-webp-a-png');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir WebP a JPG", href: "/convertir-webp-a-jpg" },
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Convertir AVIF a PNG", href: "/convertir-avif-a-png" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir WebP a PNG online"
+        subtitle="Pasa imágenes WebP a PNG con transparencia preservada y máxima calidad visual."
+        initialInputFormat="webp"
+        initialOutputFormat="png"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Convierte archivos WebP a PNG conservando la transparencia y los detalles"
+    paragraphs={[
+      "WebP es un formato moderno excelente para internet, pero muchos programas de escritorio, herramientas de impresión y visores de fotos no logran abrirlo correctamente. Al convertir WebP a PNG con FixMyImage obtienes un archivo universalmente reconocido.",
+      "Si tu imagen WebP contiene fondos transparentes o sombras suaves, el formato PNG los mantendrá con fidelidad píxel a píxel. Todo se realiza en tu navegador con total seguridad."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir WebP a PNG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

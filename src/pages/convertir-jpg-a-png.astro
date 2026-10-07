@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir JPG a PNG online gratis | FixMyImage";
+const description = "Convierte imágenes JPG a PNG online gratis en segundos. Mantén la máxima calidad de imagen y obtén soporte para fondos transparentes.";
+const canonicalUrl = "https://fixmyimage.app/convertir-jpg-a-png";
+
+const faqs = getSpanishFaqsForRoute('/convertir-jpg-a-png');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir PNG a JPG", href: "/convertir-png-a-jpg" },
+  { label: "Convertir WebP a PNG", href: "/convertir-webp-a-png" },
+  { label: "Convertir AVIF a PNG", href: "/convertir-avif-a-png" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir JPG a PNG online"
+        subtitle="Transforma tus fotos JPG al formato PNG con total nitidez y rapidez en tu navegador."
+        initialInputFormat="jpeg"
+        initialOutputFormat="png"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Convierte archivos JPG a formato PNG con máxima fidelidad"
+    paragraphs={[
+      "El formato PNG es ampliamente reconocido por su compresión sin pérdidas y su idoneidad para gráficos, diagramas y diseño digital. Si necesitas convertir fotos o capturas de pantalla de JPG a PNG para editarlas por capas o evitar que sigan degradándose en futuras exportaciones, FixMyImage te ofrece una conversión impecable.",
+      "La herramienta opera de manera local en tu equipo, asegurando que tus archivos se procesen de forma privada y al instante, incluso al convertir grupos numerosos de imágenes."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir JPG a PNG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

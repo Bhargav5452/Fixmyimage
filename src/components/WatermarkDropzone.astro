@@ -1,7 +1,22 @@
 ---
 import ImageSourcePicker from './ImageSourcePicker.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+export interface Props {
+  h1?: string;
+  subtitle?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isEs = lang === 'es';
+
+const {
+  h1 = t('watermark.h1'),
+  subtitle = t('watermark.subtitle')
+} = Astro.props;
 ---
-<div id="upload-app" class="w-full">
+<div id="upload-app" class="w-full" data-is-es={isEs ? "true" : "false"}>
 
   <!-- ── Global Drag Overlay ────────────────────────────────── -->
   <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -10,13 +25,13 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
         <circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 1 1 0-5.66"/>
       </svg>
     </div>
-    <h2 class="text-3xl font-bold text-ink">Drop files here</h2>
+    <h2 class="text-3xl font-bold text-ink">{t('common.drop_files')}</h2>
   </div>
 
   <!-- ── Upload State ────────────────────────────────────────── -->
   <div id="state-upload" class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-0 text-center">Watermark Images</h1>
-    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">Add text or a logo. Choose position, opacity and rotation. Drop files below to start.</p>
+    <h1 class="text-[32px] sm:text-[42px] font-bold text-ink mb-0 text-center">{h1}</h1>
+    <p class="text-[16px] sm:text-[18px] text-body mb-10 text-center">{subtitle}</p>
 
     <ImageSourcePicker id="watermark-main" />
   </div>
@@ -27,11 +42,11 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     <!-- Left Column: Files -->
     <div class="flex-1 w-full flex flex-col gap-4">
       <div class="flex items-center justify-between">
-        <span class="text-[13px] font-semibold text-body tracking-label">FILES &thinsp;<span id="file-count" class="text-ink">0</span></span>
+        <span class="text-[13px] font-semibold text-body tracking-label">{t('watermark.files')} &thinsp;<span id="file-count" class="text-ink">0</span></span>
         <label class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-body hover:text-ink border border-hairline hover:border-ink/30 bg-canvas-elevated rounded-lg cursor-pointer transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Add more
-          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" />
+          {t('watermark.add_more')}
+          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label={t('watermark.add_more')} />
         </label>
       </div>
       <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[260px] md:max-h-[500px] overflow-y-auto p-1"></div>
@@ -58,8 +73,8 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
 
       <!-- Type tabs -->
       <div class="flex gap-1 p-1.5 border-b border-hairline" role="tablist">
-        <button type="button" class="wm-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas text-ink shadow-sm border border-hairline" data-type="text" role="tab" aria-selected="true">Text</button>
-        <button type="button" class="wm-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-type="image" role="tab" aria-selected="false">Logo / Image</button>
+        <button type="button" class="wm-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all bg-canvas text-ink shadow-sm border border-hairline" data-type="text" role="tab" aria-selected="true">{isEs ? 'Texto' : 'Text'}</button>
+        <button type="button" class="wm-tab flex-1 py-1.5 px-2 text-[13px] font-medium rounded-md transition-all text-body hover:text-ink" data-type="image" role="tab" aria-selected="false">{isEs ? 'Logotipo' : 'Logo / Image'}</button>
       </div>
 
       <div class="p-4 space-y-4">
@@ -67,12 +82,12 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
         <!-- Text panel -->
         <div id="panel-text" class="wm-panel block space-y-4">
           <div>
-            <label class="tracking-label text-mute block mb-2" for="input-text">TEXT</label>
-            <input type="text" id="input-text" value="© FixMyImage" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink focus:outline-none focus:ring-2 focus:ring-accent transition" placeholder="Enter watermark text…" />
+            <label class="tracking-label text-mute block mb-2" for="input-text">{isEs ? 'TEXTO' : 'TEXT'}</label>
+            <input type="text" id="input-text" value="© FixMyImage" class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2 text-[14px] text-ink focus:outline-none focus:ring-2 focus:ring-accent transition" placeholder={isEs ? 'Escribe el texto de la marca de agua…' : 'Enter watermark text…'} />
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="tracking-label text-mute block mb-2" for="input-color">COLOR</label>
+              <label class="tracking-label text-mute block mb-2" for="input-color">{isEs ? 'COLOR' : 'COLOR'}</label>
               <div class="flex items-center gap-2.5">
                 <input type="color" id="input-color" value="#ffffff" class="w-8 h-8 rounded-lg cursor-pointer border border-hairline p-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-accent" />
                 <span class="text-[13px] font-medium text-body uppercase" id="color-hex">#FFFFFF</span>
@@ -80,7 +95,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
             </div>
             <div>
               <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-text-size">
-                <span>SIZE</span>
+                <span>{isEs ? 'TAMAÑO' : 'SIZE'}</span>
                 <span id="val-text-size" class="text-ink font-semibold normal-case text-[12px]">5%</span>
               </label>
               <input type="range" id="input-text-size" min="2" max="20" value="5" class="w-full accent-accent mt-1 h-2 lg:h-2.5 cursor-pointer" />
@@ -91,17 +106,17 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
         <!-- Logo panel -->
         <div id="panel-image" class="wm-panel hidden space-y-4">
           <div>
-            <label class="tracking-label text-mute block mb-2">LOGO FILE</label>
+            <label class="tracking-label text-mute block mb-2">{isEs ? 'ARCHIVO DE LOGO' : 'LOGO FILE'}</label>
             <label class="inline-flex items-center gap-2 px-3 py-2 text-[13px] font-medium border border-hairline bg-canvas rounded-lg cursor-pointer hover:border-ink/30 hover:text-ink text-body transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-              Select logo
+              {isEs ? 'Seleccionar logo' : 'Select logo'}
               <input type="file" id="logo-input" class="sr-only" accept="image/png, image/webp, image/jpeg" />
             </label>
-            <span id="logo-filename" class="ml-3 text-[13px] text-mute">No file chosen</span>
+            <span id="logo-filename" class="ml-3 text-[13px] text-mute">{isEs ? 'Ningún archivo elegido' : 'No file chosen'}</span>
           </div>
           <div>
             <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-logo-size">
-              <span>SIZE</span>
+              <span>{isEs ? 'TAMAÑO' : 'SIZE'}</span>
               <span id="val-logo-size" class="text-ink font-semibold normal-case text-[12px]">20%</span>
             </label>
             <input type="range" id="input-logo-size" min="5" max="50" value="20" class="w-full accent-accent mt-1 h-2 lg:h-2.5 cursor-pointer" />
@@ -113,7 +128,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
 
           <!-- Position grid -->
           <div>
-            <label class="tracking-label text-mute block mb-2">POSITION</label>
+            <label class="tracking-label text-mute block mb-2">{isEs ? 'POSICIÓN' : 'POSITION'}</label>
             <div class="grid grid-cols-3 gap-1.5 max-w-[120px]" role="group" aria-label="Watermark position">
               <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tl" aria-label="Top left"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
               <button type="button" class="pos-btn w-9 h-9 border border-hairline rounded-lg bg-canvas-elevated hover:border-accent/40 flex items-center justify-center transition-colors data-[active=true]:bg-ink data-[active=true]:border-ink" data-pos="tc" aria-label="Top center"><div class="w-1.5 h-1.5 rounded-sm bg-current opacity-60"></div></button>
@@ -131,14 +146,14 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
           <div class="space-y-4">
             <div>
               <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-opacity">
-                <span>OPACITY</span>
+                <span>{isEs ? 'OPACIDAD' : 'OPACITY'}</span>
                 <span id="val-opacity" class="text-ink font-semibold normal-case text-[12px]">70%</span>
               </label>
               <input type="range" id="input-opacity" min="10" max="100" value="70" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
             </div>
             <div>
               <label class="tracking-label text-mute mb-2 flex items-center justify-between" for="input-rotation">
-                <span>ROTATION</span>
+                <span>{isEs ? 'ROTACIÓN' : 'ROTATION'}</span>
                 <span id="val-rotation" class="text-ink font-semibold normal-case text-[12px]">0°</span>
               </label>
               <input type="range" id="input-rotation" min="-180" max="180" value="0" step="15" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
@@ -152,10 +167,10 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     <!-- Error -->
     <div id="error-message" class="hidden items-start gap-2.5 p-3 bg-danger-bg border border-danger/20 rounded-lg text-[13px] text-danger">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-      <span id="error-text">Something went wrong.</span>
+      <span id="error-text">{t('watermark.error')}</span>
     </div>
 
-    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">Apply Watermark</button>
+    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">{t('watermark.btn_action')}</button>
     </div>
   </div>
 
@@ -163,7 +178,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
   <div id="state-processing" class="hidden flex-col gap-5">
     <div>
       <div class="flex items-center justify-between mb-1">
-        <span class="text-[14px] font-semibold text-ink">Applying watermark…</span>
+        <span class="text-[14px] font-semibold text-ink">{isEs ? 'Aplicando marca de agua…' : 'Applying watermark…'}</span>
         <span class="text-[13px] text-mute num"><span id="proc-completed-count">0</span> / <span id="proc-total-count">0</span></span>
       </div>
       <div class="h-1 bg-hairline rounded-full overflow-hidden mt-3">
@@ -173,24 +188,24 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     <div class="border border-hairline rounded-xl bg-canvas-elevated overflow-hidden">
       <div id="progress-list" class="divide-y divide-hairline max-h-72 overflow-y-auto"></div>
     </div>
-    <button type="button" id="btn-cancel" class="btn-ghost w-full">Cancel</button>
+    <button type="button" id="btn-cancel" class="btn-ghost w-full">{t('watermark.cancel')}</button>
   </div>
 
   <!-- ── Result State ──────────────────────────────────────────── -->
   <div id="state-result" class="hidden flex-col items-center gap-6 max-w-3xl mx-auto w-full mt-10">
     
-    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">Images have been watermarked!</h2>
+    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">{t('watermark.success_plural')}</h2>
 
     <!-- Actions -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full mt-4">
-      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
+      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label={t('watermark.btn_start_over')} title={t('watermark.btn_start_over')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </button>
       
       <div class="flex items-center gap-4 w-full sm:w-auto">
         <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-          <span id="download-text">Download watermarked images</span>
+          <span id="download-text">{t('watermark.download_plural')}</span>
         </a>
 
         <!-- Third Party Save Buttons -->
@@ -204,25 +219,25 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
 
     <!-- Batch stats (also used for single) -->
     <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
-      <span id="res-success-count" class="num text-ink font-bold">0</span> watermarked &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
+      <span id="res-success-count" class="num text-ink font-bold">0</span> {isEs ? 'con marca de agua' : 'watermarked'} &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> {isEs ? 'fallidas' : 'failed'}
     </div>
 
 
 
     <!-- Continue to -->
     <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
-      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">Continue to...</h3>
+      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">{isEs ? 'Continuar con…' : 'Continue to...'}</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <a href="/compress-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg> Compress Image</div>
+        <a href={isEs ? '/comprimir-imagen' : '/compress-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg> {isEs ? 'Comprimir imagen' : 'Compress Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/resize-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> Resize Image</div>
+        <a href={isEs ? '/redimensionar-imagen' : '/resize-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> {isEs ? 'Redimensionar' : 'Resize Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/convert-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Convert Image</div>
+        <a href={isEs ? '/convertir-imagen' : '/convert-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> {isEs ? 'Convertir imagen' : 'Convert Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
       </div>
@@ -315,6 +330,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
   const btnRestart   = document.getElementById('btn-restart')!;
 
   const appContainer = document.getElementById('upload-app');
+  const isEs = appContainer?.dataset.isEs === 'true';
   if (appContainer) {
     appContainer.addEventListener('source-files-selected', ((e: CustomEvent) => {
       if (isProcessing) return;
@@ -448,7 +464,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     const existing = new Set(files.map(f => f.name + f.size));
     let added = 0;
     for (const f of newFiles) {
-      if (files.length >= 50) { showError('Maximum 50 files.'); break; }
+      if (files.length >= 50) { showError(isEs ? 'Máximo 50 archivos.' : 'Maximum 50 files.'); break; }
       if (!existing.has(f.name + f.size)) { files.push(f); added++; existing.add(f.name + f.size); }
     }
     if (files.length > 0) {
@@ -458,15 +474,19 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
       imagePreview.src = previewUrl;
       imagePreview.onload = () => updateLivePreview();
       showState('config');
-      btnStart.textContent = files.length === 1 ? 'Apply Watermark' : `Watermark ${files.length} Images`;
+      btnStart.textContent = isEs
+        ? (files.length === 1 ? 'Aplicar marca de agua' : `Poner marca de agua a ${files.length} imágenes`)
+        : (files.length === 1 ? 'Apply Watermark' : `Watermark ${files.length} Images`);
       hideError();
-    } else if (added === 0 && newFiles.length > 0) showError('Those files are already added.');
+    } else if (added === 0 && newFiles.length > 0) showError(isEs ? 'Esos archivos ya están añadidos.' : 'Those files are already added.');
   }
 
   function removeFile(index) {
     if (isProcessing) return;
     files.splice(index, 1); renderFileList();
-    btnStart.textContent = files.length === 1 ? 'Apply Watermark' : `Watermark ${files.length} Images`;
+    btnStart.textContent = isEs
+      ? (files.length === 1 ? 'Aplicar marca de agua' : `Poner marca de agua a ${files.length} imágenes`)
+      : (files.length === 1 ? 'Apply Watermark' : `Watermark ${files.length} Images`);
     if (files.length > 0 && index === 0) {
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       previewUrl = URL.createObjectURL(files[0]);
@@ -505,7 +525,7 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
   function handleLogoSelect(e) {
     if (!(e.target as HTMLInputElement).files?.length) return;
     const file = (e.target as HTMLInputElement).files[0];
-    if (!file.type.startsWith('image/')) { showError('Invalid logo file.'); return; }
+    if (!file.type.startsWith('image/')) { showError(isEs ? 'Archivo de logotipo no válido.' : 'Invalid logo file.'); return; }
     logoFile = file; logoFilename.textContent = file.name;
     if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
     logoPreviewUrl = URL.createObjectURL(file);
@@ -514,14 +534,14 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
 
   async function startProcessing() {
     if (!files.length || isProcessing) return;
-    if (currentType === 'image' && !logoFile) { showError('Please upload a logo image first.'); return; }
+    if (currentType === 'image' && !logoFile) { showError(isEs ? 'Por favor, sube primero una imagen para el logotipo.' : 'Please upload a logo image first.'); return; }
     hideError();
 
     isProcessing = true; isCancelled = false;
     completedCount = successCount = failedCount = 0;
     procTotalCount.textContent = files.length; procCompletedCount.textContent = '0';
     progressBar.style.width = '0%';
-    btnCancel.disabled = false; btnCancel.textContent = 'Cancel';
+    btnCancel.disabled = false; btnCancel.textContent = isEs ? 'Cancelar' : 'Cancel';
 
     progressList.innerHTML = '';
     const statusEls = new Map();
@@ -566,8 +586,8 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
 
       async function runTask(file, idx) {
         const el = statusEls.get(idx);
-        if (isCancelled) { el.textContent = 'Cancelled'; el.className = 'status-cancelled'; return; }
-        el.textContent = 'Applying…'; el.className = 'status-working';
+        if (isCancelled) { el.textContent = isEs ? 'Cancelado' : 'Cancelled'; el.className = 'status-cancelled'; return; }
+        el.textContent = isEs ? 'Aplicando…' : 'Applying…'; el.className = 'status-working';
         try {
           const result = await processWatermark({
             file, type: currentType, position: currentPos, opacity, rotation,
@@ -581,10 +601,10 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
           if (isSingle) { singleResult = result; singleResult.filename = outName; }
           else zip.file(outName, result.file);
           successCount++;
-          el.textContent = '✓ Done'; el.className = 'status-done';
+          el.textContent = isEs ? '✓ Listo' : '✓ Done'; el.className = 'status-done';
         } catch (err) {
           failedCount++;
-          el.textContent = 'Failed'; el.title = err.message || ''; el.className = 'status-failed';
+          el.textContent = isEs ? 'Fallido' : 'Failed'; el.title = err.message || ''; el.className = 'status-failed';
         }
       }
       pump();
@@ -595,7 +615,9 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
     if (successCount > 0) {
       const titleEl = document.querySelector('h2.text-3xl');
       if (titleEl) {
-        titleEl.textContent = successCount === 1 ? 'Image has been watermarked!' : 'Images have been watermarked!';
+        titleEl.textContent = isEs
+          ? (successCount === 1 ? '¡La imagen tiene su marca de agua!' : '¡Las imágenes tienen su marca de agua!')
+          : (successCount === 1 ? 'Image has been watermarked!' : 'Images have been watermarked!');
       }
 
       let downloadName = '';
@@ -604,14 +626,14 @@ import ImageSourcePicker from './ImageSourcePicker.astro';
         btnDownload.href = outputUrl;
         downloadName = singleResult.filename;
         btnDownload.download = downloadName;
-        downloadText.textContent = 'Download watermarked image';
+        downloadText.textContent = isEs ? 'Descargar imagen con marca de agua' : 'Download watermarked image';
       } else {
         const blob = await zip.generateAsync({ type: 'blob' });
         outputUrl = URL.createObjectURL(blob);
         btnDownload.href = outputUrl;
         downloadName = 'FixMyImage-watermarked.zip';
         btnDownload.download = downloadName;
-        downloadText.textContent = 'Download watermarked images';
+        downloadText.textContent = isEs ? 'Descargar imágenes con marca de agua' : 'Download watermarked images';
       }
       resBatchSummary.classList.remove('hidden');
       resSuccessCount.textContent = successCount; resFailedCount.textContent = failedCount;

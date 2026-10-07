@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir imágenes online gratis – Conversor JPG, PNG, WebP y AVIF | FixMyImage";
+const description = "Convierte imágenes online gratis entre formatos JPG, PNG, WebP y AVIF. Conversión rápida, por lotes y privada directamente en tu navegador.";
+const canonicalUrl = "https://fixmyimage.app/convertir-imagen";
+
+const faqs = getSpanishFaqsForRoute('/convertir-imagen');
+
+const relatedLinks = [
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Convertir PNG a JPG", href: "/convertir-png-a-jpg" },
+  { label: "Convertir WebP a JPG", href: "/convertir-webp-a-jpg" },
+  { label: "Convertir WebP a PNG", href: "/convertir-webp-a-png" },
+  { label: "Convertir AVIF a JPG", href: "/convertir-avif-a-jpg" },
+  { label: "Convertir AVIF a PNG", href: "/convertir-avif-a-png" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir imágenes online"
+        subtitle="Convierte fotos y archivos entre formatos JPG, PNG, WebP y AVIF en cualquier dirección. Sin subir datos a ningún servidor."
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Conversión de formatos de imagen rápida, privada y sin límites"
+    paragraphs={[
+      "FixMyImage te ofrece una completa herramienta de conversión de formatos gráficos para pasar de forma fluida entre JPG, PNG, WebP y AVIF. Tanto si necesitas imágenes con fondo transparente para diseño web como archivos compatibles con programas antiguos o formatos comprimidos de última generación, la conversión es instantánea.",
+      "Dado que todo el procesamiento se ejecuta en el navegador, tus imágenes conservan total privacidad en tu dispositivo. Procesa archivos de forma individual o en lotes sin demoras por subida ni cuotas de suscripción."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir imágenes"
+    relatedHeading="Conversores de imagen más populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

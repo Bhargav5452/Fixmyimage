@@ -50,11 +50,11 @@ const {
     <!-- Left Column: Files -->
     <div class="flex-1 w-full flex flex-col gap-4">
       <div class="flex items-center justify-between">
-        <span class="text-[13px] font-semibold text-body tracking-label">FILES &thinsp;<span id="file-count" class="text-ink">0</span></span>
+        <span class="text-[13px] font-semibold text-body tracking-label">{t('compress.files')} &thinsp;<span id="file-count" class="text-ink">0</span></span>
         <label class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-body hover:text-ink border border-hairline hover:border-ink/30 bg-canvas-elevated rounded-lg cursor-pointer transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Add more
-          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label="Add more images" />
+          {t('compress.add_more')}
+          <input type="file" id="file-input-more" multiple class="sr-only" accept="image/jpeg, image/png, image/webp" aria-label={t('compress.add_more')} />
         </label>
       </div>
 
@@ -67,7 +67,7 @@ const {
     <div class="w-full md:w-[340px] lg:w-[360px] shrink-0 flex flex-col gap-6 lg:gap-7 bg-canvas-elevated p-6 lg:p-7 rounded-2xl border border-hairline shadow-sm">
       <!-- Target size -->
       <div>
-        <label class="tracking-label text-mute block mb-3">TARGET SIZE PER IMAGE</label>
+        <label class="tracking-label text-mute block mb-3">{t('compress.target_size')}</label>
         <div class="flex flex-wrap gap-2 mb-4" id="preset-buttons" role="group" aria-label="Preset target sizes">
           <button type="button" class="preset-btn" data-value="10"  data-unit="KB" data-active={presetValue === "10" && presetUnit === "KB" ? "true" : "false"}>10 KB</button>
           <button type="button" class="preset-btn" data-value="50"  data-unit="KB" data-active={presetValue === "50" && presetUnit === "KB" ? "true" : "false"}>50 KB</button>
@@ -80,7 +80,7 @@ const {
           <input
             type="number"
             id="custom-size"
-            placeholder="Custom"
+            placeholder={t('compress.custom')}
             min="1"
             autocomplete="off"
             class="w-full border border-hairline bg-canvas rounded-lg px-3 py-2.5 text-[13px] text-ink placeholder:text-mute focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition"
@@ -96,11 +96,11 @@ const {
       <!-- Error -->
       <div id="error-message" class="hidden items-start gap-2.5 p-3 bg-danger-bg border border-danger/20 rounded-lg text-[13px] text-danger">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-        <span id="error-text">Something went wrong.</span>
+        <span id="error-text">{t('compress.error')}</span>
       </div>
 
       <!-- Action -->
-      <button id="btn-start" type="button" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl mt-2 shadow-lg shadow-ink/5">Compress Images</button>
+      <button id="btn-start" type="button" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl mt-2 shadow-lg shadow-ink/5">{t('compress.btn_action')}</button>
     </div>
   </div>
 
@@ -108,7 +108,7 @@ const {
   <div id="state-processing" class="hidden flex-col gap-5">
     <div>
       <div class="flex items-center justify-between mb-1">
-        <span class="text-[14px] font-semibold text-ink">Processing…</span>
+        <span class="text-[14px] font-semibold text-ink">{t('compress.processing')}</span>
         <span class="text-[13px] text-mute num"><span id="proc-completed-count">0</span> / <span id="proc-total-count">0</span></span>
       </div>
       <!-- Progress bar -->
@@ -123,24 +123,24 @@ const {
       </div>
     </div>
 
-    <button type="button" id="btn-cancel" class="btn-ghost w-full">Cancel</button>
+    <button type="button" id="btn-cancel" class="btn-ghost w-full">{t('compress.cancel')}</button>
   </div>
 
   <!-- ── Result State ────────────────────────────────────────── -->
   <div id="state-result" class="hidden flex-col items-center gap-6 max-w-3xl mx-auto w-full mt-10">
     
-    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">Images have been compressed!</h2>
+    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">{t('compress.success_plural')}</h2>
 
     <!-- Actions -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full mt-4">
-      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
+      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label={t('compress.btn_start_over')} title={t('compress.btn_start_over')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </button>
       
       <div class="flex items-center gap-4 w-full sm:w-auto">
         <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-          <span id="download-text">Download compressed images</span>
+          <span id="download-text">{t('compress.download_plural')}</span>
         </a>
 
         <!-- Third Party Save Buttons -->
@@ -161,12 +161,12 @@ const {
         </svg>
         <div class="flex flex-col items-center justify-center relative z-10 text-center mt-0.5">
           <span id="res-saved-badge" class="text-[17px] font-bold text-ink leading-none"></span>
-          <span class="text-[9px] font-bold text-mute uppercase tracking-widest mt-1">Saved</span>
+          <span class="text-[9px] font-bold text-mute uppercase tracking-widest mt-1">{t('compress.saved')}</span>
         </div>
       </div>
       
       <div class="text-left">
-        <p class="text-[15px] text-body mb-1">Your image is smaller!</p>
+        <p class="text-[15px] text-body mb-1">{t('compress.smaller')}</p>
         <p class="text-[14px] font-medium text-mute"><span id="res-original" class="line-through"></span> &nbsp;&rarr;&nbsp; <span id="res-compressed" class="text-ink font-semibold num"></span></p>
         <p class="text-[13px] text-mute mt-1"><span id="res-format"></span> &middot; <span id="res-dimensions"></span></p>
       </div>
@@ -174,24 +174,24 @@ const {
 
     <!-- Batch stats -->
     <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
-      <span id="res-success-count" class="num text-ink font-bold">0</span> compressed &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
+      <span id="res-success-count" class="num text-ink font-bold">0</span> {lang === 'es' ? 'comprimidas' : 'compressed'} &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> {lang === 'es' ? 'fallidas' : 'failed'}
     </div>
 
 
     <!-- Continue to -->
     <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
-      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">Continue to...</h3>
+      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">{lang === 'es' ? 'Continuar con…' : 'Continue to...'}</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <a href="/resize-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> Resize Image</div>
+        <a href={lang === 'es' ? '/redimensionar-imagen' : '/resize-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> {lang === 'es' ? 'Redimensionar' : 'Resize Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/convert-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Convert Image</div>
+        <a href={lang === 'es' ? '/convertir-imagen' : '/convert-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> {lang === 'es' ? 'Convertir imagen' : 'Convert Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/watermark-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> Watermark</div>
+        <a href={lang === 'es' ? '/marca-de-agua' : '/watermark-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> {lang === 'es' ? 'Marca de agua' : 'Watermark'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
       </div>
@@ -568,10 +568,11 @@ const {
       }
 
       async function runTask(file: File, idx: number) {
+        const isEs = document.documentElement.lang === 'es';
         const el = statusEls.get(idx)!;
-        if (isCancelled) { el.textContent = 'Cancelled'; el.className = 'status-cancelled'; return; }
+        if (isCancelled) { el.textContent = isEs ? 'Cancelado' : 'Cancelled'; el.className = 'status-cancelled'; return; }
 
-        el.textContent = 'Working…'; el.className = 'status-working';
+        el.textContent = isEs ? 'Procesando…' : 'Working…'; el.className = 'status-working';
         try {
           const result = await compressToTarget({ file, targetBytes, qualityFloor: 0.35 });
           const outType = result.mimeType || file.type || 'image/jpeg';
@@ -586,10 +587,10 @@ const {
           totalOutputBytes += result.outputBytes;
           
           successCount++;
-          el.textContent = 'Done'; el.className = 'status-done';
+          el.textContent = isEs ? 'Listo' : 'Done'; el.className = 'status-done';
         } catch (err: any) {
           failedCount++;
-          el.textContent = 'Failed'; el.className = 'status-failed';
+          el.textContent = isEs ? 'Error' : 'Failed'; el.className = 'status-failed';
           el.title = err?.message ?? '';
         }
       }
@@ -599,6 +600,8 @@ const {
 
     // Release previous URL
     if (outputUrl) { URL.revokeObjectURL(outputUrl); outputUrl = null; }
+
+    const isEs = document.documentElement.lang === 'es';
 
     if (successCount > 0) {
       document.getElementById('res-single-stats')!.classList.remove('hidden');
@@ -613,7 +616,9 @@ const {
       
       const titleEl = document.querySelector('h2.text-3xl');
       if (titleEl) {
-        titleEl.textContent = successCount === 1 ? 'Image has been compressed!' : 'Images have been compressed!';
+        titleEl.textContent = successCount === 1 
+          ? (isEs ? '¡La imagen ha sido comprimida!' : 'Image has been compressed!')
+          : (isEs ? '¡Las imágenes han sido comprimidas!' : 'Images have been compressed!');
       }
       
       const circlePath = document.querySelector('#res-single-stats path.text-danger');
@@ -627,7 +632,7 @@ const {
         btnDownload.href = outputUrl;
         downloadName = singleResult.filename;
         btnDownload.download = downloadName;
-        downloadTextEl.textContent = 'Download compressed image';
+        downloadTextEl.textContent = isEs ? 'Descargar imagen comprimida' : 'Download compressed image';
         
         document.getElementById('res-format')!.textContent = (singleResult.mimeType.split('/')[1] ?? 'jpg').replace('jpeg','jpg');
         document.getElementById('res-dimensions')!.textContent = `${singleResult.width} × ${singleResult.height}`;
@@ -637,10 +642,10 @@ const {
         btnDownload.href = outputUrl;
         downloadName = 'FixMyImage-compressed.zip';
         btnDownload.download = downloadName;
-        downloadTextEl.textContent = 'Download compressed images';
+        downloadTextEl.textContent = isEs ? 'Descargar imágenes comprimidas' : 'Download compressed images';
         
         document.getElementById('res-format')!.textContent = 'ZIP';
-        document.getElementById('res-dimensions')!.textContent = `${successCount} items`;
+        document.getElementById('res-dimensions')!.textContent = `${successCount} ${isEs ? 'archivos' : 'items'}`;
       }
       (btnDownload as any).disabled = false;
       // Auto download

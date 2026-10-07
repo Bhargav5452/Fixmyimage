@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Redimensionar imágenes por lotes online gratis | FixMyImage";
+const description = "Cambia el tamaño de varias imágenes y fotos a la vez online gratis. Procesa fotos en masa rápidamente en tu navegador sin límite de archivos.";
+const canonicalUrl = "https://fixmyimage.app/redimensionar-imagenes-por-lotes";
+
+const faqs = getSpanishFaqsForRoute('/redimensionar-imagenes-por-lotes');
+
+const relatedLinks = [
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" },
+  { label: "Redimensionar en píxeles", href: "/redimensionar-imagen-en-pixeles" },
+  { label: "Redimensionar en cm", href: "/redimensionar-imagen-en-cm" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Convertir imágenes", href: "/convertir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ResizeDropzone
+        h1="Redimensionar imágenes por lotes"
+        subtitle="Ajusta el tamaño de múltiples fotos simultáneamente. Ahorra tiempo con el procesamiento masivo sin subir archivos a la nube."
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Redimensiona múltiples fotos simultáneamente con máxima velocidad"
+    paragraphs={[
+      "Modificar las dimensiones de una foto tras otra resulta tedioso cuando se gestionan catálogos de comercio electrónico, álbumes de eventos o galerías web. FixMyImage te permite redimensionar imágenes por lotes de forma masiva en una única operación.",
+      "Carga todas tus fotos a la vez, elige las dimensiones deseadas y descarga todos los archivos optimizados juntos. Al procesar localmente en el dispositivo, no hay tiempos de espera por subida ni cuotas de transferencia."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre redimensionar por lotes"
+    relatedHeading="Otras herramientas de imagen"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

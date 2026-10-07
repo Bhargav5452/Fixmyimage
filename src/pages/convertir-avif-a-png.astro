@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir AVIF a PNG online gratis | FixMyImage";
+const description = "Convierte imágenes AVIF a PNG online gratis. Conserva la nitidez y transparencia sin límites de archivos ni subidas externas.";
+const canonicalUrl = "https://fixmyimage.app/convertir-avif-a-png";
+
+const faqs = getSpanishFaqsForRoute('/convertir-avif-a-png');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir AVIF a JPG", href: "/convertir-avif-a-jpg" },
+  { label: "Convertir WebP a PNG", href: "/convertir-webp-a-png" },
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir AVIF a PNG online"
+        subtitle="Convierte archivos AVIF a PNG conservando transparencias y máxima fidelidad visual."
+        initialInputFormat="avif"
+        initialOutputFormat="png"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Convierte imágenes AVIF a PNG con total preservación de transparencia"
+    paragraphs={[
+      "Si descargas gráficos, logotipos o ilustraciones en formato AVIF que contienen fondos transparentes, convertirlos a PNG es el paso ideal para poder utilizarlos en cualquier editor fotográfico o proyecto de diseño.",
+      "FixMyImage extrae con precisión el canal alfa y la estructura cromática del archivo AVIF y genera un archivo PNG limpio, nítido y sin pérdida de definición, todo procesado de manera 100% confidencial en tu navegador."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir AVIF a PNG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

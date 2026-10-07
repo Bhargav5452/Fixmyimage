@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir WebP a JPG online gratis | FixMyImage";
+const description = "Convierte archivos WebP a JPG online gratis. Haz tus imágenes compatibles con cualquier visor, red social o dispositivo antiguo.";
+const canonicalUrl = "https://fixmyimage.app/convertir-webp-a-jpg";
+
+const faqs = getSpanishFaqsForRoute('/convertir-webp-a-jpg');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir WebP a PNG", href: "/convertir-webp-a-png" },
+  { label: "Convertir PNG a JPG", href: "/convertir-png-a-jpg" },
+  { label: "Convertir AVIF a JPG", href: "/convertir-avif-a-jpg" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir WebP a JPG online"
+        subtitle="Convierte imágenes WebP a JPG para compatibilidad universal instantánea."
+        initialInputFormat="webp"
+        initialOutputFormat="jpeg"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Convierte imágenes WebP descargadas de internet a formato JPG estándar"
+    paragraphs={[
+      "Al guardar fotos de páginas web, es habitual que se descarguen con extensión .webp, impidiendo insertarlas con normalidad en procesadores de texto, presentaciones o programas de edición gráfica. FixMyImage te permite convertir WebP a JPG en un solo clic.",
+      "El resultado es un archivo JPG universal, compatible con cualquier ordenador, teléfono o televisor inteligente. La conversión se produce al instante en tu equipo sin consumir datos móviles."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir WebP a JPG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

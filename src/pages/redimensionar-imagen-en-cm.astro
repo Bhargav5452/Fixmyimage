@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Redimensionar imagen en cm online gratis – Medidas para imprimir | FixMyImage";
+const description = "Cambia el tamaño de tus imágenes en centímetros (cm) online gratis con resolución DPI adecuada para impresión en papel o documentos.";
+const canonicalUrl = "https://fixmyimage.app/redimensionar-imagen-en-cm";
+
+const faqs = getSpanishFaqsForRoute('/redimensionar-imagen-en-cm');
+
+const relatedLinks = [
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" },
+  { label: "Redimensionar en píxeles", href: "/redimensionar-imagen-en-pixeles" },
+  { label: "Redimensionar por lotes", href: "/redimensionar-imagenes-por-lotes" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Convertir imágenes", href: "/convertir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ResizeDropzone
+        h1="Redimensionar imagen en cm"
+        subtitle="Convierte y ajusta el tamaño de tus fotos en centímetros para impresión en papel o documentos oficiales a 300 DPI."
+        initialMode="cm"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Ajusta el tamaño en centímetros para una impresión nítida y profesional"
+    paragraphs={[
+      "A la hora de imprimir fotografías, enmarcar cuadros o presentar fotos carné, las medidas en píxeles resultan difíciles de calcular. Con FixMyImage puedes redimensionar fotos e imágenes directamente en centímetros (cm), calculando automáticamente los píxeles necesarios a 300 PPP (DPI) para una nitidez óptima sobre papel.",
+      "Tus imágenes se ajustan al instante en tu propio navegador con total respeto a tu privacidad y sin requerir la instalación de costosos programas de diseño gráfico."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre redimensionar en cm"
+    relatedHeading="Otras herramientas de ajuste"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import UploadDropzone from '../components/UploadDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Comprimir imagen a 50 KB online gratis | FixMyImage";
+const description = "Comprime tus imágenes a 50 KB o menos online de forma gratuita. Optimiza fotos JPG, PNG y WebP para trámites, formularios y web sin perder calidad.";
+const canonicalUrl = "https://fixmyimage.app/comprimir-imagen-a-50-kb";
+
+const faqs = getSpanishFaqsForRoute('/comprimir-imagen-a-50-kb');
+
+const relatedLinks = [
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Comprimir imagen a 100 KB", href: "/comprimir-imagen-a-100-kb" },
+  { label: "Comprimir imagen a 1 MB", href: "/comprimir-imagen-a-1-mb" },
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" },
+  { label: "Convertir imágenes", href: "/convertir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <UploadDropzone
+        h1="Comprimir imagen a 50 KB online"
+        subtitle="Reduce el tamaño de tus fotos para dejarlas por debajo de 50 KB. Ideal para sedes electrónicas, oposiciones y visados."
+        presetValue="50"
+        presetUnit="KB"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Reduce el tamaño de fotos e imágenes a 50 KB con total nitidez"
+    paragraphs={[
+      "Muchas administraciones públicas, portales educativos y plataformas de empleo requieren que las fotos de perfil o documentos no superen los 50 KB para poder ser adjuntados. FixMyImage te permite comprimir imágenes a 50 KB de manera rápida y precisa, ajustando la densidad de compresión para respetar al máximo los rasgos y la legibilidad.",
+      "Dado que la compresión tiene lugar directamente en tu navegador, tus fotografías privadas no se suben a ningún servidor externo. Disfruta de un procesamiento seguro, sin esperas y con compatibilidad para procesar varias fotos a la vez."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre comprimir a 50 KB"
+    relatedHeading="Otras opciones de compresión"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

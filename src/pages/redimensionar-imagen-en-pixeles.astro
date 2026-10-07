@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ResizeDropzone from '../components/ResizeDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Redimensionar imagen en píxeles online gratis | FixMyImage";
+const description = "Ajusta el ancho y alto exacto en píxeles de tus fotos e imágenes online gratis. Mantén la proporción o personaliza las dimensiones fácilmente.";
+const canonicalUrl = "https://fixmyimage.app/redimensionar-imagen-en-pixeles";
+
+const faqs = getSpanishFaqsForRoute('/redimensionar-imagen-en-pixeles');
+
+const relatedLinks = [
+  { label: "Redimensionar imagen", href: "/redimensionar-imagen" },
+  { label: "Redimensionar en cm", href: "/redimensionar-imagen-en-cm" },
+  { label: "Redimensionar por lotes", href: "/redimensionar-imagenes-por-lotes" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" },
+  { label: "Convertir imágenes", href: "/convertir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ResizeDropzone
+        h1="Redimensionar imagen en píxeles"
+        subtitle="Establece el ancho y alto exacto en píxeles. Ajusta dimensiones de forma instantánea y privada en tu navegador."
+        initialMode="custom"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Ajuste exacto de dimensiones en píxeles para cualquier plataforma"
+    paragraphs={[
+      "Cada red social, tienda online o gestor de contenidos requiere resoluciones concretas en píxeles para mostrar gráficos sin recortes indeseados. FixMyImage te permite redimensionar imágenes en píxeles con precisión milimétrica, manteniendo la proporción original o personalizando anchura y altura de forma independiente.",
+      "El redimensionado se ejecuta localmente en la memoria de tu dispositivo, permitiendo procesar lotes enteros de fotos sin esperas por subida a servidores."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre redimensionar en píxeles"
+    relatedHeading="Herramientas relacionadas"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

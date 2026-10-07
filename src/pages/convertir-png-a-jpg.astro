@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConvertDropzone from '../components/ConvertDropzone.astro';
+import SeoContent from '../components/SeoContent.astro';
+import { getSpanishFaqsForRoute } from '../data/spanishFaqs';
+
+const title = "Convertir PNG a JPG online gratis | FixMyImage";
+const description = "Convierte imágenes PNG a JPG online gratis para reducir peso y mejorar compatibilidad. Conversión local rápida y sin registros.";
+const canonicalUrl = "https://fixmyimage.app/convertir-png-a-jpg";
+
+const faqs = getSpanishFaqsForRoute('/convertir-png-a-jpg');
+
+const relatedLinks = [
+  { label: "Convertir imágenes (Inicio)", href: "/convertir-imagen" },
+  { label: "Convertir JPG a PNG", href: "/convertir-jpg-a-png" },
+  { label: "Convertir WebP a JPG", href: "/convertir-webp-a-jpg" },
+  { label: "Convertir AVIF a JPG", href: "/convertir-avif-a-jpg" },
+  { label: "Comprimir imagen", href: "/comprimir-imagen" }
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
+    <div class="w-full max-w-[960px] mx-auto">
+      <ConvertDropzone
+        h1="Convertir PNG a JPG online"
+        subtitle="Convierte archivos PNG a JPG de alta calidad para reducir el tamaño de tus imágenes."
+        initialInputFormat="png"
+        initialOutputFormat="jpeg"
+      />
+    </div>
+  </main>
+
+  <SeoContent
+    heading="Reduce el tamaño de tus fotos convirtiendo de PNG a JPG"
+    paragraphs={[
+      "Las fotos guardadas en formato PNG suelen ocupar varios megabytes debido a su compresión sin pérdida. Al convertir PNG a JPG en FixMyImage, logras aligerar notablemente el peso del archivo sin que el ojo humano perciba diferencias en la calidad de imagen.",
+      "Es la alternativa ideal para compartir fotografías por correo, optimizar el rendimiento de tu página web o subir imágenes a plataformas con límites estrictos de peso."
+    ]}
+    faqs={faqs}
+    faqHeading="Preguntas frecuentes sobre convertir PNG a JPG"
+    relatedHeading="Otras conversiones populares"
+    relatedLinks={relatedLinks}
+  />
+
+  <Footer />
+</BaseLayout>

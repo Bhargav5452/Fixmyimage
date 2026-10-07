@@ -1,5 +1,6 @@
 ---
 import ImageSourcePicker from './ImageSourcePicker.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 export interface Props {
   h1?: string;
@@ -8,9 +9,13 @@ export interface Props {
   initialOutputFormat?: "jpeg" | "png" | "webp" | "avif";
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isEs = lang === 'es';
+
 const {
-  h1 = "Convert Images",
-  subtitle = "Convert between JPG, PNG, WebP and AVIF formats. Drop files below to start.",
+  h1 = t('convert.h1'),
+  subtitle = t('convert.subtitle'),
   initialInputFormat,
   initialOutputFormat = "jpeg"
 } = Astro.props;
@@ -19,7 +24,7 @@ const acceptAttr = initialInputFormat
   ? `image/${initialInputFormat}`
   : "image/jpeg, image/png, image/webp, image/avif";
 ---
-<div id="upload-app" class="w-full" data-initial-output={initialOutputFormat} data-initial-input={initialInputFormat || ''}>
+<div id="upload-app" class="w-full" data-initial-output={initialOutputFormat} data-initial-input={initialInputFormat || ''} data-is-es={isEs ? "true" : "false"}>
 
   <!-- ── Global Drag Overlay ────────────────────────────────── -->
   <div id="drag-overlay" class="fixed inset-4 z-50 bg-canvas/95 border-4 border-dashed border-accent rounded-3xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -28,7 +33,7 @@ const acceptAttr = initialInputFormat
         <path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>
       </svg>
     </div>
-    <h2 class="text-3xl font-bold text-ink">Drop files here</h2>
+    <h2 class="text-3xl font-bold text-ink">{t('common.drop_files')}</h2>
   </div>
 
   <!-- ── Upload State ────────────────────────────────────────── -->
@@ -45,11 +50,11 @@ const acceptAttr = initialInputFormat
     <!-- Left Column: Files -->
     <div class="flex-1 w-full flex flex-col gap-4">
       <div class="flex items-center justify-between">
-        <span class="text-[13px] font-semibold text-body tracking-label">FILES &thinsp;<span id="file-count" class="text-ink">0</span></span>
+        <span class="text-[13px] font-semibold text-body tracking-label">{t('convert.files')} &thinsp;<span id="file-count" class="text-ink">0</span></span>
         <label class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-body hover:text-ink border border-hairline hover:border-ink/30 bg-canvas-elevated rounded-lg cursor-pointer transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Add more
-          <input type="file" id="file-input-more" multiple class="sr-only" accept={acceptAttr} />
+          {t('convert.add_more')}
+          <input type="file" id="file-input-more" multiple class="sr-only" accept={acceptAttr} aria-label={t('convert.add_more')} />
         </label>
       </div>
       <div id="file-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[260px] md:max-h-[500px] overflow-y-auto p-1"></div>
@@ -60,7 +65,7 @@ const acceptAttr = initialInputFormat
 
     {initialInputFormat && (
       <div>
-        <label class="tracking-label text-mute block mb-2.5">CONVERT FROM</label>
+        <label class="tracking-label text-mute block mb-2.5">{isEs ? 'CONVERTIR DE' : 'CONVERT FROM'}</label>
         <div class="w-full bg-canvas border border-hairline rounded-lg px-3 py-2.5 text-[14px] font-bold text-body uppercase text-center opacity-80 cursor-not-allowed">
           {initialInputFormat === 'jpeg' ? 'JPG' : initialInputFormat}
         </div>
@@ -69,7 +74,7 @@ const acceptAttr = initialInputFormat
 
     <!-- Format selector -->
     <div>
-      <label class="tracking-label text-mute block mb-2.5">CONVERT TO</label>
+      <label class="tracking-label text-mute block mb-2.5">{isEs ? 'CONVERTIR A' : 'CONVERT TO'}</label>
       <div class="flex flex-wrap gap-2 md:gap-3" role="group" aria-label="Output format">
         <button type="button" class="format-btn flex-1 py-3 px-4 text-[14px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="jpeg" data-active={initialOutputFormat === 'jpeg' ? 'true' : 'false'} disabled={initialInputFormat === 'jpeg'}>JPG</button>
         <button type="button" class="format-btn flex-1 py-3 px-4 text-[14px] font-bold border border-hairline rounded-lg bg-canvas-elevated text-body hover:border-ink/30 hover:text-ink transition-all data-[active=true]:bg-ink data-[active=true]:text-canvas data-[active=true]:border-ink disabled:opacity-30 disabled:pointer-events-none" data-format="png" data-active={initialOutputFormat === 'png' ? 'true' : 'false'} disabled={initialInputFormat === 'png'}>PNG</button>
@@ -81,13 +86,13 @@ const acceptAttr = initialInputFormat
     <!-- Transparency notice -->
     <div id="notice-transparency" class="hidden items-start gap-2.5 p-3.5 bg-warning-bg border border-warning-text/20 rounded-lg text-[13px] text-warning-text">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-      <p>JPG doesn't support transparency. Transparent areas will be filled with white.</p>
+      <p>{isEs ? 'JPG no admite transparencia. Las zonas transparentes se rellenarán con fondo blanco.' : "JPG doesn't support transparency. Transparent areas will be filled with white."}</p>
     </div>
 
     <!-- Target Size (hidden for PNG) -->
     <div id="panel-quality">
       <label class="tracking-label text-mute block mb-3 text-center" for="input-quality">
-        TARGET SIZE: <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
+        {isEs ? 'TAMAÑO OBJETIVO:' : 'TARGET SIZE:'} <span id="quality-label" class="text-ink font-semibold normal-case text-[14px]">--</span>
       </label>
       <input type="range" id="input-quality" min="0" max="100" value="75" class="w-full accent-accent h-1.5 lg:h-2 cursor-pointer" />
       <div class="flex justify-between text-[11px] text-mute mt-2">
@@ -99,10 +104,10 @@ const acceptAttr = initialInputFormat
     <!-- Error -->
     <div id="error-message" class="hidden items-start gap-2.5 p-3 bg-danger-bg border border-danger/20 rounded-lg text-[13px] text-danger">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-      <span id="error-text">Something went wrong.</span>
+      <span id="error-text">{t('convert.error')}</span>
     </div>
 
-    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">Convert Images</button>
+    <button type="button" id="btn-start" class="btn-primary w-full py-3.5 text-[16px] lg:text-[18px] rounded-xl shadow-lg shadow-ink/5">{t('convert.btn_action')}</button>
     </div>
   </div>
 
@@ -110,7 +115,7 @@ const acceptAttr = initialInputFormat
   <div id="state-processing" class="hidden flex-col gap-5">
     <div>
       <div class="flex items-center justify-between mb-1">
-        <span class="text-[14px] font-semibold text-ink">Converting…</span>
+        <span class="text-[14px] font-semibold text-ink">{isEs ? 'Convirtiendo…' : 'Converting…'}</span>
         <span class="text-[13px] text-mute num"><span id="proc-completed-count">0</span> / <span id="proc-total-count">0</span></span>
       </div>
       <div class="h-1 bg-hairline rounded-full overflow-hidden mt-3">
@@ -120,24 +125,24 @@ const acceptAttr = initialInputFormat
     <div class="border border-hairline rounded-xl bg-canvas-elevated overflow-hidden">
       <div id="progress-list" class="divide-y divide-hairline max-h-72 overflow-y-auto"></div>
     </div>
-    <button type="button" id="btn-cancel" class="btn-ghost w-full">Cancel</button>
+    <button type="button" id="btn-cancel" class="btn-ghost w-full">{t('convert.cancel')}</button>
   </div>
 
   <!-- ── Result State ──────────────────────────────────────────── -->
   <div id="state-result" class="hidden flex-col items-center gap-6 max-w-3xl mx-auto w-full mt-10">
     
-    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">Images have been converted!</h2>
+    <h2 class="text-3xl sm:text-[32px] font-bold text-ink text-center tracking-tight">{t('convert.success_plural')}</h2>
 
     <!-- Actions -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full mt-4">
-      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label="Start over" title="Start over">
+      <button type="button" id="btn-restart" class="w-14 h-14 shrink-0 rounded-full bg-canvas-elevated border border-hairline text-ink flex items-center justify-center hover:bg-hairline-soft transition-colors shadow-sm" aria-label={t('convert.btn_start_over')} title={t('convert.btn_start_over')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </button>
 
       <div class="flex items-center gap-4 w-full sm:w-auto">
         <a id="btn-download" href="#" class="btn-primary h-14 px-8 sm:px-12 text-[18px] sm:text-[20px] font-bold shadow-xl shadow-ink/10 flex items-center justify-center gap-3 w-full sm:w-auto">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-          <span id="download-text">Download converted images</span>
+          <span id="download-text">{t('convert.download_plural')}</span>
         </a>
 
         <!-- Third Party Save Buttons -->
@@ -162,7 +167,7 @@ const acceptAttr = initialInputFormat
       </div>
       
       <div class="text-left">
-        <p class="text-[15px] text-body mb-1">Your image was successfully converted.</p>
+        <p class="text-[15px] text-body mb-1">{isEs ? '¡Tu imagen ha sido convertida correctamente!' : 'Your image was successfully converted.'}</p>
         <p class="text-[14px] font-medium text-mute"><span id="res-original-format" class="line-through uppercase"></span> &nbsp;&rarr;&nbsp; <span id="res-format" class="text-ink font-semibold uppercase"></span></p>
         <p class="text-[13px] text-mute mt-1"><span id="res-size"></span> &middot; <span id="res-dimensions"></span></p>
       </div>
@@ -170,7 +175,7 @@ const acceptAttr = initialInputFormat
 
     <!-- Batch stats -->
     <div id="res-batch-summary" class="hidden text-center mt-6 text-[16px] text-body">
-      <span id="res-success-count" class="num text-ink font-bold">0</span> converted &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> failed
+      <span id="res-success-count" class="num text-ink font-bold">0</span> {isEs ? 'convertidas' : 'converted'} &middot; <span id="res-failed-count" class="num text-danger font-bold">0</span> {isEs ? 'fallidas' : 'failed'}
     </div>
 
 
@@ -178,18 +183,18 @@ const acceptAttr = initialInputFormat
 
     <!-- Continue to -->
     <div class="w-full max-w-2xl bg-canvas-elevated border border-hairline rounded-2xl p-6 mt-6">
-      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">Continue to...</h3>
+      <h3 class="text-[14px] font-bold text-ink mb-4 text-center sm:text-left">{isEs ? 'Continuar con…' : 'Continue to...'}</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <a href="/compress-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg> Compress Image</div>
+        <a href={isEs ? '/comprimir-imagen' : '/compress-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg> {isEs ? 'Comprimir imagen' : 'Compress Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/resize-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> Resize Image</div>
+        <a href={isEs ? '/redimensionar-imagen' : '/resize-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M21 3H3v18h18V3z"/><path d="M21 9H3"/><path d="M9 21V9"/></svg> {isEs ? 'Redimensionar' : 'Resize Image'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
-        <a href="/watermark-image" class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
-          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> Watermark</div>
+        <a href={isEs ? '/marca-de-agua' : '/watermark-image'} class="flex items-center justify-between p-3 rounded-lg border border-hairline hover:border-ink/30 hover:bg-canvas transition-colors text-[14px] font-medium text-body hover:text-ink">
+          <div class="flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> {isEs ? 'Marca de agua' : 'Watermark'}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="m9 18 6-6-6-6"/></svg>
         </a>
       </div>
@@ -229,7 +234,9 @@ const acceptAttr = initialInputFormat
   import { formatBytes } from '../lib/format';
 
   let files: File[] = [];
-  let targetFormat = document.getElementById('upload-app')?.dataset.initialOutput || 'jpeg';
+  const appContainer = document.getElementById('upload-app');
+  const isEs = appContainer?.dataset.isEs === 'true';
+  let targetFormat = appContainer?.dataset.initialOutput || 'jpeg';
   let isProcessing = false, isCancelled = false;
   let completedCount = 0, successCount = 0, failedCount = 0;
   let outputUrl: string | null = null;
@@ -266,7 +273,6 @@ const acceptAttr = initialInputFormat
   const downloadText = document.getElementById('download-text')!;
   const btnRestart   = document.getElementById('btn-restart')!;
 
-  const appContainer = document.getElementById('upload-app');
   if (appContainer) {
     appContainer.addEventListener('source-files-selected', ((e: CustomEvent) => {
       if (isProcessing) return;
@@ -276,7 +282,7 @@ const acceptAttr = initialInputFormat
 
   fileInputMore.addEventListener('change', handleFilesSelected);
   btnStart.addEventListener('click', startProcessing);
-  btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = 'Cancelling…'; });
+  btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = isEs ? 'Cancelando…' : 'Cancelling…'; });
   btnRestart.addEventListener('click', resetApp);
 
   // Global Drag and drop
@@ -391,7 +397,7 @@ const acceptAttr = initialInputFormat
     if (expectedInput) {
       const invalid = newFiles.some(f => !f.type.includes(expectedInput));
       if (invalid) {
-        showError(`Please upload only ${expectedInput.toUpperCase()} files for this conversion.`);
+        showError(isEs ? `Por favor, sube solo archivos ${expectedInput.toUpperCase()} para esta conversión.` : `Please upload only ${expectedInput.toUpperCase()} files for this conversion.`);
         return;
       }
     }
@@ -399,15 +405,17 @@ const acceptAttr = initialInputFormat
     const existing = new Set(files.map(f => f.name + f.size));
     let added = 0;
     for (const f of newFiles) {
-      if (files.length >= 50) { showError('Maximum 50 files.'); break; }
+      if (files.length >= 50) { showError(isEs ? 'Máximo 50 archivos.' : 'Maximum 50 files.'); break; }
       if (!existing.has(f.name + f.size)) { files.push(f); added++; existing.add(f.name + f.size); }
     }
     if (files.length > 0) {
       calculateSizeRange();
       renderFileList(); updateUI(); showState('config');
-      btnStart.textContent = files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`;
+      btnStart.textContent = isEs
+        ? (files.length === 1 ? 'Convertir imagen' : `Convertir ${files.length} imágenes`)
+        : (files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`);
       hideError();
-    } else if (added === 0 && newFiles.length > 0) showError('Those files are already added.');
+    } else if (added === 0 && newFiles.length > 0) showError(isEs ? 'Esos archivos ya están añadidos.' : 'Those files are already added.');
   }
 
   function removeFile(index) {
@@ -415,7 +423,9 @@ const acceptAttr = initialInputFormat
     files.splice(index, 1); 
     calculateSizeRange();
     renderFileList(); updateUI();
-    btnStart.textContent = files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`;
+    btnStart.textContent = isEs
+      ? (files.length === 1 ? 'Convertir imagen' : `Convertir ${files.length} imágenes`)
+      : (files.length === 1 ? 'Convert Image' : `Convert ${files.length} Images`);
     if (!files.length) resetApp();
   }
 
@@ -469,7 +479,7 @@ const acceptAttr = initialInputFormat
     completedCount = successCount = failedCount = 0;
     procTotalCount.textContent = files.length; procCompletedCount.textContent = '0';
     progressBar.style.width = '0%';
-    btnCancel.disabled = false; btnCancel.textContent = 'Cancel';
+    btnCancel.disabled = false; btnCancel.textContent = isEs ? 'Cancelar' : 'Cancel';
 
     progressList.innerHTML = '';
     const statusEls = new Map();
@@ -507,8 +517,8 @@ const acceptAttr = initialInputFormat
 
       async function runTask(file, idx) {
         const el = statusEls.get(idx);
-        if (isCancelled) { el.textContent = 'Cancelled'; el.className = 'status-cancelled'; return; }
-        el.textContent = 'Converting…'; el.className = 'status-working';
+        if (isCancelled) { el.textContent = isEs ? 'Cancelado' : 'Cancelled'; el.className = 'status-cancelled'; return; }
+        el.textContent = isEs ? 'Convirtiendo…' : 'Converting…'; el.className = 'status-working';
         try {
           const dims = await getImageDimensions(file);
           const result = await convertImage({ file, width: dims.w, height: dims.h, format, quality });
@@ -519,10 +529,10 @@ const acceptAttr = initialInputFormat
           if (isSingle) { singleResult = result; singleResult.filename = outName; singleOriginalFormat = file.type.split('/')[1] || 'jpeg'; }
           else zip.file(outName, result.file);
           successCount++;
-          el.textContent = '✓ Done'; el.className = 'status-done';
+          el.textContent = isEs ? '✓ Listo' : '✓ Done'; el.className = 'status-done';
         } catch (err) {
           failedCount++;
-          el.textContent = 'Failed'; el.title = err.message || ''; el.className = 'status-failed';
+          el.textContent = isEs ? 'Fallido' : 'Failed'; el.title = err.message || ''; el.className = 'status-failed';
         }
       }
       pump();
@@ -536,7 +546,9 @@ const acceptAttr = initialInputFormat
       
       const titleEl = document.querySelector('h2.text-3xl');
       if (titleEl) {
-        titleEl.textContent = successCount === 1 ? 'Image has been converted!' : 'Images have been converted!';
+        titleEl.textContent = isEs
+          ? (successCount === 1 ? '¡La imagen ha sido convertida!' : '¡Las imágenes han sido convertidas!')
+          : (successCount === 1 ? 'Image has been converted!' : 'Images have been converted!');
       }
 
       let downloadName = '';
@@ -545,7 +557,7 @@ const acceptAttr = initialInputFormat
         btnDownload.href = outputUrl;
         downloadName = singleResult.filename;
         btnDownload.download = downloadName;
-        downloadText.textContent = 'Download converted image';
+        downloadText.textContent = isEs ? 'Descargar imagen convertida' : 'Download converted image';
         
         const ext = targetFormat === 'jpeg' ? 'jpg' : targetFormat;
         const origExt = singleOriginalFormat === 'jpeg' ? 'jpg' : singleOriginalFormat;
@@ -559,12 +571,12 @@ const acceptAttr = initialInputFormat
         btnDownload.href = outputUrl;
         downloadName = 'FixMyImage-converted.zip';
         btnDownload.download = downloadName;
-        downloadText.textContent = 'Download converted images';
+        downloadText.textContent = isEs ? 'Descargar imágenes convertidas' : 'Download converted images';
         
         document.getElementById('res-format')!.textContent = targetFormat === 'jpeg' ? 'jpg' : targetFormat;
-        document.getElementById('res-original-format')!.textContent = 'multiple';
+        document.getElementById('res-original-format')!.textContent = isEs ? 'múltiples' : 'multiple';
         document.getElementById('res-size')!.textContent = 'ZIP';
-        document.getElementById('res-dimensions')!.textContent = `${successCount} items`;
+        document.getElementById('res-dimensions')!.textContent = `${successCount} ${isEs ? 'archivos' : 'items'}`;
       }
       btnDownload.disabled = false;
       const a = document.createElement('a'); a.href = outputUrl; a.download = downloadName;

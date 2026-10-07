@@ -1,4 +1,4 @@
-import { LANGUAGES, DEFAULT_LOCALE, type Locale } from './config';
+import { LANGUAGES, DEFAULT_LOCALE, EN_TO_ES_ROUTES, ES_TO_EN_ROUTES, SPANISH_PAGE_PATHS, type Locale } from './config';
 import { en } from './translations/en';
 import { es } from './translations/es';
 
@@ -8,8 +8,10 @@ const dictionaries: Record<string, any> = {
 };
 
 export function getLangFromUrl(url: URL): Locale {
-  const [, langCode] = url.pathname.split('/');
-  if (langCode in LANGUAGES) return langCode as Locale;
+  const pathname = url.pathname.replace(/\/$/, '') || '/';
+  if (SPANISH_PAGE_PATHS.has(pathname) || pathname.startsWith('/es')) {
+    return 'es';
+  }
   return DEFAULT_LOCALE;
 }
 
@@ -27,9 +29,22 @@ export function useTranslations(lang: Locale) {
 }
 
 export function getRelativeLocaleUrl(lang: Locale, path: string) {
-  const prefix = LANGUAGES[lang].prefix;
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  if (normalizedPath === '/' && prefix === '') return '/';
-  if (normalizedPath === '/') return `${prefix}/`;
-  return `${prefix}${normalizedPath}`;
+  if (lang === 'es') {
+    if (EN_TO_ES_ROUTES[normalizedPath]) {
+      return EN_TO_ES_ROUTES[normalizedPath];
+    }
+    if (SPANISH_PAGE_PATHS.has(normalizedPath)) {
+      return normalizedPath;
+    }
+    if (normalizedPath === '/') {
+      return '/comprimir-imagen';
+    }
+    return normalizedPath;
+  }
+  // English
+  if (ES_TO_EN_ROUTES[normalizedPath]) {
+    return ES_TO_EN_ROUTES[normalizedPath];
+  }
+  return normalizedPath;
 }

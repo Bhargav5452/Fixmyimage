@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
-import { LANGUAGES } from '../i18n/config';
-import { getLangFromUrl, getRelativeLocaleUrl } from '../i18n/utils';
+import { LANGUAGES, EN_TO_ES_ROUTES, ES_TO_EN_ROUTES, SPANISH_PAGE_PATHS } from '../i18n/config';
+import { getLangFromUrl } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -9,22 +9,48 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   noindex?: boolean;
+  lang?: 'en' | 'es';
 }
+
+const siteUrl = "https://fixmyimage.app";
+const currentLang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const rawPath = Astro.url.pathname || '/';
+const currentPath = rawPath.endsWith('/') && rawPath.length > 1 ? rawPath.slice(0, -1) : rawPath;
+
+const defaultDesc = currentLang === 'es'
+  ? "Herramientas gratuitas en línea para comprimir, redimensionar, convertir y marcar imágenes directamente en tu navegador. Rápido, privado y sin subidas a servidores."
+  : "Free online tools to compress, resize, convert and watermark images directly in your browser. Fast, private, no uploads.";
 
 const {
   title,
-  description = "Free online tools to compress, resize, convert and watermark images directly in your browser. Fast, private, no uploads.",
+  description = defaultDesc,
   canonical,
   ogImage = "/web-app-manifest-512x512.png",
   noindex = false,
 } = Astro.props;
 
-const siteUrl = "https://fixmyimage.app";
-const currentLang = getLangFromUrl(Astro.url);
-const currentPath = Astro.url.pathname.replace(LANGUAGES[currentLang].prefix, '') || '/';
-
-const canonicalUrl = canonical ?? (siteUrl + getRelativeLocaleUrl(currentLang, currentPath).replace(/\/$/, ''));
+const canonicalUrl = canonical ?? (siteUrl + (currentPath === '/' ? '' : currentPath));
 const finalCanonical = canonicalUrl || siteUrl;
+
+// Reciprocal hreflang calculation
+let enUrl: string | null = null;
+let esUrl: string | null = null;
+
+if (currentLang === 'es') {
+  esUrl = siteUrl + currentPath;
+  const enRoute = ES_TO_EN_ROUTES[currentPath];
+  if (enRoute) {
+    enUrl = siteUrl + (enRoute === '/' ? '' : enRoute);
+  }
+} else {
+  enUrl = siteUrl + (currentPath === '/' ? '' : currentPath);
+  const esRoute = EN_TO_ES_ROUTES[currentPath];
+  if (esRoute) {
+    esUrl = siteUrl + esRoute;
+  }
+}
+
+const xDefaultUrl = enUrl ?? (siteUrl + (currentPath === '/' ? '' : currentPath));
 ---
 
 <!doctype html>
@@ -35,17 +61,16 @@ const finalCanonical = canonicalUrl || siteUrl;
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Primary Meta -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={finalCanonical} />
-    {Object.keys(LANGUAGES).map((code) => (
-      <link rel="alternate" hreflang={code} href={siteUrl + getRelativeLocaleUrl(code as keyof typeof LANGUAGES, currentPath).replace(/\/$/, '') || siteUrl} />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={siteUrl + getRelativeLocaleUrl('en', currentPath).replace(/\/$/, '') || siteUrl} />
+    {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+    {esUrl && <link rel="alternate" hreflang="es" href={esUrl} />}
+    <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
     
     <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 
@@ -79,7 +104,7 @@ const finalCanonical = canonicalUrl || siteUrl;
       "@type": "WebSite",
       "name": "FixMyImage",
       "url": siteUrl,
-      "description": "Free online image tools — compress, resize, convert and watermark images in your browser."
+      "description": currentLang === 'es' ? "Herramientas de imagen online gratuitas — comprime, redimensiona, convierte y añade marcas de agua en tu navegador." : "Free online image tools — compress, resize, convert and watermark images in your browser."
     })} />
 
     <meta name="generator" content={Astro.generator} />
