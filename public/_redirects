@@ -30,8 +30,14 @@
 /es/resize-image-in-cm/ /redimensionar-imagen-en-cm/ 301
 /es/bulk-image-resizer /redimensionar-imagenes-por-lotes 301
 /es/bulk-image-resizer/ /redimensionar-imagenes-por-lotes/ 301
-/es /comprimir-imagen 301
-/es/ /comprimir-imagen/ 301
+/es/comprimir-imagen /comprimir-imagen 301
+/es/comprimir-imagen/ /comprimir-imagen/ 301
+/es/redimensionar-imagen /redimensionar-imagen 301
+/es/redimensionar-imagen/ /redimensionar-imagen/ 301
+/es/convertir-imagen /convertir-imagen 301
+/es/convertir-imagen/ /convertir-imagen/ 301
+/es/marca-de-agua /marca-de-agua 301
+/es/marca-de-agua/ /marca-de-agua/ 301
 /es/about /about 301
 /es/about/ /about/ 301
 /es/contact /contact 301
