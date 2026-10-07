@@ -295,6 +295,6 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
 };
 
 export function getSpanishFaqsForRoute(route: string): FaqItem[] {
-  const normalized = route.replace('/es/', '/').replace(/\/$/, '') || route;
+  const normalized = route.replace(/\/$/, '') || route;
   return SPANISH_FAQS[route] ?? SPANISH_FAQS[normalized] ?? [];
 }
