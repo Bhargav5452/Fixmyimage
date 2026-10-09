@@ -1,3 +1,82 @@
+# Legacy Spanish subpage redirects to final root-level URLs (301 Permanent Redirect)
+# NOTE: /es/ Spanish Homepage is NOT redirected - it serves the Spanish homepage.
+/es/compress-image /comprimir-imagen/ 301
+/es/compress-image/ /comprimir-imagen/ 301
+/es/resize-image /redimensionar-imagen/ 301
+/es/resize-image/ /redimensionar-imagen/ 301
+/es/convert-image /convertir-imagen/ 301
+/es/convert-image/ /convertir-imagen/ 301
+/es/watermark-image /marca-de-agua/ 301
+/es/watermark-image/ /marca-de-agua/ 301
+/es/jpg-to-png /convertir-jpg-a-png/ 301
+/es/jpg-to-png/ /convertir-jpg-a-png/ 301
+/es/png-to-jpg /convertir-png-a-jpg/ 301
+/es/png-to-jpg/ /convertir-png-a-jpg/ 301
+/es/webp-to-png /convertir-webp-a-png/ 301
+/es/webp-to-png/ /convertir-webp-a-png/ 301
+/es/webp-to-jpg /convertir-webp-a-jpg/ 301
+/es/webp-to-jpg/ /convertir-webp-a-jpg/ 301
+/es/avif-to-jpg /convertir-avif-a-jpg/ 301
+/es/avif-to-jpg/ /convertir-avif-a-jpg/ 301
+/es/avif-to-png /convertir-avif-a-png/ 301
+/es/avif-to-png/ /convertir-avif-a-png/ 301
+/es/compress-image-to-50kb /comprimir-imagen-a-50-kb/ 301
+/es/compress-image-to-50kb/ /comprimir-imagen-a-50-kb/ 301
+/es/compress-image-to-100kb /comprimir-imagen-a-100-kb/ 301
+/es/compress-image-to-100kb/ /comprimir-imagen-a-100-kb/ 301
+/es/compress-image-to-1mb /comprimir-imagen-a-1-mb/ 301
+/es/compress-image-to-1mb/ /comprimir-imagen-a-1-mb/ 301
+/es/resize-image-in-pixels /redimensionar-imagen-en-pixeles/ 301
+/es/resize-image-in-pixels/ /redimensionar-imagen-en-pixeles/ 301
+/es/resize-image-in-cm /redimensionar-imagen-en-cm/ 301
+/es/resize-image-in-cm/ /redimensionar-imagen-en-cm/ 301
+/es/bulk-image-resizer /redimensionar-imagenes-por-lotes/ 301
+/es/bulk-image-resizer/ /redimensionar-imagenes-por-lotes/ 301
+
+# Legacy Spanish informational and legal pages
+/es/about /about/ 301
+/es/about/ /about/ 301
+/es/contact /contact/ 301
+/es/contact/ /contact/ 301
+/es/privacy /privacy/ 301
+/es/privacy/ /privacy/ 301
+/es/terms /terms/ 301
+/es/terms/ /terms/ 301
+
+# Redundant /es/ prefixes on Spanish slugs
+/es/comprimir-imagen /comprimir-imagen/ 301
+/es/comprimir-imagen/ /comprimir-imagen/ 301
+/es/redimensionar-imagen /redimensionar-imagen/ 301
+/es/redimensionar-imagen/ /redimensionar-imagen/ 301
+/es/convertir-imagen /convertir-imagen/ 301
+/es/convertir-imagen/ /convertir-imagen/ 301
+/es/marca-de-agua /marca-de-agua/ 301
+/es/marca-de-agua/ /marca-de-agua/ 301
+/es/convertir-jpg-a-png /convertir-jpg-a-png/ 301
+/es/convertir-jpg-a-png/ /convertir-jpg-a-png/ 301
+/es/convertir-png-a-jpg /convertir-png-a-jpg/ 301
+/es/convertir-png-a-jpg/ /convertir-png-a-jpg/ 301
+/es/convertir-webp-a-png /convertir-webp-a-png/ 301
+/es/convertir-webp-a-png/ /convertir-webp-a-png/ 301
+/es/convertir-webp-a-jpg /convertir-webp-a-jpg/ 301
+/es/convertir-webp-a-jpg/ /convertir-webp-a-jpg/ 301
+/es/convertir-avif-a-jpg /convertir-avif-a-jpg/ 301
+/es/convertir-avif-a-jpg/ /convertir-avif-a-jpg/ 301
+/es/convertir-avif-a-png /convertir-avif-a-png/ 301
+/es/convertir-avif-a-png/ /convertir-avif-a-png/ 301
+/es/comprimir-imagen-a-50-kb /comprimir-imagen-a-50-kb/ 301
+/es/comprimir-imagen-a-50-kb/ /comprimir-imagen-a-50-kb/ 301
+/es/comprimir-imagen-a-100-kb /comprimir-imagen-a-100-kb/ 301
+/es/comprimir-imagen-a-100-kb/ /comprimir-imagen-a-100-kb/ 301
+/es/comprimir-imagen-a-1-mb /comprimir-imagen-a-1-mb/ 301
+/es/comprimir-imagen-a-1-mb/ /comprimir-imagen-a-1-mb/ 301
+/es/redimensionar-imagen-en-pixeles /redimensionar-imagen-en-pixeles/ 301
+/es/redimensionar-imagen-en-pixeles/ /redimensionar-imagen-en-pixeles/ 301
+/es/redimensionar-imagen-en-cm /redimensionar-imagen-en-cm/ 301
+/es/redimensionar-imagen-en-cm/ /redimensionar-imagen-en-cm/ 301
+/es/redimensionar-imagenes-por-lotes /redimensionar-imagenes-por-lotes/ 301
+/es/redimensionar-imagenes-por-lotes/ /redimensionar-imagenes-por-lotes/ 301
+
 # Permanent URL normalization: Redirect non-trailing-slash to trailing-slash (308 Permanent Redirect)
 /about /about/ 308
 /contact /contact/ 308
