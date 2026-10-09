@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = "Contacto – Soporte, Errores y Consultas | FixMyImage";
+const description = "¿Tienes preguntas, comentarios o encontraste un error? Contacta al equipo de FixMyImage. Leemos todos los mensajes y respondemos con rapidez.";
+const canonicalUrl = "https://fixmyimage.app/contacto/";
+
+const contactFaqs = [
+  {
+    q: "¿Con qué rapidez responden a las consultas de soporte?",
+    a: "Somos un equipo enfocado, pero leemos cada mensaje y habitualmente respondemos en un plazo de 24 a 48 horas hábiles."
+  },
+  {
+    q: "¿Por qué falló el procesamiento de una imagen o mostró un error?",
+    a: "Dado que todo el procesamiento se realiza en tu navegador, los errores suelen deberse a archivos corruptos, falta de compatibilidad del navegador (por ejemplo, versiones antiguas sin soporte para AVIF) o memoria insuficiente del dispositivo ante fotografías excepcionalmente grandes."
+  },
+  {
+    q: "¿Ofrecen una API en la nube o integración para desarrolladores?",
+    a: "Actualmente, FixMyImage se enfoca exclusivamente en ofrecer herramientas gratuitas, privadas y del lado del cliente en el navegador. Si tienes consultas de gran volumen para desarrolladores, contáctanos por correo."
+  },
+  {
+    q: "¿Cómo puedo reportar un error de forma efectiva?",
+    a: "Por favor, incluye el nombre y versión de tu navegador, el sistema operativo de tu dispositivo, el formato de imagen que estabas procesando y cualquier mensaje de error que haya aparecido."
+  }
+];
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contacto FixMyImage",
+  "description": description,
+  "url": canonicalUrl,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app/es/",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@fixmyimage.app",
+      "contactType": "Customer Support",
+      "availableLanguage": ["Spanish", "English"]
+    }
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": contactFaqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.a
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Miga de pan">
+      <a href="/es/" class="hover:text-ink transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-ink font-medium">Contacto</span>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="text-center max-w-2xl mx-auto mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-4">
+        Ponte en contacto
+      </h1>
+      <p class="text-base sm:text-lg text-body leading-relaxed">
+        ¿Tienes sugerencias, encontraste un error o quieres proponer una nueva herramienta? Nos encantaría escucharte. Leemos y valoramos cada mensaje.
+      </p>
+    </header>
+
+    <!-- Primary Email Card -->
+    <div class="bg-canvas-elevated border border-hairline rounded-2xl p-8 sm:p-12 text-center max-w-xl mx-auto shadow-sm mb-14">
+      <div class="w-14 h-14 bg-accent/10 text-accent rounded-full flex items-center justify-center mx-auto mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </svg>
+      </div>
+      <h2 class="text-xl font-bold text-ink mb-2">Escribe a nuestro equipo</h2>
+      <p class="text-sm text-body mb-6">
+        Dirige todas tus consultas de soporte, reportes de errores y comentarios generales a:
+      </p>
+      <a
+        href="mailto:hello@fixmyimage.app"
+        class="inline-flex items-center justify-center bg-accent text-white font-bold text-lg py-3 px-8 rounded-full hover:bg-accent/90 transition-transform hover:scale-105 shadow-lg shadow-accent/20"
+      >
+        hello@fixmyimage.app
+      </a>
+      <p class="text-xs text-mute mt-4">
+        Tiempo estimado de respuesta: entre 24 y 48 horas
+      </p>
+    </div>
+
+    <!-- Inquiry Types Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <div class="border border-hairline rounded-xl p-6 bg-canvas">
+        <div class="font-bold text-ink text-base mb-2 flex items-center gap-2">
+          <span>🐛</span> Reporte de errores
+        </div>
+        <p class="text-sm text-body">
+          ¿Tuviste problemas con alguna imagen? Indícanos tu navegador, sistema operativo y formato de archivo para reproducirlo y corregirlo rápidamente.
+        </p>
+      </div>
+      <div class="border border-hairline rounded-xl p-6 bg-canvas">
+        <div class="font-bold text-ink text-base mb-2 flex items-center gap-2">
+          <span>💡</span> Sugerencias de funciones
+        </div>
+        <p class="text-sm text-body">
+          ¿Necesitas compatibilidad con otro formato o un ajuste de resolución específico? Priorizamos las nuevas opciones según el interés de los usuarios.
+        </p>
+      </div>
+      <div class="border border-hairline rounded-xl p-6 bg-canvas">
+        <div class="font-bold text-ink text-base mb-2 flex items-center gap-2">
+          <span>🤝</span> Consultas generales
+        </div>
+        <p class="text-sm text-body">
+          Para colaboraciones educativas, prensa o preguntas técnicas sobre nuestra arquitectura del lado del cliente y políticas de privacidad.
+        </p>
+      </div>
+    </div>
+
+    <!-- Support FAQ Section -->
+    <section class="border-t border-hairline pt-12 mb-16">
+      <h2 class="text-2xl sm:text-3xl font-bold text-ink mb-8 text-center sm:text-left">
+        Preguntas frecuentes
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {contactFaqs.map(faq => (
+          <div class="border border-hairline rounded-xl p-6 bg-canvas-elevated">
+            <h3 class="font-bold text-ink text-[16px] mb-2">{faq.q}</h3>
+            <p class="text-[14px] text-body leading-relaxed">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Quick Tool Navigation -->
+    <section class="border-t border-hairline pt-12">
+      <h2 class="text-lg font-bold text-ink mb-4">Explora nuestras herramientas gratuitas</h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="/comprimir-imagen/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Comprimir imágenes
+        </a>
+        <a href="/redimensionar-imagen/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Redimensionar imagen
+        </a>
+        <a href="/convertir-imagen/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Convertir imagen
+        </a>
+        <a href="/marca-de-agua/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Marca de agua
+        </a>
+        <a href="/sobre-nosotros/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Sobre FixMyImage
+        </a>
+        <a href="/privacidad/" class="px-3.5 py-2 text-sm font-medium border border-hairline rounded-lg bg-canvas hover:border-ink/30 transition-colors text-body hover:text-ink">
+          Política de privacidad
+        </a>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

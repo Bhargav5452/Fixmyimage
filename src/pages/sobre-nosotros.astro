@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = "Sobre Nosotros – Herramientas de Imagen Gratuitas y Privadas | FixMyImage";
+const description = "Conoce FixMyImage y nuestra misión: proporcionar herramientas de edición de imágenes ultrarrápidas, 100% privadas y ejecutadas en tu navegador sin subidas ni registros.";
+const canonicalUrl = "https://fixmyimage.app/sobre-nosotros/";
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "Sobre FixMyImage",
+  "description": description,
+  "url": canonicalUrl,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app/es/",
+    "logo": "https://fixmyimage.app/logo1.png",
+    "description": "Herramientas de procesamiento de imágenes del lado del cliente, gratuitas y centradas en la privacidad para compresión, cambio de tamaño, conversión y marcas de agua."
+  }
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
+
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Miga de pan">
+      <a href="/es/" class="hover:text-ink transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-ink font-medium">Sobre nosotros</span>
+    </nav>
+
+    <header class="mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-4">
+        Sobre FixMyImage
+      </h1>
+      <p class="text-lg sm:text-xl text-body leading-relaxed max-w-3xl">
+        FixMyImage es un conjunto de herramientas de imagen rápidas, ligeras y totalmente privadas, diseñadas para resolver problemas habituales con archivos visuales directamente en tu navegador web.
+      </p>
+    </header>
+
+    <div class="space-y-12 text-[15px] sm:text-[16px] leading-relaxed text-body">
+      
+      <!-- Mission Section -->
+      <section class="bg-canvas-elevated border border-hairline rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Nuestra misión</h2>
+        <p class="mb-4">
+          Casi todos hemos vivido esa frustración: intentas subir una imagen para una solicitud de empleo, un trámite de pasaporte, tu página web o un correo electrónico, y el sistema la rechaza con: <em class="text-ink font-medium">«El archivo supera los 100 KB»,</em> <em class="text-ink font-medium">«Dimensiones no válidas»</em> o <em class="text-ink font-medium">«Formato no admitido».</em>
+        </p>
+        <p>
+          Tradicionalmente, solucionar esto exigía instalar programas pesados de edición o subir documentos confidenciales a sitios web desconocidos que almacenan tus archivos en servidores externos. FixMyImage nació para eliminar ese dilema, ofreciendo procesamiento de imagen profesional con ejecución local instantánea y cero riesgos de privacidad.
+        </p>
+      </section>
+
+      <!-- Architecture Section -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Cómo funciona el procesamiento en el navegador</h2>
+        <p class="mb-4">
+          A diferencia de los convertidores y compresores online tradicionales, FixMyImage funciona <strong class="text-ink">100% dentro de tu navegador web</strong>. Al seleccionar una imagen, nuestra aplicación aprovecha los estándares web modernos:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">HTML5 Canvas API</h3>
+            <p class="text-[14px] text-body">
+              Permite dibujar con aceleración por hardware, submuestreo bicúbico con precisión de píxel, ajuste de proporciones y composición de marcas de agua directamente en tu GPU/CPU.
+            </p>
+          </div>
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">Web Workers</h3>
+            <p class="text-[14px] text-body">
+              Distribuye la codificación de imágenes en subprocesos paralelos para que las operaciones pesadas por lotes nunca congelen tu navegador ni ralenticen la pantalla.
+            </p>
+          </div>
+          <div class="border border-hairline rounded-xl p-5 bg-canvas">
+            <h3 class="font-bold text-ink text-[16px] mb-2">WebAssembly (WASM)</h3>
+            <p class="text-[14px] text-body">
+              Ejecuta algoritmos avanzados de codificación de forma local para lograr velocidades casi nativas sin transferir datos brutos a través de internet.
+            </p>
+          </div>
+        </div>
+        <p>
+          Al no producirse transferencias de red, el procesamiento se completa en milisegundos, no consume tus datos móviles y garantiza que documentos sensibles (como identificaciones, papeles financieros y fotos personales) nunca salgan de tu dispositivo.
+        </p>
+      </section>
+
+      <!-- Tool Suite Section -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Nuestras herramientas principales</h2>
+        <p class="mb-6">
+          Cada herramienta está diseñada específicamente para ofrecer precisión, rapidez y descargas limpias por lotes:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="/comprimir-imagen/" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Comprimir imagen
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Alcanza tamaños objetivo exactos (desde 10 KB hasta 1 MB) para JPG, PNG y WebP con ajuste automático entre calidad y resolución.
+            </p>
+          </a>
+          <a href="/redimensionar-imagen/" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Redimensionar imagen
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Cambia el tamaño de fotos por píxeles exactos, centímetros estándar a 300 ppp para impresión o porcentaje proporcional.
+            </p>
+          </a>
+          <a href="/convertir-imagen/" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Convertir imagen
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Convierte fluidamente entre formatos modernos (WebP, AVIF) y tradicionales (JPG, PNG) preservando la transparencia.
+            </p>
+          </a>
+          <a href="/marca-de-agua/" class="block p-5 border border-hairline rounded-xl bg-canvas hover:border-ink/30 transition-colors group">
+            <h3 class="text-base font-bold text-ink group-hover:text-accent transition-colors flex items-center justify-between mb-1">
+              Marca de agua
+              <span class="text-mute font-normal text-sm">&rarr;</span>
+            </h3>
+            <p class="text-[14px] text-body">
+              Protege fotos individuales o por lotes con texto o logotipos PNG personalizados, control de opacidad y cuadrícula interactiva de 9 puntos.
+            </p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Guarantees & Values -->
+      <section class="bg-canvas-elevated border border-hairline rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4">Nuestras garantías</h2>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">100% gratis para siempre:</strong> Sin suscripciones premium, sin funciones de pago ocultas y sin límites de prueba.
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Cero recopilación de datos:</strong> Sin cuentas de usuario, sin correos obligatorios y sin cookies invasivas de rastreo.
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Descargas limpias sin marcas:</strong> Nunca añadimos marcas de agua ni sellos promocionales a tus imágenes a menos que utilices voluntariamente el editor de marcas de agua.
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">✓</div>
+            <div>
+              <strong class="text-ink">Procesamiento por lotes:</strong> Procesa hasta 50 archivos simultáneamente con descarga comprimida en ZIP con un solo clic.
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Contact Teaser -->
+      <section class="border-t border-hairline pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-ink">¿Tienes alguna pregunta o sugerencia?</h2>
+          <p class="text-sm text-body">Mejoramos continuamente nuestras herramientas gracias a los comentarios de los usuarios.</p>
+        </div>
+        <a href="/contacto/" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-ink text-canvas font-medium text-sm hover:bg-ink/90 transition-colors shrink-0">
+          Contactar al equipo &rarr;
+        </a>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

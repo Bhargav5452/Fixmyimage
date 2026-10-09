@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = "Política de Privacidad – Cero Subidas a Servidores y Procesamiento Local | FixMyImage";
+const description = "Consulta la Política de Privacidad de FixMyImage. Toda la compresión, redimensionamiento, conversión y marcas de agua ocurren 100% en tu navegador. Nunca subimos ni guardamos tus archivos.";
+const canonicalUrl = "https://fixmyimage.app/privacidad/";
+
+const privacySchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Política de Privacidad",
+  "description": description,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app/es/"
+  }
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(privacySchema)} />
+
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Miga de pan">
+      <a href="/es/" class="hover:text-ink transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-ink font-medium">Política de privacidad</span>
+    </nav>
+
+    <header class="mb-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-3">
+        Política de Privacidad
+      </h1>
+      <p class="text-sm text-mute">Fecha de vigencia: 30 de septiembre de 2026</p>
+    </header>
+
+    <!-- Summary Box -->
+    <div class="bg-canvas-elevated border-2 border-accent/20 rounded-2xl p-6 sm:p-8 mb-12">
+      <h2 class="text-xl font-bold text-ink mb-3">Resumen breve</h2>
+      <p class="text-[15px] sm:text-[16px] leading-relaxed text-body mb-3">
+        FixMyImage está diseñada desde su base como una <strong class="text-ink">aplicación del lado del cliente</strong>. Cuando utilizas nuestras herramientas para comprimir, redimensionar, convertir o aplicar marcas de agua a imágenes, tus archivos <strong class="text-ink">nunca salen de tu dispositivo</strong>.
+      </p>
+      <p class="text-[15px] sm:text-[16px] leading-relaxed text-body">
+        No operamos servidores de procesamiento remoto, no mantenemos bases de datos con imágenes de usuarios, no requerimos cuentas y tus datos de imagen nunca se suben ni se rastrean. Empleamos analítica web básica (Google Analytics) para conocer el tráfico y rendimiento agregados. Al cerrar la pestaña del navegador, la memoria de la sesión se borra automáticamente en el entorno seguro de tu dispositivo.
+      </p>
+    </div>
+
+    <div class="space-y-10 text-[15px] sm:text-[16px] leading-relaxed text-body">
+      
+      <!-- Section 1 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">1. Cero recopilación o subida de datos de imagen</h2>
+        <p class="mb-3">
+          Los convertidores tradicionales en internet suben tus fotos a servidores remoto en la nube para ejecutar tareas pesadas de CPU. Por el contrario, FixMyImage ejecuta todos los algoritmos directamente en tu navegador mediante la API HTML5 Canvas, módulos WebAssembly y Web Workers.
+        </p>
+        <p>
+          En ningún momento se transmiten por la red tus imágenes, metadatos (EXIF/GPS), nombres de archivo ni archivos generados a FixMyImage o a terceros. Tus fotos permanecen exclusivamente en la memoria temporal de tu propio ordenador o teléfono.
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">2. Información personal y cuentas de usuario</h2>
+        <p class="mb-3">
+          FixMyImage no exige la creación de cuentas, registros previos, correos electrónicos ni números de teléfono para utilizar cualquiera de nuestras utilidades. No recopilamos ni solicitamos:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 ml-2 mb-3">
+          <li>Nombres, domicilios postales ni números telefónicos</li>
+          <li>Datos de pago, tarjetas de crédito ni información bancaria</li>
+          <li>Perfiles de redes sociales o credenciales externas</li>
+        </ul>
+        <p>
+          Si decides contactarnos por correo electrónico, únicamente recogemos tu dirección y el contenido del mensaje con el fin exclusivo de resolver tu consulta o atender errores reportados. Nunca añadimos tu correo a listas de marketing o publicidad.
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">3. Analítica web, cookies y almacenamiento local</h2>
+        <p class="mb-3">
+          Tus archivos de imagen y actividades de edición jamás se rastrean. Para supervisar el tráfico general, la estabilidad y los patrones de uso agregado (como páginas visitadas, tipos de dispositivo y región geográfica general), utilizamos Google Analytics. Google Analytics puede establecer cookies de origen para distinguir sesiones y medir interacciones agregadas.
+        </p>
+        <p class="mb-3">
+          Google Analytics no recopila, no inspecciona ni recibe tus fotos, imágenes procesadas o metadatos visuales. Todo el cómputo de imagen ocurre estrictamente en tu navegador.
+        </p>
+        <p>
+          También utilizamos el almacenamiento estándar del navegador (<code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">localStorage</code>) para recordar tu preferencia visual de interfaz (<code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">tema: 'claro' | 'oscuro'</code>). Esta información reside únicamente en tu dispositivo y nunca se envía a través de internet.
+        </p>
+      </section>
+
+      <!-- Section 4 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">4. Infraestructura de alojamiento y registros técnicos</h2>
+        <p class="mb-3">
+          Nuestros archivos estáticos (código HTML, CSS, JavaScript) se alojan y distribuyen a través de la red perimetral de Cloudflare. Como casi todos los servidores web, Cloudflare puede recoger registros operativos estándar exclusivamente para mantener la disponibilidad, proteger contra ataques DDoS y satisfacer requisitos de ciberseguridad. Estos registros pueden incluir:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 ml-2 mb-3">
+          <li>Tu dirección IP y ubicación geográfica general (país o ciudad)</li>
+          <li>Agente de usuario del navegador y versión del sistema operativo</li>
+          <li>Páginas web solicitadas y códigos de estado HTTP</li>
+          <li>Fecha y hora de las solicitudes</li>
+        </ul>
+        <p>
+          Estos registros operativos se gestionan bajo la <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="text-link hover:underline">Política de Privacidad de Cloudflare</a> y no contienen archivos de imagen ni datos de procesamiento.
+        </p>
+      </section>
+
+      <!-- Section 5 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">5. Cumplimiento normativo global por diseño (RGPD, CCPA, CPRA, COPPA)</h2>
+        <p class="mb-3">
+          Dado que FixMyImage evita intencionadamente recopilar, almacenar, procesar o vender datos personales o archivos de usuario, nuestra arquitectura cumple de forma inherente con las legislaciones globales de privacidad:
+        </p>
+        <ul class="space-y-3 mt-3">
+          <li class="border-l-2 border-hairline pl-4">
+            <strong class="text-ink">Reglamento General de Protección de Datos de la UE (RGPD):</strong> No recopilamos datos personales de imagen, procesamos todas las fotos en tu propio dispositivo y solo empleamos analítica agregada para el mantenimiento técnico de la web.
+          </li>
+          <li class="border-l-2 border-hairline pl-4">
+            <strong class="text-ink">Ley de Privacidad del Consumidor de California (CCPA / CPRA):</strong> No vendemos, alquilamos ni compartimos información personal de consumidores bajo ninguna circunstancia.
+          </li>
+          <li class="border-l-2 border-hairline pl-4">
+            <strong class="text-ink">Ley de Protección de la Privacidad Infantil en Internet (COPPA):</strong> No recopilamos a sabiendas información de menores de 13 años, ni nuestro servicio solicita datos personales.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 6 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">6. Enlaces externos y servicios de terceros</h2>
+        <p>
+          Nuestras páginas pueden contener enlaces a sitios web externos, documentación o recursos legales. FixMyImage no tiene control sobre las prácticas de privacidad ni los contenidos de plataformas de terceros. Te recomendamos revisar las políticas de privacidad de cualquier sitio externo que visites.
+        </p>
+      </section>
+
+      <!-- Section 7 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">7. Modificaciones a esta Política de Privacidad</h2>
+        <p>
+          Podemos actualizar periódicamente esta Política de Privacidad para reflejar avances tecnológicos, nuevas funciones del servicio o directrices normativas. Cualquier cambio se publicará en esta página con su fecha de vigencia actualizada. El uso continuo del sitio tras la publicación de cambios implica la aceptación de los mismos.
+        </p>
+      </section>
+
+      <!-- Section 8 -->
+      <section class="border-t border-hairline pt-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">8. Contacto en materia de privacidad</h2>
+        <p class="mb-4">
+          Si tienes alguna pregunta, sugerencia o inquietud sobre esta Política de Privacidad o nuestra arquitectura del lado del cliente, puedes contactarnos directamente:
+        </p>
+        <div class="bg-canvas border border-hairline rounded-xl p-5 inline-block">
+          <p class="text-ink font-semibold">Equipo de Privacidad de FixMyImage</p>
+          <p class="text-sm text-body mt-1">
+            Correo electrónico: <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline font-medium">hello@fixmyimage.app</a>
+          </p>
+          <p class="text-sm text-mute mt-1">
+            Web: <a href="/contacto/" class="text-link hover:underline">fixmyimage.app/contacto</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

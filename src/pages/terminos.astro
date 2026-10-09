@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = "Términos de Servicio | FixMyImage – Herramientas de Imagen Online Gratuitas";
+const description = "Consulta los Términos de Servicio de FixMyImage. Conoce tus derechos, el uso aceptable, la propiedad de los archivos y nuestro compromiso con la edición de imágenes en el navegador.";
+const canonicalUrl = "https://fixmyimage.app/terminos/";
+
+const termsSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Términos de Servicio",
+  "description": description,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "FixMyImage",
+    "url": "https://fixmyimage.app/es/"
+  }
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  lang="es"
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(termsSchema)} />
+
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 md:py-20 text-ink">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] text-mute mb-6" aria-label="Miga de pan">
+      <a href="/es/" class="hover:text-ink transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-ink font-medium">Términos de servicio</span>
+    </nav>
+
+    <header class="mb-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-3">
+        Términos de Servicio
+      </h1>
+      <p class="text-sm text-mute">Última revisión: 30 de septiembre de 2026</p>
+    </header>
+
+    <div class="space-y-10 text-[15px] sm:text-[16px] leading-relaxed text-body">
+      
+      <!-- Section 1 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">1. Aceptación de los Términos</h2>
+        <p class="mb-3">
+          Estos Términos de Servicio («Términos») constituyen un acuerdo legalmente vinculante entre usted («Usuario» o «usted») y FixMyImage («nosotros» o «nuestro») que rige su acceso y uso del sitio web en <a href="https://fixmyimage.app/es/" class="text-link hover:underline">fixmyimage.app</a> y todas las utilidades de procesamiento de imagen asociadas.
+        </p>
+        <p>
+          Al acceder o utilizar cualquier parte de FixMyImage, usted reconoce haber leído, entendido y aceptado cumplir estos Términos y nuestra <a href="/privacidad/" class="text-link hover:underline">Política de Privacidad</a>. Si no está de acuerdo con la totalidad de estos Términos, no podrá utilizar el sitio y deberá interrumpir su uso de inmediato.
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">2. Descripción del servicio y funcionamiento en el cliente</h2>
+        <p class="mb-3">
+          FixMyImage ofrece utilidades web orientadas a comprimir, redimensionar, convertir y colocar marcas de agua en archivos de imagen digital. Nuestros servicios funcionan estrictamente <strong class="text-ink">del lado del cliente</strong>.
+        </p>
+        <p>
+          Su navegador compila y ejecuta los algoritmos localmente utilizando estándares HTML5 Canvas, Web Workers y WebAssembly. En ningún momento se suben, procesan ni retienen sus archivos de imagen en nuestros servidores. Toda la carga de computación la realizan el navegador y el hardware de su dispositivo.
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">3. Propiedad del usuario y propiedad intelectual</h2>
+        <div class="bg-canvas-elevated border border-hairline rounded-xl p-5 mb-4">
+          <p class="font-bold text-ink mb-1">Su contenido le pertenece exclusivamente a usted</p>
+          <p class="text-sm text-body">
+            Usted conserva el 100% de la propiedad, derechos de autor y propiedad intelectual de todas las imágenes, logotipos, gráficos y textos que procese en FixMyImage. Dado que los archivos nunca tocan nuestros servidores, FixMyImage no adquiere derecho, título ni licencia alguna sobre su contenido.
+          </p>
+        </div>
+        <p>
+          La plataforma FixMyImage subyacente, incluyendo su marca, diseño web, maquetación, logotipos, documentación, código propio y arquitectura de software, está protegida por las leyes internacionales de derechos de autor, marcas registradas y propiedad intelectual, siendo propiedad exclusiva de FixMyImage.
+        </p>
+      </section>
+
+      <!-- Section 4 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">4. Política de uso aceptable</h2>
+        <p class="mb-3">
+          Usted acepta utilizar FixMyImage únicamente con fines legítimos y de conformidad con estos Términos. Usted manifiesta y garantiza que:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 ml-2 mb-3">
+          <li>Posee o cuenta con las licencias, autorizaciones y derechos necesarios para modificar, convertir, comprimir o marcar todos los archivos que introduzca en el servicio.</li>
+          <li>Su uso no vulnera derechos de autor, marcas, privacidad ni derechos de terceros.</li>
+          <li>No intentará descompilar, aplicar ingeniería inversa, interrumpir o vulnerar la integridad operativa de nuestros servidores web o scripts cliente.</li>
+          <li>No utilizará scripts automatizados, rastreadores ni robots de forma que perjudique el rendimiento del servicio para otros usuarios.</li>
+        </ul>
+      </section>
+
+      <!-- Section 5 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">5. Exclusión de garantías</h2>
+        <p class="mb-3">
+          FixMyImage se proporciona estrictamente <strong class="text-ink">«TAL CUAL»</strong> y <strong class="text-ink">«SEGÚN DISPONIBILIDAD»</strong>, sin garantías de ningún tipo, ya sean expresas, legales o implícitas, incluidas, entre otras, las garantías implícitas de comerciabilidad, idoneidad para un propósito particular, titularidad y no infracción.
+        </p>
+        <p>
+          No garantizamos que: (a) el sitio web o sus herramientas funcionen de forma ininterrumpida, segura o libre de errores; (b) las conversiones o compresiones satisfagan requisitos legales, institucionales o estéticos específicos; ni (c) la aceleración por hardware del navegador alcance velocidades determinadas en cada dispositivo.
+        </p>
+      </section>
+
+      <!-- Section 6 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">6. Limitación de responsabilidad</h2>
+        <p class="mb-3">
+          En la medida máxima permitida por la legislación aplicable, en ningún caso FixMyImage, sus desarrolladores, operadores o afiliados serán responsables por daños directos, indirectos, incidentales, especiales, consecuentes o punitivos, incluidas pérdidas de datos, pérdidas de negocio, daños en archivos o interrupción del dispositivo derivados de su uso o incapacidad de uso del servicio.
+        </p>
+        <p>
+          Usted es el único responsable de conservar copias de seguridad de sus archivos multimedia originales antes de realizar operaciones en el navegador.
+        </p>
+      </section>
+
+      <!-- Section 7 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">7. Modificaciones del servicio y de los términos</h2>
+        <p>
+          Nos reservamos el derecho de modificar, suspender o discontinuar cualquier aspecto de FixMyImage en cualquier momento sin previo aviso ni responsabilidad. Podemos actualizar periódicamente estos Términos para reflejar cambios operativos, normativos o técnicos. El uso continuado del sitio tras la publicación de modificaciones constituye la aceptación plena de los Términos actualizados.
+        </p>
+      </section>
+
+      <!-- Section 8 -->
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">8. Ley aplicable</h2>
+        <p>
+          Estos Términos y cualquier controversia derivada del uso de FixMyImage se regirán e interpretarán de acuerdo con las leyes aplicables, sin dar efecto a principios de conflicto de leyes.
+        </p>
+      </section>
+
+      <!-- Section 9 -->
+      <section class="border-t border-hairline pt-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">9. Consultas y notificaciones legales</h2>
+        <p class="mb-4">
+          Si tiene alguna duda sobre estos Términos de Servicio o desea remitir una notificación legal, comuníquese con nosotros por correo electrónico:
+        </p>
+        <div class="bg-canvas border border-hairline rounded-xl p-5 inline-block">
+          <p class="text-ink font-semibold">Equipo Legal de FixMyImage</p>
+          <p class="text-sm text-body mt-1">
+            Correo electrónico: <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline font-medium">hello@fixmyimage.app</a>
+          </p>
+          <p class="text-sm text-mute mt-1">
+            Formulario de contacto: <a href="/contacto/" class="text-link hover:underline">fixmyimage.app/contacto</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

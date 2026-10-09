@@ -35,7 +35,11 @@ export const EN_TO_ES_ROUTES: Record<string, string> = {
   '/compress-image-to-1mb': '/comprimir-imagen-a-1-mb',
   '/resize-image-in-pixels': '/redimensionar-imagen-en-pixeles',
   '/resize-image-in-cm': '/redimensionar-imagen-en-cm',
-  '/bulk-image-resizer': '/redimensionar-imagenes-por-lotes'
+  '/bulk-image-resizer': '/redimensionar-imagenes-por-lotes',
+  '/about': '/sobre-nosotros',
+  '/contact': '/contacto',
+  '/privacy': '/privacidad',
+  '/terms': '/terminos'
 };
 
 export const ES_TO_EN_ROUTES: Record<string, string> = {
@@ -55,7 +59,11 @@ export const ES_TO_EN_ROUTES: Record<string, string> = {
   '/comprimir-imagen-a-1-mb': '/compress-image-to-1mb',
   '/redimensionar-imagen-en-pixeles': '/resize-image-in-pixels',
   '/redimensionar-imagen-en-cm': '/resize-image-in-cm',
-  '/redimensionar-imagenes-por-lotes': '/bulk-image-resizer'
+  '/redimensionar-imagenes-por-lotes': '/bulk-image-resizer',
+  '/sobre-nosotros': '/about',
+  '/contacto': '/contact',
+  '/privacidad': '/privacy',
+  '/terminos': '/terms'
 };
 
 export const SPANISH_PAGE_PATHS = new Set([...Object.keys(ES_TO_EN_ROUTES)]);

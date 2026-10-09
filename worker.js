@@ -19,10 +19,14 @@ const LEGACY_ES_REDIRECTS = {
   '/es/bulk-image-resizer': '/redimensionar-imagenes-por-lotes/',
 
   // Informational & legal
-  '/es/about': '/about/',
-  '/es/contact': '/contact/',
-  '/es/privacy': '/privacy/',
-  '/es/terms': '/terms/',
+  '/es/about': '/sobre-nosotros/',
+  '/es/contact': '/contacto/',
+  '/es/privacy': '/privacidad/',
+  '/es/terms': '/terminos/',
+  '/es/sobre-nosotros': '/sobre-nosotros/',
+  '/es/contacto': '/contacto/',
+  '/es/privacidad': '/privacidad/',
+  '/es/terminos': '/terminos/',
 
   // Redundant /es/ prefixes on Spanish slugs
   '/es/comprimir-imagen': '/comprimir-imagen/',

@@ -34,14 +34,22 @@
 /es/bulk-image-resizer/ /redimensionar-imagenes-por-lotes/ 301
 
 # Legacy Spanish informational and legal pages
-/es/about /about/ 301
-/es/about/ /about/ 301
-/es/contact /contact/ 301
-/es/contact/ /contact/ 301
-/es/privacy /privacy/ 301
-/es/privacy/ /privacy/ 301
-/es/terms /terms/ 301
-/es/terms/ /terms/ 301
+/es/about /sobre-nosotros/ 301
+/es/about/ /sobre-nosotros/ 301
+/es/contact /contacto/ 301
+/es/contact/ /contacto/ 301
+/es/privacy /privacidad/ 301
+/es/privacy/ /privacidad/ 301
+/es/terms /terminos/ 301
+/es/terms/ /terminos/ 301
+/es/sobre-nosotros /sobre-nosotros/ 301
+/es/sobre-nosotros/ /sobre-nosotros/ 301
+/es/contacto /contacto/ 301
+/es/contacto/ /contacto/ 301
+/es/privacidad /privacidad/ 301
+/es/privacidad/ /privacidad/ 301
+/es/terminos /terminos/ 301
+/es/terminos/ /terminos/ 301
 
 # Redundant /es/ prefixes on Spanish slugs
 /es/comprimir-imagen /comprimir-imagen/ 301
@@ -125,3 +133,7 @@
 /convertir-avif-a-jpg /convertir-avif-a-jpg/ 308
 /convertir-avif-a-png /convertir-avif-a-png/ 308
 /marca-de-agua /marca-de-agua/ 308
+/sobre-nosotros /sobre-nosotros/ 308
+/contacto /contacto/ 308
+/privacidad /privacidad/ 308
+/terminos /terminos/ 308
