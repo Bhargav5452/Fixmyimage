@@ -1,0 +1,53 @@
+# Host consolidation: Redirect WWW and HTTP to non-WWW HTTPS (301 Permanent Redirect)
+https://www.fixmyimage.app/* https://fixmyimage.app/:splat 301
+http://www.fixmyimage.app/* https://fixmyimage.app/:splat 301
+http://fixmyimage.app/* https://fixmyimage.app/:splat 301
+
+# Permanent URL normalization: Redirect non-trailing-slash to trailing-slash (308 Permanent Redirect)
+/about /about/ 308
+/contact /contact/ 308
+/privacy /privacy/ 308
+/terms /terms/ 308
+/es /es/ 308
+
+# English Tools
+/compress-image /compress-image/ 308
+/resize-image /resize-image/ 308
+/convert-image /convert-image/ 308
+/watermark-image /watermark-image/ 308
+/bulk-image-resizer /bulk-image-resizer/ 308
+/resize-image-in-pixels /resize-image-in-pixels/ 308
+/resize-image-in-cm /resize-image-in-cm/ 308
+/compress-image-to-10kb /compress-image-to-10kb/ 308
+/compress-image-to-20kb /compress-image-to-20kb/ 308
+/compress-image-to-30kb /compress-image-to-30kb/ 308
+/compress-image-to-40kb /compress-image-to-40kb/ 308
+/compress-image-to-50kb /compress-image-to-50kb/ 308
+/compress-image-to-100kb /compress-image-to-100kb/ 308
+/compress-image-to-200kb /compress-image-to-200kb/ 308
+/compress-image-to-500kb /compress-image-to-500kb/ 308
+/compress-image-to-1mb /compress-image-to-1mb/ 308
+/jpg-to-png /jpg-to-png/ 308
+/png-to-jpg /png-to-jpg/ 308
+/webp-to-jpg /webp-to-jpg/ 308
+/webp-to-png /webp-to-png/ 308
+/avif-to-jpg /avif-to-jpg/ 308
+/avif-to-png /avif-to-png/ 308
+
+# Spanish Tools
+/comprimir-imagen /comprimir-imagen/ 308
+/comprimir-imagen-a-50-kb /comprimir-imagen-a-50-kb/ 308
+/comprimir-imagen-a-100-kb /comprimir-imagen-a-100-kb/ 308
+/comprimir-imagen-a-1-mb /comprimir-imagen-a-1-mb/ 308
+/redimensionar-imagen /redimensionar-imagen/ 308
+/redimensionar-imagenes-por-lotes /redimensionar-imagenes-por-lotes/ 308
+/redimensionar-imagen-en-pixeles /redimensionar-imagen-en-pixeles/ 308
+/redimensionar-imagen-en-cm /redimensionar-imagen-en-cm/ 308
+/convertir-imagen /convertir-imagen/ 308
+/convertir-jpg-a-png /convertir-jpg-a-png/ 308
+/convertir-png-a-jpg /convertir-png-a-jpg/ 308
+/convertir-webp-a-png /convertir-webp-a-png/ 308
+/convertir-webp-a-jpg /convertir-webp-a-jpg/ 308
+/convertir-avif-a-jpg /convertir-avif-a-jpg/ 308
+/convertir-avif-a-png /convertir-avif-a-png/ 308
+/marca-de-agua /marca-de-agua/ 308

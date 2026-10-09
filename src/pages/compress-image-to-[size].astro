@@ -26,19 +26,19 @@ export async function getStaticPaths() {
 
 const { target } = Astro.props;
 const displaySize = target.unit === 'MB' ? `${target.value}MB` : `${target.value}KB`;
-const canonicalUrl = `https://fixmyimage.app/compress-image-to-${target.size}`;
+const canonicalUrl = `https://fixmyimage.app/compress-image-to-${target.size}/`;
 const faqs = getFaqsForRoute(`/compress-image-to-${target.size}`);
 
 const ALL_SIZES = [
-  { size: '10kb', label: 'Compress to 10KB', href: '/compress-image-to-10kb' },
-  { size: '20kb', label: 'Compress to 20KB', href: '/compress-image-to-20kb' },
-  { size: '30kb', label: 'Compress to 30KB', href: '/compress-image-to-30kb' },
-  { size: '40kb', label: 'Compress to 40KB', href: '/compress-image-to-40kb' },
-  { size: '50kb', label: 'Compress to 50KB', href: '/compress-image-to-50kb' },
-  { size: '100kb', label: 'Compress to 100KB', href: '/compress-image-to-100kb' },
-  { size: '200kb', label: 'Compress to 200KB', href: '/compress-image-to-200kb' },
-  { size: '500kb', label: 'Compress to 500KB', href: '/compress-image-to-500kb' },
-  { size: '1mb', label: 'Compress to 1MB', href: '/compress-image-to-1mb' },
+  { size: '10kb', label: 'Compress to 10KB', href: '/compress-image-to-10kb/' },
+  { size: '20kb', label: 'Compress to 20KB', href: '/compress-image-to-20kb/' },
+  { size: '30kb', label: 'Compress to 30KB', href: '/compress-image-to-30kb/' },
+  { size: '40kb', label: 'Compress to 40KB', href: '/compress-image-to-40kb/' },
+  { size: '50kb', label: 'Compress to 50KB', href: '/compress-image-to-50kb/' },
+  { size: '100kb', label: 'Compress to 100KB', href: '/compress-image-to-100kb/' },
+  { size: '200kb', label: 'Compress to 200KB', href: '/compress-image-to-200kb/' },
+  { size: '500kb', label: 'Compress to 500KB', href: '/compress-image-to-500kb/' },
+  { size: '1mb', label: 'Compress to 1MB', href: '/compress-image-to-1mb/' },
 ];
 
 const relatedLinks = ALL_SIZES.filter(s => s.size !== target.size);

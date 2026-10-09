@@ -9,7 +9,7 @@ const t = useTranslations(lang);
 
 const title = "Privacy Policy – Zero Server Uploads & Local Processing | FixMyImage";
 const description = "Read FixMyImage's Privacy Policy. All image compression, resizing, conversion, and watermarking happen 100% locally in your browser. We never upload or store your files.";
-const canonicalUrl = "https://fixmyimage.app/privacy";
+const canonicalUrl = "https://fixmyimage.app/privacy/";
 
 const privacySchema = {
   "@context": "https://schema.org",
@@ -20,7 +20,7 @@ const privacySchema = {
   "publisher": {
     "@type": "Organization",
     "name": "FixMyImage",
-    "url": "https://fixmyimage.app"
+    "url": "https://fixmyimage.app/"
   }
 };
 ---
@@ -56,7 +56,7 @@ const privacySchema = {
         FixMyImage is engineered from the ground up as a <strong class="text-ink">client-side application</strong>. When you use our tools to compress, resize, convert, or watermark images, your files <strong class="text-ink">never leave your device</strong>.
       </p>
       <p class="text-[15px] sm:text-[16px] leading-relaxed text-body">
-        We operate no backend ingestion servers, maintain no databases of user images, require no user accounts, and deploy zero third-party tracking cookies. When you close your browser tab, all session memory is automatically erased by your device's browser sandbox.
+        We operate no backend ingestion servers, maintain no databases of user images, require no user accounts, and your image data is never uploaded or tracked. We use basic website analytics (Google Analytics) to understand aggregate traffic and performance. When you close your browser tab, all image processing session memory is automatically erased by your device's browser sandbox.
       </p>
     </div>
 
@@ -91,12 +91,15 @@ const privacySchema = {
 
       <!-- Section 3 -->
       <section>
-        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">3. Browser Storage &amp; Cookies</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-ink mb-3">3. Website Analytics, Cookies &amp; Browser Storage</h2>
         <p class="mb-3">
-          We believe in a cookie-free web. FixMyImage does not use tracking cookies, behavioral profiling cookies, or cross-site advertising beacons.
+          Your image files and processing activities are never tracked. To monitor general website traffic, stability, and aggregate usage patterns (such as page views, device types, and general geographical region), we use Google Analytics. Google Analytics may set first-party cookies to distinguish unique sessions and measure aggregate visitor interactions.
+        </p>
+        <p class="mb-3">
+          Google Analytics does not collect, inspect, or receive your uploaded files, processed images, or image metadata. All image computation remains strictly within your browser.
         </p>
         <p>
-          We use only standard browser <code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">localStorage</code> to remember your selected user interface theme preference (<code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">theme: 'light' | 'dark'</code>). This data resides entirely on your device and is never sent across the internet.
+          We also use standard browser <code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">localStorage</code> to remember your selected user interface theme preference (<code class="text-xs bg-canvas px-1.5 py-0.5 rounded border border-hairline font-mono">theme: 'light' | 'dark'</code>). This data resides entirely on your device and is never sent across the internet.
         </p>
       </section>
 
@@ -125,7 +128,7 @@ const privacySchema = {
         </p>
         <ul class="space-y-3 mt-3">
           <li class="border-l-2 border-hairline pl-4">
-            <strong class="text-ink">European Union GDPR:</strong> We collect zero personal data, run zero tracking scripts, and transfer zero files across international borders.
+            <strong class="text-ink">European Union GDPR:</strong> We collect zero personal image data, process all photos strictly on your device, and only use aggregated analytics to monitor website health and performance.
           </li>
           <li class="border-l-2 border-hairline pl-4">
             <strong class="text-ink">California Consumer Privacy Act (CCPA / CPRA):</strong> We do not sell, rent, or share personal information or consumer files under any circumstances.
@@ -164,7 +167,7 @@ const privacySchema = {
             Email: <a href="mailto:hello@fixmyimage.app" class="text-link hover:underline font-medium">hello@fixmyimage.app</a>
           </p>
           <p class="text-sm text-mute mt-1">
-            Web: <a href="/contact" class="text-link hover:underline">fixmyimage.app/contact</a>
+            Web: <a href="/contact/" class="text-link hover:underline">fixmyimage.app/contact</a>
           </p>
         </div>
       </section>

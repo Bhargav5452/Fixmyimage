@@ -5,9 +5,9 @@ export const es: typeof en = {
     home_title: 'Herramientas de Imagen Online Gratis | FixMyImage',
     home_desc: 'Herramientas online rápidas, gratuitas y seguras. Comprime, redimensiona, convierte y pon marcas de agua a imágenes en tu navegador sin subir archivos.',
     compress_title: 'Comprimir imágenes online gratis – Reducir tamaño JPG, PNG y WebP | FixMyImage',
-    compress_desc: 'Comprime imágenes JPG, PNG y WebP online gratis. Elige un tamaño objetivo y descarga tu imagen optimizada directamente en tu navegador sin perder calidad.',
+    compress_desc: 'Comprime imágenes JPG, PNG y WebP online gratis. Elige un tamaño objetivo y descarga tu imagen optimizada directamente en tu navegador con un equilibrio óptimo de calidad.',
     resize_title: 'Redimensionar imagen online gratis – Cambiar tamaño de fotos | FixMyImage',
-    resize_desc: 'Redimensiona imágenes JPG, PNG y WebP online gratis. Escala por porcentaje o píxeles exactos y descarga al instante.',
+    resize_desc: 'Redimensiona imágenes JPG, PNG y WebP online gratis. Escala por porcentaje o píxeles y descarga al instante.',
     convert_title: 'Convertir imágenes online gratis – Conversor JPG, PNG, WebP y AVIF | FixMyImage',
     convert_desc: 'Convierte imágenes a JPG, PNG o WebP online al instante. Conversión rápida, segura y privada en tu navegador.',
     watermark_title: 'Poner marca de agua a fotos online gratis – Añadir texto o logo | FixMyImage',
@@ -35,13 +35,13 @@ export const es: typeof en = {
     all_rights: 'Todos los derechos reservados.'
   },
   home: {
-    h1: 'Todas las herramientas que necesitas para editar imágenes por lotes',
+    h1: 'Comprime, redimensiona y convierte imágenes online',
     compress_title: 'Comprimir imágenes',
     compress_desc: 'Reduce el peso de tus fotos manteniendo una nitidez impecable. Ideal para optimización web.',
     resize_title: 'Redimensionar imágenes',
-    resize_desc: 'Ajusta dimensiones por porcentaje o píxeles exactos para cualquier plataforma o red social.',
+    resize_desc: 'Ajusta dimensiones por porcentaje o píxeles para cualquier plataforma o red social.',
     convert_title: 'Convertir imágenes',
-    convert_desc: 'Convierte fácilmente entre formatos JPG, PNG, WebP y AVIF en cualquier dirección.',
+    convert_desc: 'Convierte fácilmente archivos JPG, PNG, WebP y AVIF a formatos JPG, PNG o WebP.',
     watermark_title: 'Añadir marca de agua',
     watermark_desc: 'Inserta marcas de agua de texto o logotipo para proteger tu autoría con estilo.'
   },

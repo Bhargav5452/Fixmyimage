@@ -100,7 +100,7 @@ const jsonLd = faqJsonLd && faqs.length > 0
         <h2 class="seo-content__h2">{relatedHeading}</h2>
         <div class="seo-content__links">
           {relatedLinks.map(l => (
-            <a href={l.href} class="seo-content__link">{l.label}</a>
+            <a href={l.href.endsWith('/') || l.href.includes('#') ? l.href : `${l.href}/`} class="seo-content__link">{l.label}</a>
           ))}
         </div>
       </div>

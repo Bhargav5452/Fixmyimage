@@ -15,7 +15,13 @@ interface Props {
 const siteUrl = "https://fixmyimage.app";
 const currentLang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 const rawPath = Astro.url.pathname || '/';
-const currentPath = rawPath.endsWith('/') && rawPath.length > 1 ? rawPath.slice(0, -1) : rawPath;
+const normalizedPath = rawPath.endsWith('/') && rawPath.length > 1 ? rawPath.slice(0, -1) : rawPath;
+
+const ensureTrailingSlash = (url: string) => {
+  if (!url) return '/';
+  if (url === siteUrl) return `${siteUrl}/`;
+  return url.endsWith('/') ? url : `${url}/`;
+};
 
 const defaultDesc = currentLang === 'es'
   ? "Herramientas gratuitas en línea para comprimir, redimensionar, convertir y marcar imágenes directamente en tu navegador. Rápido, privado y sin subidas a servidores."
@@ -29,28 +35,30 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalUrl = canonical ?? (siteUrl + (currentPath === '/' ? '' : currentPath));
-const finalCanonical = canonicalUrl || siteUrl;
+const canonicalUrl = canonical 
+  ? ensureTrailingSlash(canonical)
+  : (siteUrl + (normalizedPath === '/' ? '/' : ensureTrailingSlash(normalizedPath)));
+const finalCanonical = canonicalUrl;
 
 // Reciprocal hreflang calculation
 let enUrl: string | null = null;
 let esUrl: string | null = null;
 
 if (currentLang === 'es') {
-  esUrl = siteUrl + currentPath;
-  const enRoute = ES_TO_EN_ROUTES[currentPath];
+  esUrl = siteUrl + (normalizedPath === '/' ? '/' : ensureTrailingSlash(normalizedPath));
+  const enRoute = ES_TO_EN_ROUTES[normalizedPath];
   if (enRoute) {
-    enUrl = siteUrl + (enRoute === '/' ? '' : enRoute);
+    enUrl = siteUrl + (enRoute === '/' ? '/' : ensureTrailingSlash(enRoute));
   }
 } else {
-  enUrl = siteUrl + (currentPath === '/' ? '' : currentPath);
-  const esRoute = EN_TO_ES_ROUTES[currentPath];
+  enUrl = siteUrl + (normalizedPath === '/' ? '/' : ensureTrailingSlash(normalizedPath));
+  const esRoute = EN_TO_ES_ROUTES[normalizedPath];
   if (esRoute) {
-    esUrl = siteUrl + esRoute;
+    esUrl = siteUrl + (esRoute === '/' ? '/' : ensureTrailingSlash(esRoute));
   }
 }
 
-const xDefaultUrl = enUrl ?? (siteUrl + (currentPath === '/' ? '' : currentPath));
+const xDefaultUrl = enUrl ?? (siteUrl + (normalizedPath === '/' ? '/' : ensureTrailingSlash(normalizedPath)));
 ---
 
 <!doctype html>
@@ -103,7 +111,7 @@ const xDefaultUrl = enUrl ?? (siteUrl + (currentPath === '/' ? '' : currentPath)
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FixMyImage",
-      "url": siteUrl,
+      "url": `${siteUrl}/`,
       "description": currentLang === 'es' ? "Herramientas de imagen online gratuitas — comprime, redimensiona, convierte y añade marcas de agua en tu navegador." : "Free online image tools — compress, resize, convert and watermark images in your browser."
     })} />
 

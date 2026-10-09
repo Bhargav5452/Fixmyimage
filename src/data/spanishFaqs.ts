@@ -13,8 +13,8 @@ export interface FaqItem {
 export const SPANISH_FAQS: Record<string, FaqItem[]> = {
   '/comprimir-imagen': [
     {
-      q: "¿Cómo comprimir fotos e imágenes online sin perder calidad?",
-      a: "Para comprimir fotos sin perder nitidez perceptible, sube tus archivos JPG, PNG o WebP a FixMyImage y elige un tamaño objetivo o deja que el optimizador inteligente reduzca los datos redundantes. El procesamiento se ejecuta directamente en tu navegador, manteniendo una fidelidad visual nítida y reduciendo drásticamente el peso del archivo."
+      q: "¿Cómo comprimir fotos e imágenes online manteniendo un buen equilibrio de calidad?",
+      a: "Para comprimir fotos reduciendo el peso de forma eficiente, sube tus archivos JPG, PNG o WebP a FixMyImage y elige un tamaño objetivo o deja que el optimizador reduzca los datos redundantes. El procesamiento se ejecuta directamente en tu navegador, manteniendo una buena nitidez visual y reduciendo notablemente el peso del archivo."
     },
     {
       q: "¿Es seguro comprimir imágenes en FixMyImage?",
@@ -55,7 +55,7 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
 
   '/comprimir-imagen-a-100-kb': [
     {
-      q: "¿Cómo reducir el tamaño de una foto a 100 KB exactos?",
+      q: "¿Cómo reducir el tamaño de una foto a 100 KB o menos?",
       a: "Sube tu imagen a FixMyImage y nuestra herramienta aplicará la compresión adecuada para dejar tu imagen en un tamaño aproximado o inferior a 100 KB manteniendo un equilibrio óptimo entre calidad y ligereza."
     },
     {
@@ -75,7 +75,7 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
     },
     {
       q: "¿Se pierde resolución al bajar a 1 MB?",
-      a: "Generalmente no. Para fotos de 5 MB a 15 MB tomadas con smartphones modernos, comprimir a 1 MB mantiene el 100% de las dimensiones en píxeles y una nitidez prácticamente indistinguible del original."
+      a: "Generalmente no. La herramienta prioriza optimizar la tasa de compresión preservando la nitidez y los detalles de la imagen, adaptando parámetros para situar el archivo por debajo de 1 MB de forma equilibrada."
     },
     {
       q: "¿Es adecuado 1 MB para enviar fotos por correo o mensajería?",
@@ -85,11 +85,11 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
 
   '/redimensionar-imagen': [
     {
-      q: "¿Cómo redimensionar una imagen online sin perder calidad?",
-      a: "Sube tu foto a FixMyImage, introduce el ancho y alto deseado en píxeles o porcentaje, y haz clic en redimensionar. El navegador remuestrea los píxeles utilizando algoritmos bicúbicos suaves para preservar la máxima nitidez."
+      q: "¿Cómo redimensionar una imagen online optimizando la nitidez?",
+      a: "Sube tu foto a FixMyImage, introduce la anchura y la altura deseadas en píxeles o porcentaje, y haz clic en redimensionar. El navegador procesa la imagen en el lienzo manteniendo la mayor nitidez posible."
     },
     {
-      q: "¿Cómo mantener la proporción original (aspect ratio)?",
+      q: "¿Cómo mantener la proporción original?",
       a: "El candado de relación de aspecto está activado por defecto. Al cambiar el ancho, la altura se calcula automáticamente de forma proporcional para evitar que la imagen se deforme."
     },
     {
@@ -104,8 +104,8 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
 
   '/redimensionar-imagen-en-pixeles': [
     {
-      q: "¿Cómo cambiar las dimensiones exactas de una imagen en píxeles?",
-      a: "Elige la herramienta de píxeles, especifica el ancho (width) y alto (height) requeridos, y pulsa en procesar. Tu foto se generará con las medidas exactas solicitadas."
+      q: "¿Cómo cambiar las dimensiones de una imagen en píxeles?",
+      a: "Elige la herramienta de píxeles, especifica la anchura y la altura requeridas, y pulsa en procesar. Tu foto se generará con las medidas solicitadas."
     },
     {
       q: "¿Qué sucede si cambio el ancho sin mantener la proporción?",
@@ -154,7 +154,7 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
     },
     {
       q: "¿Por qué debería convertir mis imágenes a WebP o AVIF?",
-      a: "WebP y AVIF son formatos modernos de última generación que ofrecen una compresión superior a JPG y PNG, reduciendo el peso de las páginas web en hasta un 70% sin perder calidad visual."
+      a: "WebP y AVIF son formatos modernos de última generación que ofrecen una compresión superior a JPG y PNG, optimizando significativamente la velocidad de carga de las páginas web."
     },
     {
       q: "¿Se conserva la transparencia al convertir entre formatos?",
@@ -195,7 +195,7 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
   '/convertir-webp-a-png': [
     {
       q: "¿Por qué convertir imágenes WebP a PNG?",
-      a: "Aunque WebP es muy eficiente en internet, algunos editores de fotos antiguos, procesadores de texto y aplicaciones de escritorio no admiten WebP de forma nativa. Convertir a PNG garantiza 100% de compatibilidad universal."
+      a: "Aunque WebP es muy eficiente en internet, algunos editores de fotos antiguos, procesadores de texto y aplicaciones de escritorio no admiten WebP de forma nativa. Convertir a PNG proporciona una amplia compatibilidad."
     },
     {
       q: "¿Se mantiene la transparencia al convertir WebP a PNG?",
@@ -210,7 +210,7 @@ export const SPANISH_FAQS: Record<string, FaqItem[]> = {
     },
     {
       q: "¿Se pierde calidad visual al pasar de WebP a JPG?",
-      a: "FixMyImage utiliza una tasa de calidad alta para asegurar que la imagen JPG resultante sea visualmente idéntica al archivo WebP original."
+      a: "FixMyImage utiliza una tasa de calidad alta para preservar la nitidez y los detalles del archivo WebP original en la imagen JPG resultante."
     }
   ],
 

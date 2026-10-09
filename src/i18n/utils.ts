@@ -31,20 +31,25 @@ export function useTranslations(lang: Locale) {
   };
 }
 
+export function ensureTrailingSlash(path: string): string {
+  if (!path || path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
 export function getRelativeLocaleUrl(lang: Locale, path: string) {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   if (lang === 'es') {
     if (EN_TO_ES_ROUTES[normalizedPath]) {
-      return EN_TO_ES_ROUTES[normalizedPath];
+      return ensureTrailingSlash(EN_TO_ES_ROUTES[normalizedPath]);
     }
     if (SPANISH_PAGE_PATHS.has(normalizedPath)) {
-      return normalizedPath;
+      return ensureTrailingSlash(normalizedPath);
     }
-    return normalizedPath;
+    return ensureTrailingSlash(normalizedPath);
   }
   // English
   if (ES_TO_EN_ROUTES[normalizedPath]) {
-    return ES_TO_EN_ROUTES[normalizedPath];
+    return ensureTrailingSlash(ES_TO_EN_ROUTES[normalizedPath]);
   }
-  return normalizedPath;
+  return ensureTrailingSlash(normalizedPath);
 }
