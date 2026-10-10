@@ -51,7 +51,21 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // 1. Host consolidation: Redirect www.fixmyimage.app and http to https://fixmyimage.app
+    // 1. Normalize path for legacy lookup (case-insensitive, trailing slash stripped for lookup)
+    const normalizedPath = (url.pathname.endsWith('/') && url.pathname.length > 1
+      ? url.pathname.slice(0, -1)
+      : url.pathname).toLowerCase();
+
+    // 2. Direct 301 Permanent Redirect for legacy Spanish subpages (NEVER matches /es or /es/)
+    // Directly redirects to https://fixmyimage.app + final destination in ONE SINGLE HOP
+    // even if incoming request was on www, http, or missing trailing slash!
+    if (LEGACY_ES_REDIRECTS[normalizedPath]) {
+      const destination = new URL(`https://fixmyimage.app${LEGACY_ES_REDIRECTS[normalizedPath]}`);
+      destination.search = url.search;
+      return Response.redirect(destination.toString(), 301);
+    }
+
+    // 3. Host consolidation: Redirect www.fixmyimage.app and http: to https://fixmyimage.app
     const isWww = url.hostname.toLowerCase() === 'www.fixmyimage.app';
     const isHttp = url.protocol === 'http:';
 
@@ -59,7 +73,7 @@ export default {
       url.hostname = 'fixmyimage.app';
       url.protocol = 'https:';
 
-      // Normalize trailing slash at the same time to avoid redirect chains
+      // Normalize trailing slash in the same hop for extensionless directory paths
       const hasExtension = url.pathname.slice(url.pathname.lastIndexOf('/')).includes('.');
       if (url.pathname !== '/' && !url.pathname.endsWith('/') && !hasExtension) {
         url.pathname = `${url.pathname}/`;
@@ -68,24 +82,14 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // 2. Legacy Spanish subpages 301 redirects (NEVER matches /es/ or /es)
-    const normalizedPath = url.pathname.endsWith('/') && url.pathname.length > 1
-      ? url.pathname.slice(0, -1)
-      : url.pathname;
-
-    if (LEGACY_ES_REDIRECTS[normalizedPath]) {
-      url.pathname = LEGACY_ES_REDIRECTS[normalizedPath];
-      return Response.redirect(url.toString(), 301);
-    }
-
-    // 3. Trailing slash normalization for extensionless paths (e.g. /avif-to-jpg -> /avif-to-jpg/, /es -> /es/)
+    // 4. Trailing slash normalization for extensionless paths (e.g. /avif-to-jpg -> /avif-to-jpg/, /es -> /es/)
     const hasExtension = url.pathname.slice(url.pathname.lastIndexOf('/')).includes('.');
     if (url.pathname !== '/' && !url.pathname.endsWith('/') && !hasExtension) {
       url.pathname = `${url.pathname}/`;
       return Response.redirect(url.toString(), 308);
     }
 
-    // 4. Pass through to Cloudflare Static Assets
+    // 5. Pass through to Cloudflare Static Assets
     return env.ASSETS.fetch(request);
   }
 };
