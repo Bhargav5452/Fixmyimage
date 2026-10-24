@@ -570,7 +570,6 @@ const {
       }
 
       async function runTask(file: File, idx: number) {
-        const isEs = document.documentElement.lang === 'es';
         const el = statusEls.get(idx)!;
         if (isCancelled) { el.textContent = isEs ? 'Cancelado' : 'Cancelled'; el.className = 'status-cancelled'; return; }
 
@@ -614,8 +613,6 @@ const {
 
     // Release previous URL
     if (outputUrl) { URL.revokeObjectURL(outputUrl); outputUrl = null; }
-
-    const isEs = document.documentElement.lang === 'es';
 
     if (successCount > 0) {
       document.getElementById('res-single-stats')!.classList.remove('hidden');
@@ -662,12 +659,14 @@ const {
         document.getElementById('res-dimensions')!.textContent = `${successCount} ${isEs ? 'archivos' : 'items'}`;
       }
       (btnDownload as any).disabled = false;
+      btnDownload.classList.remove('pointer-events-none', 'opacity-50');
       // Auto download
       const a = document.createElement('a');
       a.href = outputUrl; a.download = downloadName;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
     } else {
       (btnDownload as any).disabled = true;
+      btnDownload.classList.add('pointer-events-none', 'opacity-50');
       document.getElementById('res-single-stats')!.classList.add('hidden');
       document.getElementById('res-batch-summary')!.classList.remove('hidden');
       resSuccessCount.textContent = '0';
