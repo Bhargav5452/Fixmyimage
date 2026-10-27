@@ -1,4 +1,26 @@
+# Default: allow all crawlers
 User-agent: *
 Allow: /
+
+# AI search bots -- explicitly allowed
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended) are not restricted.
 
 Sitemap: https://fixmyimage.app/sitemap-index.xml

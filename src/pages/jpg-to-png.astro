@@ -7,9 +7,11 @@ import SeoContent from '../components/SeoContent.astro';
 
 import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "JPG to PNG Converter – Convert JPG to PNG Online Free | FixMyImage";
-const desc = "Convert JPG images to PNG format online for free. Transform JPEG files into high-quality PNGs with lossless clarity directly in your browser.";
+const title = "JPG to PNG Converter – Free, No Upload | FixMyImage";
+const desc = "Convert JPG to PNG free in your browser. No upload, no sign-up. PNG is lossless, so conversion won't restore lost detail.";
 const canonicalUrl = "https://fixmyimage.app/jpg-to-png/";
+
+const answerBlock = "To convert JPG to PNG, add your JPG files to FixMyImage, choose PNG as the output and download the result. The conversion happens in your browser, so your images are never uploaded. PNG is a lossless format, which means converting does not improve quality or restore detail already lost in the JPG. The PNG simply stores the same picture without losing anything further. Because of that, the PNG file is usually larger than the original JPG. A JPG has no transparent background, so the converted PNG will not have one either. If you need transparency, you have to remove the background separately. Convert to PNG when you want to edit an image repeatedly without further quality loss, or when a program requires PNG. FixMyImage is free, supports batch conversion and needs no sign-up.";
 
 const faqs = getFaqsForRoute('/jpg-to-png');
 
@@ -22,7 +24,7 @@ const relatedLinks = [
 ];
 ---
 
-<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl} faqs={faqs}>
   <Header />
   <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-[960px] mx-auto">
@@ -36,6 +38,7 @@ const relatedLinks = [
   </main>
 
   <SeoContent
+    answerBlock={answerBlock}
     heading="Convert JPG to High-Quality PNG Format"
     paragraphs={[
       "Convert your JPEG images into PNG files quickly and securely with FixMyImage's dedicated <a href='/convert-image/' class='text-accent hover:underline'>image converter</a>. While JPEG is great for compact photography storage, PNG is preferred for digital graphics, screenshots, and artwork that require lossless fidelity and artifact-free edges. If you need to reverse the process later, you can easily switch back from <a href='/png-to-jpg/' class='text-accent hover:underline'>PNG to JPG</a>.",

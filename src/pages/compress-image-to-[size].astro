@@ -50,14 +50,16 @@ interface SizeContent {
   subtitle: string;
   heading: string;
   paragraphs: string[];
+  answerBlock?: string;
 }
 
 const SIZE_DATA: Record<string, SizeContent> = {
   '10kb': {
-    title: 'Compress Image to 10KB Online Free | FixMyImage',
-    desc: 'Compress JPG, PNG and WebP images to under 10KB online for free. Ideal for strict government forms, signature uploads, and document portals.',
+    title: 'Compress Image to 10KB – Photo & Signature | FixMyImage',
+    desc: 'Reduce a photo or signature to 10KB free in your browser. Nothing is uploaded and no sign-up is needed.',
     h1: 'Compress Image to 10KB',
     subtitle: 'Compress JPG, PNG and WebP images to under 10KB online.',
+    answerBlock: 'To get an image under 10KB, add it to FixMyImage, set the target size to 10KB and download the result. Processing happens in your browser, so the file is not uploaded. 10KB is a very small budget, so prepare the image first: crop tightly around the subject, such as the ink of a signature, and resize it to the pixel dimensions your form requires. A small, simple image reaches 10KB with little visible loss, while a large detailed photo will turn blurry or blocky. Signatures on plain white paper compress especially well. Many forms also require a specific format, usually JPG, and a minimum or maximum file size, so check the form\'s instructions and confirm the final file size before uploading. FixMyImage is free, works on phones and computers, and needs no account.',
     heading: 'How to Compress Images to Under 10KB',
     paragraphs: [
       'Many online government portals, recruitment boards, and examination registration websites enforce strict file limits of 10KB or less for digital signatures and thumb impressions. Achieving a file size this compact requires an effective combination of quality optimization and dimension adjustments using our dedicated <a href="/compress-image/" class="text-accent hover:underline">image compressor</a>.',
@@ -76,10 +78,11 @@ const SIZE_DATA: Record<string, SizeContent> = {
     ]
   },
   '30kb': {
-    title: 'Compress Image to 30KB Online Free | FixMyImage',
-    desc: 'Compress JPG, PNG and WebP images to 30KB online for free. Ideal for national exam forms, student registrations, and portal uploads.',
+    title: 'Compress Image to 30KB – Free Online Tool | FixMyImage',
+    desc: 'Compress a photo to 30KB free. Runs in your browser, nothing is uploaded. Resize to the form\'s pixel size first for the sharpest result.',
     h1: 'Compress Image to 30KB',
     subtitle: 'Compress JPG, PNG and WebP images to 30KB online.',
+    answerBlock: 'To compress an image to 30KB, add your photo to FixMyImage, set the target size to 30KB and download the result. The tool adjusts compression to reach your target, and everything runs in your browser, so your photo is not uploaded. For the sharpest result, first resize the photo to the pixel dimensions your form asks for, then compress it. A large camera photo forced down to 30KB without resizing will look blurry, because there are too few bytes for that many pixels. Check the form\'s other rules as well: many portals require JPG and a specific pixel size alongside the file-size limit. Always confirm the final file is under 30KB before you upload it. FixMyImage is free, works on phones and computers, and needs no account.',
     heading: 'Compressing Images to 30KB for Online Applications',
     paragraphs: [
       'Application forms often designate 30KB as the ceiling for candidate photographs and academic certificate scans. This target gives slightly more leeway than smaller sizes, making it easier to preserve authentic skin tones and clear text using our powerful <a href="/compress-image/" class="text-accent hover:underline">image compressor</a>.',
@@ -166,7 +169,7 @@ const currentData = SIZE_DATA[target.size] || {
 };
 ---
 
-<BaseLayout title={currentData.title} description={currentData.desc} canonical={canonicalUrl}>
+<BaseLayout title={currentData.title} description={currentData.desc} canonical={canonicalUrl} faqs={faqs}>
   <Header />
 
   <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
@@ -176,6 +179,7 @@ const currentData = SIZE_DATA[target.size] || {
   </main>
 
   <SeoContent
+    answerBlock={currentData.answerBlock}
     heading={currentData.heading}
     paragraphs={currentData.paragraphs}
     faqs={faqs}

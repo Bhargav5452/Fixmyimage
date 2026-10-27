@@ -1,7 +1,14 @@
-import imageCompressionModule from 'browser-image-compression';
-const imageCompression = (typeof imageCompressionModule === 'function') 
-  ? imageCompressionModule 
-  : (imageCompressionModule as any).default || imageCompressionModule;
+let cachedImageCompression: any = null;
+
+async function getImageCompression() {
+  if (!cachedImageCompression) {
+    const mod = await import('browser-image-compression');
+    cachedImageCompression = (typeof mod === 'function')
+      ? mod
+      : (mod as any).default || mod;
+  }
+  return cachedImageCompression;
+}
 
 export type SizeUnit = "KB" | "MB";
 
@@ -78,6 +85,7 @@ export async function compressToTarget(req: CompressionRequest, onProgress?: (p:
   let bestFile = file;
 
   try {
+    const imageCompression = await getImageCompression();
     while (attempts < maxAttempts) {
       attempts++;
       if (onProgress) onProgress((attempts / maxAttempts) * 100);

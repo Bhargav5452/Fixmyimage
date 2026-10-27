@@ -6,11 +6,23 @@ import ConvertDropzone from '../components/ConvertDropzone.astro';
 import SeoContent from '../components/SeoContent.astro';
 import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "AVIF to JPG Converter – Convert AVIF to JPG Online Free | FixMyImage";
-const desc = "Convert AVIF images to JPG format online for free. Transform next-gen AVIF files into universally supported JPEG photos directly in your browser.";
+const title = "AVIF to JPG Converter – Free, No Upload | FixMyImage";
+const desc = "Convert AVIF to JPG free in your browser. Nothing is uploaded and no sign-up is needed. Transparent areas are filled with white.";
 const canonicalUrl = "https://fixmyimage.app/avif-to-jpg/";
 
-const faqs = getFaqsForRoute('/avif-to-jpg');
+const answerBlock = "AVIF is a modern image format with strong compression, but many photo viewers, older operating systems and upload forms cannot open it. To convert an AVIF file to JPG, add the file to FixMyImage, choose JPG as the output and download the result. The conversion runs in your browser, so the image is never uploaded. JPG cannot store transparency, so any transparent areas are filled with white. If you need to keep transparency, convert to PNG instead. The JPG will usually be larger than the original AVIF, because AVIF compresses more efficiently, although the picture looks the same on screen. If a file fails to convert, the browser could not decode it, which can happen with damaged files or less common AVIF features. FixMyImage is free and needs no sign-up.";
+
+const faqs = [
+  ...getFaqsForRoute('/avif-to-jpg'),
+  {
+    q: "Will the JPG be bigger than my AVIF file?",
+    a: "Usually, yes. AVIF compresses more efficiently than JPG, so the same picture takes more space as a JPG even though it looks the same on screen."
+  },
+  {
+    q: "Can I convert an animated AVIF?",
+    a: "JPG holds a single image, so only one frame is saved. If you need to keep the animation, convert to a format that supports it instead."
+  }
+];
 
 const relatedLinks = [
   { label: "AVIF to PNG", href: "/avif-to-png/" },
@@ -21,7 +33,7 @@ const relatedLinks = [
 ];
 ---
 
-<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl} faqs={faqs}>
   <Header />
   <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
     <div class="w-full max-w-[960px] mx-auto">
@@ -35,6 +47,7 @@ const relatedLinks = [
   </main>
 
   <SeoContent
+    answerBlock={answerBlock}
     heading="Convert Modern AVIF to Universally Compatible JPG"
     paragraphs={[
       "AVIF delivers incredible compression for modern websites, but opening `.avif` files in standard photo viewers, older operating systems, or sharing them on social platforms often fails. Converting AVIF to JPG solves this compatibility hurdle instantly. For transparency support, you might prefer converting <a href='/avif-to-png/' class='text-accent hover:underline'>AVIF to PNG</a> instead.",

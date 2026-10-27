@@ -1,0 +1,84 @@
+---
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface CrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  name?: string;
+  description?: string;
+  url?: string;
+  faqs?: FaqItem[];
+  crumbs?: CrumbItem[];
+  isHome?: boolean;
+}
+
+function stripHtml(text: string): string {
+  if (!text) return '';
+  return text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+const { name, description, url, faqs = [], crumbs = [], isHome = false } = Astro.props;
+const graph: any[] = [];
+
+if (isHome) {
+  graph.push({
+    "@type": "WebSite",
+    name: "FixMyImage",
+    url: "https://fixmyimage.app/"
+  });
+} else {
+  graph.push({
+    "@type": "WebApplication",
+    name,
+    description,
+    url,
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Any (runs in a web browser)",
+    browserRequirements: "Requires JavaScript",
+    isAccessibleForFree: true,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD"
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "FixMyImage",
+      url: "https://fixmyimage.app/"
+    },
+  });
+}
+
+if (faqs && faqs.length > 0) {
+  graph.push({
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: stripHtml(f.q),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: stripHtml(f.a)
+      },
+    })),
+  });
+}
+
+if (crumbs && crumbs.length > 0) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: c.url
+    })),
+  });
+}
+---
+<script type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph })} />

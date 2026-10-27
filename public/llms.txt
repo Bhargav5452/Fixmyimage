@@ -1,0 +1,33 @@
+# FixMyImage
+
+> FixMyImage is a free set of image tools that run entirely in your web browser. Compress, resize, convert and watermark images with no upload, no account and no watermarks added. Up to 50 images per batch, downloaded as one ZIP.
+
+## Core tools
+- [Compress Image](https://fixmyimage.app/compress-image/): Reduce file size, or target a size such as 20KB, 50KB, 100KB or 1MB.
+- [Resize Image](https://fixmyimage.app/resize-image/): Resize by pixels, social media presets or centimetres.
+- [Resize Image in Pixels](https://fixmyimage.app/resize-image-in-pixels/): Set an exact width and height.
+- [Resize Image in Centimetres](https://fixmyimage.app/resize-image-in-cm/): Print sizes, calculated at 300 DPI.
+- [Bulk Image Resizer](https://fixmyimage.app/bulk-image-resizer/): Resize up to 50 images at once.
+- [Convert Image](https://fixmyimage.app/convert-image/): Convert between JPG, PNG, WebP and AVIF.
+- [Watermark Image](https://fixmyimage.app/watermark-image/): Add text or logo watermarks.
+
+## File-size tools
+- [Compress Image to 10KB](https://fixmyimage.app/compress-image-to-10kb/): Compress photos or signatures down to 10KB.
+- [Compress Image to 30KB](https://fixmyimage.app/compress-image-to-30kb/): Compress photos down to 30KB.
+- [Compress Image to 50KB](https://fixmyimage.app/compress-image-to-50kb/): Compress images down to 50KB.
+- [Compress Image to 100KB](https://fixmyimage.app/compress-image-to-100kb/): Compress images down to 100KB.
+
+## Format converters
+- [AVIF to JPG](https://fixmyimage.app/avif-to-jpg/): Convert AVIF files to JPG format.
+- [AVIF to PNG](https://fixmyimage.app/avif-to-png/): Convert AVIF files to PNG format.
+- [WebP to JPG](https://fixmyimage.app/webp-to-jpg/): Convert WebP images to JPG format.
+- [WebP to PNG](https://fixmyimage.app/webp-to-png/): Convert WebP images to PNG format.
+- [JPG to PNG](https://fixmyimage.app/jpg-to-png/): Convert JPG images to PNG format.
+- [PNG to JPG](https://fixmyimage.app/png-to-jpg/): Convert PNG images to JPG format.
+
+## About
+- [About FixMyImage](https://fixmyimage.app/about/): Learn about FixMyImage and client-side processing.
+- [Privacy](https://fixmyimage.app/privacy/): Information on privacy and zero-upload image handling.
+
+## Optional
+- [Spanish version](https://fixmyimage.app/es/): Spanish language homepage.

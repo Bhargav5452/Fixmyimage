@@ -39,12 +39,18 @@ const homeRelatedLinks = [
   { label: "PNG to JPG", href: "/png-to-jpg/" },
   { label: "WebP to JPG", href: "/webp-to-jpg/" }
 ];
+
+const homeTitle = "Free Image Compressor, Resizer & Converter | FixMyImage";
+const homeDesc = "Compress, resize, convert and watermark images free in your browser. No upload, no sign-up, up to 50 images at once.";
+const homeAnswerBlock = "FixMyImage is a free set of image tools that run entirely in your web browser. You can compress images to a smaller file size, resize them by pixels, social media presets or centimetres, convert between JPG, PNG, WebP and AVIF, and add text or logo watermarks. Because processing happens on your own device, your photos are never uploaded to a server, and no account, email or payment is needed. You can select up to 50 images at once and download the results as a single ZIP file. Typical uses include shrinking photos to meet an upload limit on a form, preparing product images for an online store, and resizing pictures for social media. FixMyImage does not add watermarks to your files unless you choose to use the watermark tool yourself.";
 ---
 
 <BaseLayout
-  title={t('metadata.home_title')}
-  description={t('metadata.home_desc')}
+  title={homeTitle}
+  description={homeDesc}
   canonical="https://fixmyimage.app/"
+  faqs={homeFaqs}
+  isHome={true}
 >
   <Header />
 
@@ -241,6 +247,7 @@ const homeRelatedLinks = [
   </main>
 
   <SeoContent
+    answerBlock={homeAnswerBlock}
     heading="Free In-Browser Image Optimization and Editing Suite"
     paragraphs={[
       "FixMyImage is a privacy-first collection of free online photo tools engineered to handle everyday image tasks with speed and precision. Whether you are managing product listings for an online store, preparing document attachments for government or academic portals, or tuning graphics for social media, FixMyImage provides specialized utilities right inside your browser without accounts, fees, or watermarks.",
@@ -251,7 +258,7 @@ const homeRelatedLinks = [
         title: "Supported Image Tasks",
         paragraphs: [
           "Image Compression: Shrink large JPG, PNG, and WebP files with fine-grained quality controls or target specific file sizes such as 20KB, 50KB, 100KB, or 1MB for portal forms and email attachments.",
-          "Image Resizing: Resize individual photos or entire batches by exact pixel dimensions, percentage scaling, or physical centimeters with calibrated print DPI.",
+          "Image Resizing: Resize individual photos or entire batches by exact pixel dimensions, social media presets, or physical centimeters with calibrated print DPI.",
           "Format Conversion: Seamlessly switch between JPG, PNG, WebP, and AVIF formats while preserving image quality, transparency channels, and color fidelity.",
           "Watermarking: Stamp custom text notices or brand logos onto images with full control over opacity, positioning, and rotation to protect your creative work."
         ]

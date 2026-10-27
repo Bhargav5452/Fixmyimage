@@ -7,9 +7,11 @@ import SeoContent from '../components/SeoContent.astro';
 
 import { getFaqsForRoute } from '../data/curatedFaqs';
 
-const title = "Bulk Image Resizer – Resize Multiple Images Online | FixMyImage";
-const desc = "Resize multiple images at once online for free. Batch resize photos by pixels, percentage, or centimeters with fast browser processing.";
+const title = "Bulk Image Resizer – Resize Up to 50 Photos | FixMyImage";
+const desc = "Resize up to 50 images at once by pixels, social presets or cm. Free and private, with one ZIP download. Runs in your browser.";
 const canonicalUrl = "https://fixmyimage.app/bulk-image-resizer/";
+
+const answerBlock = "A bulk image resizer changes the size of many photos in one go. With FixMyImage you can add up to 50 JPG, PNG or WebP images, choose a size in pixels, social media presets, or centimetres (calculated at 300 DPI for print), and download everything as one ZIP. Social presets are built in, such as Instagram post (1080 × 1080), Facebook post (1200 × 630) and YouTube thumbnail (1280 × 720). Fixed pixel or centimetre sizes are applied to every file, so mixing portrait and landscape images can stretch them. Resizing runs in your browser, so nothing is uploaded, and the tool is free with no account. Very large files can be limited by your device's memory.";
 
 const faqs = getFaqsForRoute('/bulk-image-resizer');
 
@@ -22,7 +24,7 @@ const relatedLinks = [
 ];
 ---
 
-<BaseLayout title={title} description={desc} canonical={canonicalUrl}>
+<BaseLayout title={title} description={desc} canonical={canonicalUrl} faqs={faqs}>
   <Header />
   
   <main class="flex-grow flex flex-col items-center justify-start px-4 pt-8 md:pt-12 pb-12 md:pb-16 bg-canvas min-h-[calc(100vh-72px)]">
@@ -36,10 +38,11 @@ const relatedLinks = [
   </main>
   
   <SeoContent
+    answerBlock={answerBlock}
     heading="Fast Batch Image Resizing for Multiple Photos"
     paragraphs={[
       "Managing product catalogs, event photography, or web graphics often requires adjusting dimensions on dozens of photos at once. While our standard <a href='/resize-image/' class='text-accent hover:underline'>image resizer</a> is great for individual tweaks, this tool allows you to batch resize entire photo sets simultaneously with uniform settings. Whether you need to globally <a href='/resize-image-in-pixels/' class='text-accent hover:underline'>resize in pixels</a> for web galleries or standardize sizes for digital products, bulk processing saves immense time.",
-      "By utilizing your browser local processing capabilities, bulk resizing avoids slow file uploads and bandwidth bottlenecks. Maintain aspect ratios, scale by percentage or target exact print measurements like <a href='/resize-image-in-cm/' class='text-accent hover:underline'>centimeters</a>, and download all resized assets in one convenient archive."
+      "By utilizing your browser local processing capabilities, bulk resizing avoids slow file uploads and bandwidth bottlenecks. Target exact print measurements like <a href='/resize-image-in-cm/' class='text-accent hover:underline'>centimeters</a> or choose popular social media dimensions, and download all resized assets in one convenient archive."
     ]}
     faqs={faqs}
     relatedHeading="Related Batch & Resizing Tools"

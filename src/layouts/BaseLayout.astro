@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import { LANGUAGES, EN_TO_ES_ROUTES, ES_TO_EN_ROUTES, SPANISH_PAGE_PATHS } from '../i18n/config';
 import { getLangFromUrl } from '../i18n/utils';
+import Schema from '../components/Schema.astro';
+import { getFaqsForRoute } from '../data/curatedFaqs';
 
 interface Props {
   title: string;
@@ -10,6 +12,9 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   lang?: 'en' | 'es';
+  faqs?: Array<{ q: string; a: string }>;
+  isHome?: boolean;
+  pageName?: string;
 }
 
 const siteUrl = "https://fixmyimage.app";
@@ -33,12 +38,61 @@ const {
   canonical,
   ogImage = "/web-app-manifest-512x512.png",
   noindex = false,
+  faqs,
+  isHome: propIsHome,
+  pageName,
 } = Astro.props;
 
 const canonicalUrl = canonical 
   ? ensureTrailingSlash(canonical)
   : (siteUrl + (normalizedPath === '/' ? '/' : ensureTrailingSlash(normalizedPath)));
 const finalCanonical = canonicalUrl;
+
+const isSpanish = currentLang === 'es' || normalizedPath.startsWith('/es') || SPANISH_PAGE_PATHS.has(normalizedPath);
+const isHome = propIsHome ?? (normalizedPath === '/' && !isSpanish);
+
+// Skip privacy, terms, 404, and all Spanish pages
+const isSkipped = isSpanish || 
+                  normalizedPath === '/404' || 
+                  normalizedPath === '/privacy' || 
+                  normalizedPath === '/terms';
+
+const ROUTE_PAGE_NAMES: Record<string, string> = {
+  '/compress-image': 'Compress Image',
+  '/resize-image': 'Resize Image',
+  '/resize-image-in-pixels': 'Resize Image in Pixels',
+  '/resize-image-in-cm': 'Resize Image in Centimeters',
+  '/bulk-image-resizer': 'Bulk Image Resizer',
+  '/convert-image': 'Convert Image',
+  '/watermark-image': 'Watermark Image',
+  '/compress-image-to-10kb': 'Compress Image to 10KB',
+  '/compress-image-to-20kb': 'Compress Image to 20KB',
+  '/compress-image-to-30kb': 'Compress Image to 30KB',
+  '/compress-image-to-40kb': 'Compress Image to 40KB',
+  '/compress-image-to-50kb': 'Compress Image to 50KB',
+  '/compress-image-to-100kb': 'Compress Image to 100KB',
+  '/compress-image-to-200kb': 'Compress Image to 200KB',
+  '/compress-image-to-500kb': 'Compress Image to 500KB',
+  '/compress-image-to-1mb': 'Compress Image to 1MB',
+  '/avif-to-jpg': 'AVIF to JPG',
+  '/avif-to-png': 'AVIF to PNG',
+  '/webp-to-jpg': 'WebP to JPG',
+  '/webp-to-png': 'WebP to PNG',
+  '/jpg-to-png': 'JPG to PNG',
+  '/png-to-jpg': 'PNG to JPG',
+  '/about': 'About FixMyImage',
+  '/contact': 'Contact',
+};
+
+const derivedPageName = pageName || ROUTE_PAGE_NAMES[normalizedPath] || (title ? title.split(/[–\-\|]/)[0].trim() : '');
+const crumbs = (!isHome && !isSkipped)
+  ? [
+      { name: "Home", url: "https://fixmyimage.app/" },
+      { name: derivedPageName, url: finalCanonical }
+    ]
+  : [];
+
+const schemaFaqs = faqs ?? (isHome ? [] : getFaqsForRoute(normalizedPath));
 
 // Reciprocal hreflang calculation
 let enUrl: string | null = null;
@@ -107,13 +161,26 @@ const xDefaultUrl = enUrl ?? (siteUrl + (normalizedPath === '/' ? '/' : ensureTr
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "FixMyImage",
-      "url": `${siteUrl}/`,
-      "description": currentLang === 'es' ? "Herramientas de imagen online gratuitas — comprime, redimensiona, convierte y añade marcas de agua en tu navegador." : "Free online image tools — compress, resize, convert and watermark images in your browser."
-    })} />
+    {isSpanish ? (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "FixMyImage",
+        "url": `${siteUrl}/`,
+        "description": "Herramientas de imagen online gratuitas — comprime, redimensiona, convierte y añade marcas de agua en tu navegador."
+      })} />
+    ) : (
+      !isSkipped && (
+        <Schema
+          name={derivedPageName}
+          description={description}
+          url={finalCanonical}
+          faqs={schemaFaqs}
+          crumbs={crumbs}
+          isHome={isHome}
+        />
+      )
+    )}
 
     <meta name="generator" content={Astro.generator} />
 

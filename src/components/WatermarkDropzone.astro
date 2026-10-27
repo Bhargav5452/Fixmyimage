@@ -210,9 +210,9 @@ const {
 
         <!-- Third Party Save Buttons -->
         <div class="flex flex-col gap-2">
-          <a href="?url=true" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label={isEs ? 'Importar desde URL' : 'Import from URL'}>
+          <button type="button" data-import-url class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-ink text-canvas flex items-center justify-center hover:bg-ink/90 transition-transform hover:scale-110 shadow-lg" aria-label={isEs ? 'Importar desde URL' : 'Import from URL'}>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -274,7 +274,6 @@ const {
 </style>
 
 <script>
-  import JSZip from 'jszip';
   import { processWatermark } from '../lib/watermark';
   import { formatBytes } from '../lib/format';
 
@@ -343,6 +342,10 @@ const {
   btnStart.addEventListener('click', startProcessing);
   btnCancel.addEventListener('click', () => { isCancelled = true; btnCancel.disabled = true; btnCancel.textContent = isEs ? 'Cancelando…' : 'Cancelling…'; });
   btnRestart.addEventListener('click', resetApp);
+  const btnImportUrl = document.querySelector('[data-import-url]');
+  btnImportUrl?.addEventListener('click', () => {
+    window.location.assign(window.location.pathname + '?url=true');
+  });
 
   // Global Drag and drop
   const dragOverlay = document.getElementById('drag-overlay')!;
@@ -557,7 +560,7 @@ const {
 
     const isSingle = files.length === 1;
     let singleResult: any = null;
-    const zip = new JSZip();
+    const batchResults: { name: string; file: Blob | File }[] = [];
     const queue = files.map((f, i) => ({ f, i }));
     let active = 0;
 
@@ -599,7 +602,7 @@ const {
           const base = lastDot === -1 ? file.name : file.name.slice(0, lastDot);
           const outName = `${base}-watermarked.${ext}`;
           if (isSingle) { singleResult = result; singleResult.filename = outName; }
-          else zip.file(outName, result.file);
+          else batchResults.push({ name: outName, file: result.file });
           successCount++;
           el.textContent = isEs ? '✓ Listo' : '✓ Done'; el.className = 'status-done';
         } catch (err: any) {
@@ -642,6 +645,11 @@ const {
         btnDownload.download = downloadName;
         downloadText.textContent = isEs ? 'Descargar imagen con marca de agua' : 'Download watermarked image';
       } else {
+        const { default: JSZip } = await import('jszip');
+        const zip = new JSZip();
+        for (const item of batchResults) {
+          zip.file(item.name, item.file);
+        }
         const blob = await zip.generateAsync({ type: 'blob' });
         outputUrl = URL.createObjectURL(blob);
         btnDownload.href = outputUrl;
